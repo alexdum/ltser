@@ -2,11 +2,11 @@
 
 ui <- navbarPage(
   title = "LTSER Explorer",
-  selected = "Line Plots",
+  selected = "Maps",
   collapsible = TRUE,
   theme = my_theme,
   tabPanel(
-    title = "Line Plots",
+    title = "Maps",
     grid_container(
       row_sizes = c(
         "1fr"
@@ -17,24 +17,31 @@ ui <- navbarPage(
       ),
       gap_size = "10px",
       layout = c(
-        "num_chicks linePlots"
+        "transp_ind map_ltser"
       ),
       grid_card(
-        area = "num_chicks",
+        area = "transp_ind",
         card_header("Settings"),
         card_body_fill(
           sliderInput(
-            inputId = "numChicks",
-            label = "Number of chicks",
-            min = 1,
-            max = 15,
-            value = 5,
-            step = 1,
+            inputId = "transp_ind",
+            label = "Transparency",
+            min = 0,
+            max = 1,
+            value = 0.8,
+            step = 0.1,
             width = "100%"
           )
         )
       ),
-      grid_card_plot(area = "linePlots")
+      grid_card(
+        area = "map_ltser",
+        card_header("LTSER location"),
+        card(
+          full_screen = TRUE,
+          leafletOutput("map_ltser")
+        )
+      )
     )
   ),
   tabPanel(
@@ -66,5 +73,5 @@ ui <- navbarPage(
       )
     )
   ),
-  tabPanel(title = "Empty Tab")
+  tabPanel(title = "About")
 )
