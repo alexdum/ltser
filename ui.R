@@ -37,9 +37,9 @@ ui <- navbarPage(
       grid_card(
         area = "map_ltser",
         card_header("LTSER location"),
-        card(
+        card_body(
           full_screen = TRUE,
-          leafletOutput("map_ltser")
+          leafletOutput("map_ltser", height = 450)
         )
       )
     )
