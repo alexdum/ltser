@@ -42,8 +42,7 @@ server <- function(input, output) {
           color = "#2ca25f",
           #fillColor = ~pal(values),
           #color = ~pal(values),
-          fillOpacity = 0.8,
-          opacity = 1,
+          fillOpacity = isolate(input$transp_ind),
           layerId = ~natcode,
           weight = 1
         )
@@ -52,9 +51,24 @@ server <- function(input, output) {
   # zoom on polygon
   observe({
     
+  
+    proxy <- leafletProxy("map_ltser") |>
+      clearShapes() |>
+      addPolygons(
+        data = ltser,
+        label = ~htmlEscape(name),
+        group = "LTSER",
+        fillColor = "#99d8c9",
+        color = "#2ca25f",
+        #fillColor = ~pal(values),
+        #color = ~pal(values),
+        fillOpacity = input$transp_ind,
+        layerId = ~natcode,
+        weight = 1
+      )
+    
     click <- input$map_ltser_shape_click
     print(click)
-    proxy <- leafletProxy("map_ltser")
     if(is.null(click))
       return()
     proxy %>% setView(lng = click$lng, lat = click$lat, zoom = 8)
