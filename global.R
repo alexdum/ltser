@@ -9,12 +9,14 @@ library(dplyr)
 library(RColorBrewer)
 library(terra)
 library(reticulate)
+library(highcharter)
 
 
 source_python("utils/extract_point.py") 
 source("utils/leaflet_fun.R")
 source("utils/map_fun_cols.R")
 source("utils/show_pop.R")
+source("utils/graphs_funs.R",  local = T)
 
 library(showtext) # Needed for custom font support
 # Setup the bslib theme object
