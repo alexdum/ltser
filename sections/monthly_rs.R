@@ -1,4 +1,26 @@
 
+reac_lst_indicator <- reactive ({
+  
+  index <- which(format(dats.ssm, "%Y %b") %in% input$month_indicator)
+  indicator <- input$parameter_europe_monthly
+  # indicator <- "mm" 
+  
+  switch (
+    which(c("ssm") %in% input$rs_monthly),
+    rs <- ssm
+  )
+  
+  
+  rs <- rs[[index]]
+
+  domain <- terra::minmax(lst)
+  
+  map_leg <- mapa_fun_cols(indic = indicator, domain)
+  
+  
+  list(lrs = rs, index = index, domain = domain, pal =  map_leg$pal, pal_rev =  map_leg$pal_rev,  
+       tit_leg  =   map_leg$tit_leg,  indicator= indicator)
+})
   
   # harta leaflet -----------------------------------------------------------
   output$map_ltser <- renderLeaflet ({
