@@ -36,7 +36,7 @@ leaflet_fun <- function(data, raster, domain, cols, cols_rev, title) {
       label = ~htmlEscape(name),
       group = "LTSER",
       fillColor = "#99d8c9",
-      color = "#2ca25f",
+      color = "#003c30",
       #fillColor = ~pal(values),
       #color = ~pal(values),
       fillOpacity = 0.8,
