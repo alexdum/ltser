@@ -25,12 +25,23 @@ ui <- navbarPage(
         card_body_fill(
           sliderInput(
             inputId = "transp_ind",
-            label = "Transparency",
+            label = "Transparency LTSER",
             min = 0,
             max = 1,
-            value = 0.8,
+            value = 0.5,
             step = 0.1,
             width = "100%"
+          ),
+          selectInput(
+            "parameter_monthly", "Parameter:", 
+            choices_map_monthly, 
+            selected = choices_map_monthly[2]
+          ),
+          selectInput(
+            inputId = 'month_indicator',
+              label = 'Month:',
+              dats.ssm |> format("%Y %b"),
+              selected = max(dats.ssm) |> format("%Y %b")
           )
         )
       ),
