@@ -3,7 +3,6 @@ reac_rs_mon <- reactive ({
   
   index <- which(format(dats.ssm, "%Y %b") %in% input$month_indicator)
   indicator <- input$parameter_monthly
-  print(index)
   # indicator <- "mm" 
   
   switch (
@@ -80,6 +79,8 @@ observe({
     )
 })
 
+# reactive values pentru plot lst time series din raster
+values_plot_lst_mon <- reactiveValues(input = NULL, title = NULL, cors = NULL)
 # interactivitate raster
 observe({
   proxy <- leafletProxy("map_ltser")
@@ -107,23 +108,31 @@ observe({
         condpan_monthly.txt 
       })
       outputOptions(output, "condpan_monthly", suspendWhenHidden = FALSE)
-      ddf <- data.frame(date = as.Date(names(dd)), lst = round(dd, 1)) %>% slice(1:reac_rs_mon()$index)
-      print(summary(ddf))
+      ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:reac_rs_mon()$index)
+      # valori pentru plot la reactive values
+      values_plot_lst_mon$title <- condpan_monthly.txt
+      values_plot_lst_mon$input <- ddf
+      values_plot_lst_mon$cors <- paste0(round(click$lng, 5), "_", round(click$lat, 5))
       
     }
   }
   
 })
 
-
-output$dists <- renderPlot({
-  ggplot(
-    ChickWeight,
-    aes(x = weight)
-  ) +
-    facet_wrap(input$distFacet) +
-    geom_density(fill = "#fa551b", color = "#ee6331") +
-    ggtitle("Distribution of weights by diet")
+# plot actualizat daca schimb si coordonatee
+output$rs_mon <- renderHighchart({
+  req(!is.na(values_plot_lst_mon$input))
+  indicator <-reac_rs_mon()$indicator
+  
+  ytitle <- ifelse(indicator %in% c("ssm"),"%")
+  print(head(values_plot_lst_mon$input))
+  
+  hc_plot(
+    input =  values_plot_lst_mon$input , xaxis_series = c("value"), filename_save = indicator,
+    cols = c("green"), names = toupper(indicator), ytitle =   ytitle,
+    title =   values_plot_lst_mon$title
+  )
 })
+
 
 
