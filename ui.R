@@ -1,5 +1,4 @@
 
-
 ui <- navbarPage(
   title = "LTSER Explorer",
   selected = "Maps",
@@ -40,8 +39,17 @@ ui <- navbarPage(
           selectInput(
             inputId = 'month_indicator',
               label = 'Month:',
-              dats.ssm |> format("%Y %b"),
+              rev(dats.ssm) |> format("%Y %b"),
               selected = max(dats.ssm) |> format("%Y %b")
+          ),
+          radioButtons( # radio button show values
+            "radio_mon", label = "Click on map behavior",
+            choices = 
+              list(
+                "Display current values on popup" = 1, 
+                "Plot timeseries (below map)" = 2
+              ), 
+            selected = 1
           )
         )
       ),
@@ -49,40 +57,29 @@ ui <- navbarPage(
         area = "map_ltser",
         card_header("LTSER location"),
         card_body(
-          full_screen = TRUE,
+          full_screen = F,
           leafletOutput("map_ltser", height = 450)
+        ),
+        card_body(
+          full_screen = F,
+          conditionalPanel( # show graphs only when data available
+            condition = "input.radio_mon == 2 && output.condpan_monthly != 'nas'",
+            wellPanel(
+              highchartOutput("rs_mon")# %>% withSpinner(size = 0.5)
+            )
+          ),
+          conditionalPanel(
+            condition = "input.radio_mon == 2 && output.condpan_monthly == 'nas'",
+            wellPanel(
+              p("You must click on an area with indicator values available")
+            )
+          )
         )
       )
     )
   ),
   tabPanel(
-    title = "Distributions",
-    grid_container(
-      row_sizes = c(
-        "165px",
-        "1fr"
-      ),
-      col_sizes = c(
-        "1fr"
-      ),
-      gap_size = "10px",
-      layout = c(
-        "facetOption",
-        "dists"
-      ),
-      grid_card_plot(area = "dists"),
-      grid_card(
-        area = "facetOption",
-        card_header("Distribution Plot Options"),
-        card_body_fill(
-          radioButtons(
-            inputId = "distFacet",
-            label = "Facet distribution by",
-            choices = list("Diet Option" = "Diet", "Measure Time" = "Time")
-          )
-        )
-      )
-    )
+    title = "Other section"
   ),
   tabPanel(title = "About")
 )
