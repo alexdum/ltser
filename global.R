@@ -8,9 +8,13 @@ library(htmltools)
 library(dplyr)
 library(RColorBrewer)
 library(terra)
+library(reticulate)
 
+
+source_python("utils/extract_point.py") 
 source("utils/leaflet_fun.R")
 source("utils/map_fun_cols.R")
+source("utils/show_pop.R")
 
 library(showtext) # Needed for custom font support
 # Setup the bslib theme object
@@ -32,5 +36,5 @@ choices_map_monthly <- setNames(choices_map_monthly$choice, choices_map_monthly$
 
 # citeste produse
 ssm <- terra::rast("www/data/ncs/ssm_ltser_mon.nc")
-dats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00") |> rev()
+dats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
 
