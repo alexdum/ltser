@@ -125,8 +125,7 @@ output$rs_mon <- renderHighchart({
   indicator <-reac_rs_mon()$indicator
   
   ytitle <- ifelse(indicator %in% c("ssm"),"%")
-  print(head(values_plot_lst_mon$input))
-  
+
   hc_plot(
     input =  values_plot_lst_mon$input , xaxis_series = c("value"), filename_save = indicator,
     cols = c("green"), names = toupper(indicator), ytitle =   ytitle,
