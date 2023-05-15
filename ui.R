@@ -38,9 +38,9 @@ ui <- navbarPage(
           ),
           selectInput(
             inputId = 'month_indicator',
-              label = 'Month:',
-              rev(dats.ssm) |> format("%Y %b"),
-              selected = max(dats.ssm) |> format("%Y %b")
+            label = 'Month:',
+            rev(dats.ssm) |> format("%Y %b"),
+            selected = max(dats.ssm) |> format("%Y %b")
           ),
           radioButtons( # radio button show values
             "radio_mon", label = "Click on map behavior",
@@ -57,22 +57,23 @@ ui <- navbarPage(
         area = "map_ltser",
         card_header("LTSER location"),
         card_body(
-          full_screen = F,
+          # fill = T,
+          # full_screen = T,
           leafletOutput("map_ltser", height = 450)
         ),
-        card_body(
-          full_screen = F,
-          conditionalPanel( # show graphs only when data available
-            condition = "input.radio_mon == 2 && output.condpan_monthly != 'nas'",
-            wellPanel(
-              highchartOutput("rs_mon")# %>% withSpinner(size = 0.5)
-            )
-          ),
-          conditionalPanel(
-            condition = "input.radio_mon == 2 && output.condpan_monthly == 'nas'",
-            wellPanel(
-              p("You must click on an area with indicator values available")
-            )
+        
+        #fill = T,
+        #full_screen = T,
+        conditionalPanel( # show graphs only when data available
+          condition = "input.radio_mon == 2 && output.condpan_monthly != 'nas'",
+          card_body(
+            highchartOutput("rs_mon", height = "350px")# %>% withSpinner(size = 0.5)
+          )
+        ),
+        conditionalPanel(
+          condition = "input.radio_mon == 2 && output.condpan_monthly == 'nas'",
+          card_body(
+            p("You must click on an area with indicator values available")
           )
         )
       )
