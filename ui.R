@@ -13,8 +13,10 @@ ui <- page_navbar(
       column(
         width = 2,
         card(
+          card_header(
+            "Settings"
+          ),
           card_body(
-            
             sliderInput(
               inputId = "transp_ind",
               label = "Transparency LTSER",
@@ -50,9 +52,13 @@ ui <- page_navbar(
       column(
         width = 7,
         card(
+          full_screen = T,
+          card_header(
+            "LTSER location",
+          ),
           card_body(
             leafletOutput("map_ltser")
-            ),
+          ),
           card_body(
             conditionalPanel( # show graphs only when data available
               condition = "input.radio_mon == 2 && output.condpan_monthly != 'nas'",
@@ -68,9 +74,11 @@ ui <- page_navbar(
     )
   ),
   nav_panel(
-    title = "Other section"
+    title = "Other section",
+    p("TBA")
   ),
   nav_panel(
-    title = "About"
+    title = "About",
+    p("TBA")
   )
 )
