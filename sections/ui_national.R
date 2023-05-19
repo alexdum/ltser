@@ -37,7 +37,7 @@ filters_monthly_rs <- list(
 )
 
 
-months_rs <- card(
+national_level <- card(
   full_screen = TRUE,
   #card_header("National level"),
   layout_sidebar(
