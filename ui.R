@@ -1,5 +1,5 @@
 # reconfigurare menu https://rstudio.github.io/bslib/reference/navs.html#details
-source("sections/ui_months.R")
+source("sections/ui_national.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
   selected = "Maps",
