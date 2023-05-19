@@ -11,7 +11,7 @@ ui <- page_navbar(
   nav_panel(
     "Maps",
     navset_card_tab(
-      nav_panel("National level", months_rs, width = "50%"),
+      nav_panel("National level", national_level),
       nav_panel("Admin level",  p("TBA"))
     )
   ),
