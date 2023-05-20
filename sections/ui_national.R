@@ -30,31 +30,33 @@ filters_monthly_rs <- list(
     choices = 
       list(
         "Display current values on popup" = 1, 
-        "Plot timeseries (below map)" = 2
+        "Plot timeseries" = 2
       ), 
-    selected = 1
+    selected = 2
   )
 )
 
 
 national_level <- card(
-  full_screen = TRUE,
+  full_screen = F,
   #card_header("National level"),
   layout_sidebar(
     sidebar(
       title = "Settings",
       !!!filters_monthly_rs 
     ),
-    leafletOutput("map_ltser", height = 450),
-    card_body(
-      conditionalPanel( # show graphs only when data available
-        condition = "input.radio_mon == 2 && output.condpan_monthly != 'nas'",
-        highchartOutput("rs_mon", height = "350px")# %>% withSpinner(size = 0.5)
+    
+    layout_column_wrap(
+      width = 1/2,
+      heights_equal = "row",
+      card(
+        leafletOutput("map_ltser", height = 450)
       ),
-      conditionalPanel(
-        condition = "input.radio_mon == 2 && output.condpan_monthly == 'nas'",
-        p("You must click on an area with indicator values available")
+      card(
+        highchartOutput("rs_mon", height = "450px")# %>% withSpinner(size = 0.5)
+        
       )
+      
     )
   )
 )
