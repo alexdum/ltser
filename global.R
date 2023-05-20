@@ -13,7 +13,8 @@ library(highcharter)
 
 
 source_python("utils/extract_point.py") 
-source("utils/leaflet_fun.R")
+source("utils/leaflet_fun_na.R")
+source("utils/leaflet_fun_ad.R")
 source("utils/map_fun_cols.R")
 source("utils/show_pop.R")
 source("utils/graphs_funs.R",  local = T)
@@ -27,6 +28,7 @@ my_theme <-
   )
 
 ltser <- st_read("www/data/shp/ltser.topojson", quiet = T)
+ltser_uat <-  st_read("www/data/shp/uat_ltser.geojson", quiet = T)
 
 
 # selectare perioada de interes

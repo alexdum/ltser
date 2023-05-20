@@ -1,5 +1,6 @@
 # reconfigurare menu https://rstudio.github.io/bslib/reference/navs.html#details
 source("sections/ui_national.R")
+source("sections/ui_admin.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
   selected = "Maps",
@@ -13,7 +14,7 @@ ui <- page_navbar(
     navset_card_tab(
       id = "tab_maps",
       nav_panel("National level", national_level),
-      nav_panel("Admin level",  p("TBA"))
+      nav_panel("Admin level", admin_level)
     )
   ),
   nav_panel(title = "Other section", p("TBA")),
