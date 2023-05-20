@@ -52,7 +52,7 @@ observe({
     clearShapes() |>
     addPolygons(
       data =  admin_sel()$admin_spat,
-      label = ~htmlEscape(name),
+      label = ~(name),
       group = "LTSER",
       fillColor = "#99d8c9",
       color = "#003c30",
@@ -62,9 +62,17 @@ observe({
       layerId = ~natcode,
       weight = 1
     )
-
-
-
+# add lines la uat
+  if(input$admin_unit == "nut") {
+    proxy <- 
+      proxy |>
+      addPolylines(
+        data = ltser_uat_union,opacity = 0.8,
+        color = c('#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#b3e2cd'),
+        group = "LTSER limits",
+        options = pathOptions(clickable = FALSE)
+      )
+  }
 })
 
 # # navigare raster
