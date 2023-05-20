@@ -11,13 +11,12 @@ library(terra)
 library(reticulate)
 library(highcharter)
 
-
 source_python("utils/extract_point.py") 
 source("utils/leaflet_fun_na.R")
 source("utils/leaflet_fun_ad.R")
-source("utils/map_fun_cols.R")
-source("utils/show_pop.R")
-source("utils/graphs_funs.R",  local = T)
+source("utils/map_fun_cols.R", local = T)
+source("utils/show_pop.R", local = T)
+source("utils/graphs_funs.R", local = T)
 
 library(showtext) # Needed for custom font support
 # Setup the bslib theme object
