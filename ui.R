@@ -11,6 +11,7 @@ ui <- page_navbar(
   nav_panel(
     "Maps",
     navset_card_tab(
+      id = "tab_maps",
       nav_panel("National level", national_level),
       nav_panel("Admin level",  p("TBA"))
     )
