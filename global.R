@@ -28,6 +28,8 @@ my_theme <-
 
 ltser <- st_read("www/data/shp/ltser.topojson", quiet = T)
 ltser_uat <-  st_read("www/data/shp/uat_ltser.geojson", quiet = T)
+ltser_uat$name <-paste0(ltser_uat$name,"\n", ltser_uat$ltser)
+ltser_uat_union <-  st_read("www/data/shp/uat_ltser_lines_union.geojson", quiet = T)
 
 
 # selectare perioada de interes
