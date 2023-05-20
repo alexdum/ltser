@@ -29,7 +29,7 @@ leaflet_fun <- function(data, raster, domain, cols, cols_rev, title) {
       group = "Labels"
     ) %>%
     addScaleBar(
-      position = c("bottomleft"),
+      position = c("bottomright"),
       options = scaleBarOptions(metric = TRUE)
     ) |>
     addPolygons(
@@ -50,7 +50,7 @@ leaflet_fun <- function(data, raster, domain, cols, cols_rev, title) {
     clearControls() %>%
     addLegend(
       title = title,
-      position = "bottomright",
+      position = "bottomleft",
       pal =  cols_rev, values = domain,
       opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))

@@ -73,7 +73,7 @@ observe({
     clearControls() %>%
     leaflet::addLegend(
       title = reac_rs_mon()$tit_leg,
-      position = "bottomright",
+      position = "bottomleft",
       pal = reac_rs_mon()$pal_rev, values = reac_rs_mon()$domain,
       opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
