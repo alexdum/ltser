@@ -48,7 +48,7 @@ leaflet_fun_ad <- function(data) {
     #   color = ~colorQuantile("YlOrRd", ltser$id)(),
     #   group = "LTSER limits",
     #   options = pathOptions(clickable = FALSE)
-    )#|>
+    #)#|>
   # addRasterImage(
   #   raster, colors = cols, opacity = .8
   #   # options = leafletOptions(pane = "raster")
