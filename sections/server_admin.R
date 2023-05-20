@@ -35,7 +35,7 @@ admin_sel <- reactive({
 output$map_ltser_ad <- renderLeaflet ({
   
   leaflet_fun_ad(
-    admin_sel()$admin_spat
+    isolate(admin_sel()$admin_spat)
     # isolate(reac_rs_mon()$rs), 
     # domain =  isolate(reac_rs_mon()$domain),
     # cols = isolate(reac_rs_mon()$pal), 
@@ -45,27 +45,27 @@ output$map_ltser_ad <- renderLeaflet ({
   
 })
 
-# # opacitate polygon
-# observe({
-#   
-#   proxy <- leafletProxy("map_ltser") |>
-#     clearShapes() |>
-#     addPolygons(
-#       data = ltser,
-#       label = ~htmlEscape(name),
-#       group = "LTSER",
-#       fillColor = "#99d8c9",
-#       color = "#003c30",
-#       #fillColor = ~pal(values),
-#       #color = ~pal(values),
-#       fillOpacity = input$transp_ind,
-#       layerId = ~natcode,
-#       weight = 1
-#     )
-#   
-# 
-#   
-# })
+# opacitate polygon
+observe({
+
+  proxy <- leafletProxy("map_ltser_ad") |>
+    clearShapes() |>
+    addPolygons(
+      data =  admin_sel()$admin_spat,
+      label = ~htmlEscape(name),
+      group = "LTSER",
+      fillColor = "#99d8c9",
+      color = "#003c30",
+      #fillColor = ~pal(values),
+      #color = ~pal(values),
+      fillOpacity = input$transp_ind_ad,
+      layerId = ~natcode,
+      weight = 1
+    )
+
+
+
+})
 
 # # navigare raster
 # observe({
