@@ -11,8 +11,8 @@ filters_admin_rs <- list(
   ),
   # transparenta ltser
   ltser_transp <- sliderInput(
-    inputId = "transp_ind",
-    label = "Transparency LTSER",
+    inputId = "transp_ind_ad",
+    label = "Transparency unit",
     min = 0,
     max = 1,
     value = 0.5,
@@ -22,17 +22,17 @@ filters_admin_rs <- list(
   ),
   # selecteaza parametri
   param_select_ad <- selectInput(
-    "parameter_monthly", "Parameter:", 
+    "parameter_monthly_ad", "Parameter:", 
     choices_map_monthly, 
     selected = choices_map_monthly[2]
-  ),
-  # selecteaza perioada
-  period_select_ad <- selectInput(
-    inputId = 'month_indicator',
-    label = 'Month:',
-    rev(dats.ssm) |> format("%Y %b"),
-    selected = max(dats.ssm) |> format("%Y %b")
-  )
+  )#,
+  # # selecteaza perioada
+  # period_select_ad <- selectInput(
+  #   inputId = 'month_indicator_ad',
+  #   label = 'Month:',
+  #   rev(dats.ssm) |> format("%Y %b"),
+  #   selected = max(dats.ssm) |> format("%Y %b")
+  # )
 )
 
 
