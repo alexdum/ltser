@@ -50,9 +50,11 @@ national_level <- card(
       width = 1/2,
       heights_equal = "row",
       card(
+        full_screen = T,
         leafletOutput("map_ltser", height = 450)
       ),
       card(
+        full_screen = T,
         highchartOutput("rs_mon", height = "450px")# %>% withSpinner(size = 0.5)
         
       )
