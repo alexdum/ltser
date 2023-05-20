@@ -23,7 +23,7 @@ reac_rs_mon <- reactive ({
 # harta leaflet -----------------------------------------------------------
 output$map_ltser <- renderLeaflet ({
   
-  leaflet_fun(
+  leaflet_fun_na(
     ltser,
     isolate(reac_rs_mon()$rs), 
     domain =  isolate(reac_rs_mon()$domain),
