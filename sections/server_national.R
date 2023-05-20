@@ -84,12 +84,10 @@ observe({
 values_plot_lst_mon <- reactiveValues(input = NULL, title = NULL, cors = NULL)
 
 observe({
-  isolate(print(input$tab_maps))
   var <- reac_rs_mon()$indicator
   lon = 25
   lat = 46
   dd <- extract_point(fname =  paste0("www/data/ncs/",  var, "_ltser_mon.nc"), lon  = lon, lat = lat, variable = var) 
-  print(head(dd))
   ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:reac_rs_mon()$index)
   values_plot_lst_mon$input <- ddf
   values_plot_lst_mon$title <- paste0("Extracted value ",toupper(var)," values for point lon = ",round(lon, 5)," lat = "  , round(lat, 5))
