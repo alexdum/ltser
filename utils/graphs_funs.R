@@ -18,7 +18,7 @@ hc_plot <- function(input, xaxis_series, filename_save, cols, names, ytitle, tit
              showLastLabel = FALSE
     ) |>
     hc_rangeSelector(selected = 4) |>
-    hc_add_theme(hc_theme(chart = list(backgroundColor = '#F7F8F6')))
+    hc_add_theme(hc_theme(chart = list(backgroundColor = '#FAFAF8')))
   
   if (!is.null(title))  hh <- hh |> hc_title(text = title)
   
