@@ -21,7 +21,7 @@ leaflet_fun_ad <- function(data) {
     ) %>%
     addLayersControl(
       baseGroups = "CartoDB.PositronNoLabels",
-      overlayGroups = c("Labels", "LTSER"))  %>% 
+      overlayGroups = c("Labels", "NUT"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
       options = pathOptions(pane = "maplabels"),
@@ -33,7 +33,7 @@ leaflet_fun_ad <- function(data) {
     ) |>
     addPolygons(
       label = ~htmlEscape(name),
-      group = "LTSER",
+      group = "NUT",
       fillColor = "#99d8c9",
       color = "#003c30",
       #fillColor = ~pal(values),
@@ -42,17 +42,24 @@ leaflet_fun_ad <- function(data) {
       layerId = ~natcode,
       weight = 1
     ) #|>
-    # addRasterImage(
-    #   raster, colors = cols, opacity = .8
-    #   # options = leafletOptions(pane = "raster")
-    # )  |>
-    # clearControls() %>%
-    # addLegend(
-    #   title = title,
-    #   position = "bottomleft",
-    #   pal =  cols_rev, values = domain,
-    #   opacity = 1,
-    #   labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
-    # )
+    # addPolygons(
+    #   data = ltser,
+    #   stroke = FALSE, fillOpacity = 0.2, smoothFactor = 0.5,
+    #   color = ~colorQuantile("YlOrRd", ltser$id)(),
+    #   group = "LTSER limits",
+    #   options = pathOptions(clickable = FALSE)
+    )#|>
+  # addRasterImage(
+  #   raster, colors = cols, opacity = .8
+  #   # options = leafletOptions(pane = "raster")
+  # )  |>
+  # clearControls() %>%
+  # addLegend(
+  #   title = title,
+  #   position = "bottomleft",
+  #   pal =  cols_rev, values = domain,
+  #   opacity = 1,
+  #   labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+  # )
   return(map)
 }
