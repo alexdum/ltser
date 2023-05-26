@@ -10,6 +10,7 @@ library(RColorBrewer)
 library(terra)
 library(reticulate)
 library(highcharter)
+library(arrow)
 
 source_python("utils/extract_point.py") 
 source("utils/leaflet_fun_na.R")

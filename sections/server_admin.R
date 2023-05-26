@@ -22,57 +22,88 @@
 
 admin_sel <- reactive({
   
+  indicator <- input$parameter_monthly_ad
   # selectie unitate
   switch( # alege nume indicator care să fie afișat
     which(c("ltser", "nut") %in%  input$admin_unit),
     admin_spat <- ltser,
     admin_spat <- ltser_uat
   )
-  list(admin_spat = admin_spat)
+  
+ tab <-  
+    read_parquet(paste0("www/data/parquet/", input$admin_unit,"/", indicator, "_mon.parquet")) |>
+    filter(format(date, "%Y %b") %in% input$month_indicator_ad)
+ 
+ admin_spat_sub <-
+   admin_spat |>
+    left_join(tab, by = c("natcode" = "ID"))
+  
+  
+  map_leg <- mapa_fun_cols(indic = indicator,domain = range(admin_spat_sub$value))
+  
+  list(admin_spat_sub = admin_spat_sub, pal = map_leg$pal, pal_rev = map_leg$pal_rev, tit_leg = map_leg$tit_leg)
 })
 
 # harta leaflet -----------------------------------------------------------
 output$map_ltser_ad <- renderLeaflet ({
   
   leaflet_fun_ad(
-    isolate(admin_sel()$admin_spat)
-    # isolate(reac_rs_mon()$rs), 
-    # domain =  isolate(reac_rs_mon()$domain),
-    # cols = isolate(reac_rs_mon()$pal), 
-    # cols_rev = isolate(reac_rs_mon()$pal_rev),
-    # title = isolate(reac_rs_mon()$tit_leg)
+    data = isolate(admin_sel()$admin_spat_sub),
+    pal =  isolate(admin_sel()$pal),
+    pal_rev =  isolate(admin_sel()$pal_rev),
+    tit_leg = isolate(admin_sel()$tit_leg)
   )
   
 })
 
 # opacitate polygon
 observe({
+  
+  pal_rev =  admin_sel()$pal_rev
+  tit_leg = admin_sel()$tit_leg
+  data <- admin_sel()$admin_spat_sub
+  pal <- admin_sel()$pal
+  data <- admin_sel()$admin_spat_sub
 
-  proxy <- leafletProxy("map_ltser_ad") |>
+  proxy <- leafletProxy("map_ltser_ad", data = data) |>
     clearShapes() |>
     addPolygons(
-      data =  admin_sel()$admin_spat,
-      label = ~(name),
+      #data =  admin_sel()$admin_spat,
+      label = ~paste("<font size='2'><b>",name,
+                              "<br/>",round(value,1),"</b></font><br/>") %>% lapply(htmltools::HTML),
       group = "LTSER",
-      fillColor = "#99d8c9",
-      color = "#003c30",
-      #fillColor = ~pal(values),
+      #fillColor = "#99d8c9",
+      color = "grey",
+      weight = 0.5, smoothFactor = 0.1,
+      opacity = 0.5,
+      fillColor = ~pal(value),
       #color = ~pal(values),
       fillOpacity = input$transp_ind_ad,
       layerId = ~natcode,
-      weight = 1
-    )
-# add lines la uat
-  if(input$admin_unit == "nut") {
-    proxy <- 
-      proxy |>
-      addPolylines(
-        data = ltser_uat_union,opacity = 0.8,
-        color = c('#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#b3e2cd'),
-        group = "LTSER limits",
-        options = pathOptions(clickable = FALSE)
-      )
-  }
+      highlightOptions = highlightOptions(
+        weight = 2,
+        color = "#666",
+        fillOpacity = 0.2,
+        bringToFront = TRUE,
+        sendToBack = TRUE)
+    ) |>
+    clearControls() |>
+    addLegend(
+      title = tit_leg,
+      "bottomleft", pal = pal_rev, values = ~value, opacity = 1,
+      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+    ) 
+# # add lines la uat
+#   if(input$admin_unit == "nut") {
+#     proxy <- 
+#       proxy |>
+#       addPolylines(
+#         data = ltser_uat_union,opacity = 0.8,
+#         color = c('#fdcdac','#cbd5e8','#f4cae4','#e6f5c9','#fff2ae','#b3e2cd'),
+#         group = "LTSER limits",
+#         options = pathOptions(clickable = FALSE)
+#       )
+#   }
 })
 
 # # navigare raster

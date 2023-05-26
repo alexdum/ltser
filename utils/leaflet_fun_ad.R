@@ -1,5 +1,5 @@
 # functie harta
-leaflet_fun_ad <- function(data) {
+leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg) {
   
   map <- leaflet(
     data = data,
@@ -32,34 +32,29 @@ leaflet_fun_ad <- function(data) {
       options = scaleBarOptions(metric = TRUE)
     ) |>
     addPolygons(
-      label = ~htmlEscape(name),
+      label = ~paste("<font size='2'><b>",name,
+                     "<br/>",round(value,1),"</b></font><br/>") %>% lapply(htmltools::HTML),
       group = "NUT",
-      fillColor = "#99d8c9",
-      color = "#003c30",
+      fillColor = ~pal(value), 
       #fillColor = ~pal(values),
       #color = ~pal(values),
       fillOpacity = 0.8,
+      color = "grey",
+      weight = 0.5, smoothFactor = 0.1,
+      opacity = 0.5,
       layerId = ~natcode,
-      weight = 1
-    ) #|>
-    # addPolygons(
-    #   data = ltser,
-    #   stroke = FALSE, fillOpacity = 0.2, smoothFactor = 0.5,
-    #   color = ~colorQuantile("YlOrRd", ltser$id)(),
-    #   group = "LTSER limits",
-    #   options = pathOptions(clickable = FALSE)
-    #)#|>
-  # addRasterImage(
-  #   raster, colors = cols, opacity = .8
-  #   # options = leafletOptions(pane = "raster")
-  # )  |>
-  # clearControls() %>%
-  # addLegend(
-  #   title = title,
-  #   position = "bottomleft",
-  #   pal =  cols_rev, values = domain,
-  #   opacity = 1,
-  #   labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
-  # )
+      highlightOptions = highlightOptions(
+        weight = 2,
+        color = "#666",
+        fillOpacity = 0.2,
+        bringToFront = TRUE,
+        sendToBack = TRUE)
+    )  |>
+    clearControls() |>
+    addLegend(
+      title = tit_leg,
+      "bottomleft", pal = pal_rev, values = ~value, opacity = 1,
+      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+    ) 
   return(map)
 }
