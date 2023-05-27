@@ -55,7 +55,7 @@ national_level <- card(
       ),
       card(
         full_screen = T,
-        highchartOutput("rs_mon", height = "450px")# %>% withSpinner(size = 0.5)
+        highchartOutput("na_plot", height = "450px")# %>% withSpinner(size = 0.5)
         
       )
       

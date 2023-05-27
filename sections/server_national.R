@@ -1,5 +1,5 @@
 
-reac_rs_mon <- reactive ({
+nation_sel<- reactive ({
   
  
   index <- which(format(dats.ssm, "%Y %b") %in% input$month_indicator)
@@ -25,11 +25,11 @@ output$map_ltser <- renderLeaflet ({
   
   leaflet_fun_na(
     ltser,
-    isolate(reac_rs_mon()$rs), 
-    domain =  isolate(reac_rs_mon()$domain),
-    cols = isolate(reac_rs_mon()$pal), 
-    cols_rev = isolate(reac_rs_mon()$pal_rev),
-    title = isolate(reac_rs_mon()$tit_leg)
+    isolate(nation_sel()$rs), 
+    domain =  isolate(nation_sel()$domain),
+    cols = isolate(nation_sel()$pal), 
+    cols_rev = isolate(nation_sel()$pal_rev),
+    title = isolate(nation_sel()$tit_leg)
   )
   
 })
@@ -63,42 +63,42 @@ observe({
 
 # navigare raster
 observe({
-  rs <- reac_rs_mon()$rs
+  rs <- nation_sel()$rs
   leafletProxy("map_ltser") %>%
     clearImages() %>%
     addRasterImage(
       rs, 
-      colors = reac_rs_mon()$pal,  
+      colors = nation_sel()$pal,  
       opacity = .8 ) %>%
     clearControls() %>%
     leaflet::addLegend(
-      title = reac_rs_mon()$tit_leg,
+      title = nation_sel()$tit_leg,
       position = "bottomleft",
-      pal = reac_rs_mon()$pal_rev, values = reac_rs_mon()$domain,
+      pal = nation_sel()$pal_rev, values = nation_sel()$domain,
       opacity = 1,
       labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
     )
 })
 
 # reactive values pentru plot lst time series din raster
-values_plot_lst_mon <- reactiveValues(input = NULL, title = NULL, cors = NULL)
+values_plot_na <- reactiveValues(input = NULL, title = NULL, cors = NULL)
 
 observe({
-  var <- reac_rs_mon()$indicator
+  var <- nation_sel()$indicator
   lon = 25
   lat = 46
   dd <- extract_point(fname =  paste0("www/data/ncs/",  var, "_ltser_mon.nc"), lon  = lon, lat = lat, variable = var) 
-  ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:reac_rs_mon()$index)
-  values_plot_lst_mon$input <- ddf
-  values_plot_lst_mon$title <- paste0("Extracted value ",toupper(var)," values for point lon = ",round(lon, 5)," lat = "  , round(lat, 5))
+  ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:nation_sel()$index)
+  values_plot_na$input <- ddf
+  values_plot_na$title <- paste0("Extracted value ",toupper(var)," values for point lon = ",round(lon, 5)," lat = "  , round(lat, 5))
 })
 
 # interactivitate raster
 observe({
   proxy <- leafletProxy("map_ltser")
   click <- input$map_ltser_click
-  rs <- reac_rs_mon()$rs
-  var <- reac_rs_mon()$indicator
+  rs <- nation_sel()$rs
+  var <- nation_sel()$indicator
   fil.nc <- paste0("www/data/ncs/", var, "_ltser_mon.nc")
   
   if (input$radio_mon == 1 & !is.null(click)) {
@@ -120,11 +120,11 @@ observe({
         condpan_monthly.txt 
       })
       outputOptions(output, "condpan_monthly", suspendWhenHidden = FALSE)
-      ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:reac_rs_mon()$index)
+      ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:nation_sel()$index)
       # valori pentru plot la reactive values
-      values_plot_lst_mon$title <- condpan_monthly.txt
-      values_plot_lst_mon$input <- ddf
-      values_plot_lst_mon$cors <- paste0(round(click$lng, 5), "_", round(click$lat, 5))
+      values_plot_na$title <- condpan_monthly.txt
+      values_plot_na$input <- ddf
+      values_plot_na$cors <- paste0(round(click$lng, 5), "_", round(click$lat, 5))
       
     }
   }
@@ -132,16 +132,16 @@ observe({
 })
 
 # plot actualizat daca schimb si coordonatee
-output$rs_mon <- renderHighchart({
-  req(values_plot_lst_mon$input)
-  indicator <- reac_rs_mon()$indicator
+output$na_plot <- renderHighchart({
+  req(values_plot_na$input)
+  indicator <- nation_sel()$indicator
   
   ytitle <- ifelse(indicator %in% c("ssm"),"%")
 
   hc_plot(
-    input =  values_plot_lst_mon$input , xaxis_series = c("value"), filename_save = indicator,
+    input =  values_plot_na$input , xaxis_series = c("value"), filename_save = indicator,
     cols = c("green"), names = toupper(indicator), ytitle =   ytitle,
-    title =   values_plot_lst_mon$title
+    title =   values_plot_na$title
   )
 })
 
