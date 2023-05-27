@@ -54,7 +54,7 @@ admin_level <- card(
       ),
       card(
         full_screen = T,
-        #highchartOutput("rs_as", height = "450px")# %>% withSpinner(size = 0.5)
+        highchartOutput("ad_plot", height = "450px")# %>% withSpinner(size = 0.5)
         
       )
       
