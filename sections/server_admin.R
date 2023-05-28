@@ -52,7 +52,8 @@ observe({
     addPolygons(
       #data =  admin_sel()$admin_spat,
       label = ~paste("<font size='2'><b>",name,
-                     "<br/>",round(value,1),"</b></font><br/>") %>% lapply(htmltools::HTML),
+                     "<br/>",round(value,1),"</b></font><br/><font size='1' color='#E95420'>Click to
+                       get values and graph</font>") %>% lapply(htmltools::HTML),
       group = "LTSER",
       #fillColor = "#99d8c9",
       color = "grey",
