@@ -108,24 +108,18 @@ observeEvent(list(isolate(input$tab_maps),input$admin_unit),{
   #filter(date <=  as.Date(paste(input$month_indicator_ad, "25"),  "%Y %b %d"))
 })
 
-# #pentru actualizare grafic doar cand se schimba regiunea
-# observe({
-# 
-#   values_plot_ad$admin <- admin_sel()$unit
-# 
-#   if (!isTRUE(all.equal(values_plot_ad$admin, values_plot_ad$update_admin)))  {
-#     admin <- values_plot_ad$admin
-#     admin_spat_sub <-  admin_sel()$admin_spat_sub
-#     first_sel <- sample(1:nrow(admin_spat_sub), 1)
-#     values_plot_ad$id <- admin_spat_sub$natcode[first_sel]
-#     values_plot_ad$name <- admin_spat_sub$name[admin_spat_sub$natcode == values_plot_ad$id]
-#     values_plot_ad$input <-
-#       tab |>
-#       filter(ID %in% values_plot_ad$id) |>
-#       select(date, value)
-#     values_plot_ad$update_admin <- admin
-#   }
-# })
+# update plot by click
+observeEvent(input$map_ltser_ad_shape_click$id,{ 
+  tab <- admin_sel()$tab
+  admin_spat_sub <- admin_sel()$admin_spat_sub
+  values_plot_ad$id  <- input$map_ltser_ad_shape_click$id
+  values_plot_ad$name <- admin_spat_sub$name[admin_spat_sub$natcode == values_plot_ad$id]
+  values_plot_ad$input <-  
+    tab |>
+    filter(ID %in% values_plot_ad$id) |>
+    select(date, value) 
+})
+
 
 # plot actualizat
 output$ad_plot <- renderHighchart({
