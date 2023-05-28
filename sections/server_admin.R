@@ -22,7 +22,7 @@ admin_sel <- reactive({
   
   list(
     admin_spat_sub = admin_spat_sub, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
-    tit_leg = map_leg$tit_leg, tab = tab,  indicator= indicator
+    tit_leg = map_leg$tit_leg, tab = tab,  indicator= indicator, unit = input$admin_unit
   )
 })
 
@@ -89,11 +89,13 @@ observe({
 })
 
 # reactive values pentru plot lst time series 
-values_plot_ad <- reactiveValues(input = NULL, title = NULL, id = NULL, name = NULL)
+values_plot_ad <- reactiveValues(
+  input = NULL, title = NULL, id = NULL, name = NULL, 
+  admin = NULL, update_admin = NULL
+)
+
 # valori initiale de start
-observe({
-  req(isolate(input$tab_maps))
-  req(input$admin_unit)
+observeEvent(list(isolate(input$tab_maps),input$admin_unit),{
   tab <- admin_sel()$tab
   admin_spat_sub <- admin_sel()$admin_spat_sub
   first_sel <- sample(1:nrow(admin_spat_sub), 1)
@@ -102,20 +104,43 @@ observe({
   values_plot_ad$input <-  
     tab |>
     filter(ID %in% values_plot_ad$id) |>
-    select(date, value) |>
-    filter(date <=  as.Date(paste(input$month_indicator_ad, "25"),  "%Y %b %d"))
-  print(summary(values_plot_ad$input))
+    select(date, value) #|>
+  #filter(date <=  as.Date(paste(input$month_indicator_ad, "25"),  "%Y %b %d"))
 })
 
-# plot actualizat daca schimb si coordonatee
+# #pentru actualizare grafic doar cand se schimba regiunea
+# observe({
+# 
+#   values_plot_ad$admin <- admin_sel()$unit
+# 
+#   if (!isTRUE(all.equal(values_plot_ad$admin, values_plot_ad$update_admin)))  {
+#     admin <- values_plot_ad$admin
+#     admin_spat_sub <-  admin_sel()$admin_spat_sub
+#     first_sel <- sample(1:nrow(admin_spat_sub), 1)
+#     values_plot_ad$id <- admin_spat_sub$natcode[first_sel]
+#     values_plot_ad$name <- admin_spat_sub$name[admin_spat_sub$natcode == values_plot_ad$id]
+#     values_plot_ad$input <-
+#       tab |>
+#       filter(ID %in% values_plot_ad$id) |>
+#       select(date, value)
+#     values_plot_ad$update_admin <- admin
+#   }
+# })
+
+# plot actualizat
 output$ad_plot <- renderHighchart({
-  req(input$admin_unit)
+  #req(input$admin_unit)
   indicator <- admin_sel()$indicator
-
+  # pentru subsetare in functie de data selectate
+  tab_plot <- values_plot_ad$input
+  tab_plot  <-
+    tab_plot  |>
+    filter(date <= as.Date(paste(input$month_indicator_ad, "25"),  "%Y %b %d"))
+  
   ytitle <- ifelse(indicator %in% c("ssm"),"%")
-
+  
   hc_plot(
-    input =  values_plot_ad$input, xaxis_series = c("value"), filename_save = indicator,
+    input =  tab_plot, xaxis_series = c("value"), filename_save = indicator,
     cols = c("green"), names = toupper(indicator), ytitle =   ytitle,
     title =   values_plot_ad$name
   )
