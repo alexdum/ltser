@@ -33,7 +33,9 @@ filters_monthly_rs <- list(
         "Plot timeseries" = 2
       ), 
     selected = 2
-  )
+  ),
+  
+  gettif <- downloadButton('downgtif', 'Get GeoTIFF')
 )
 
 

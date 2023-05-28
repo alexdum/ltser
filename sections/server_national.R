@@ -1,5 +1,5 @@
 
-nation_sel<- reactive ({
+nation_sel <- reactive ({
   
  
   index <- which(format(dats.ssm, "%Y %b") %in% input$month_indicator)
@@ -144,6 +144,13 @@ output$na_plot <- renderHighchart({
     title =   values_plot_na$title
   )
 })
+
+# pentru descarcare fisier Geotiff
+output$downgtif <- downloadHandler(
+  filename = function() { gsub(" ", "", tolower(paste0(nation_sel()$indicator,"_", input$month_indicator,".tif"))) },
+  content = function(file) {
+    writeRaster(nation_sel()$rs, file, overwrite = T)
+  })
 
 
 
