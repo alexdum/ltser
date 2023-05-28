@@ -141,6 +141,13 @@ output$ad_plot <- renderHighchart({
   )
 })
 
+# pentru descarcare fisier Geotiff
+output$downshp<- downloadHandler(
+  filename = function() { gsub(" " , "", tolower(paste0(admin_sel()$indicator, "_", admin_sel()$unit,"_", input$month_indicator_ad,".geojson"))) },
+  content = function(file) {
+    st_write(admin_sel()$admin_spat_sub, file, driver = "GeoJSON", quiet = T, delete_layer = T)
+  })
+
 
 
 

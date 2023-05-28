@@ -32,7 +32,8 @@ filters_admin_rs <- list(
     step = 0.1,
     width = "100%",
     ticks = F
-  )
+  ),
+  getshp <- downloadButton('downshp', 'Get GeoJSON')
 )
 
 
