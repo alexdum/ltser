@@ -15,6 +15,8 @@ library(arrow)
 source_python("utils/extract_point.py") 
 source("utils/leaflet_fun_na.R")
 source("utils/leaflet_fun_ad.R")
+source("utils/leaflet_fun_in.R")
+
 source("utils/map_fun_cols.R", local = T)
 source("utils/show_pop.R", local = T)
 source("utils/graphs_funs.R", local = T)
@@ -32,6 +34,8 @@ ltser_uat <-  st_read("www/data/shp/uat_ltser.topojson", quiet = T)
 ltser_uat$name <-paste0(ltser_uat$name,"\n", ltser_uat$ltser)
 ltser_uat_union <-  st_read("www/data/shp/uat_ltser_lines_union.geojson", quiet = T)
 
+ws <- st_read("www/data/shp/ws.shp", quiet = T)
+ec <- st_read("www/data/shp/ec.shp", quiet = T)
 
 # selectare perioada de interes
 select_period <- read.csv("www/data/tabs/select_period.csv") 
