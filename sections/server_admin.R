@@ -12,10 +12,20 @@ admin_sel <- reactive({
     read_parquet(paste0("www/data/parquet/", input$admin_unit,"/", indicator, "_mon.parquet")) #|>
   #filter(format(date, "%Y %b") <= input$month_indicator_ad)
   
+  dats <- tab$date
+  updateSelectInput(
+    session, "month_indicator_ad",
+    label = "Month:",
+    choices = rev(dats) |> format("%Y %b"),
+    selected = max(dats) |> format("%Y %b")
+  )
+  
   admin_spat_sub <-
     admin_spat |>
     left_join(tab, by = c("natcode" = "ID")) |>
     filter(format(date, "%Y %b") %in% input$month_indicator_ad) 
+  
+ 
   
   
   map_leg <- mapa_fun_cols(indic = indicator,domain = range(admin_spat_sub$value))
@@ -132,7 +142,7 @@ output$ad_plot <- renderHighchart({
     tab_plot  |>
     filter(date <= as.Date(paste(input$month_indicator_ad, "25"),  "%Y %b %d"))
   
-  ytitle <- ifelse(indicator %in% c("ssm"),"%")
+  ytitle <- ifelse(indicator %in% c("ssm", "ndvi"),"%")
   
   hc_plot(
     input =  tab_plot, xaxis_series = c("value"), filename_save = indicator,

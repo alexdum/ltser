@@ -13,7 +13,7 @@ filters_admin_rs <- list(
   param_select_ad <- selectInput(
     "parameter_monthly_ad", "Parameter:", 
     choices_map_monthly, 
-    selected = choices_map_monthly[2]
+    selected = choices_map_monthly[1]
   ),
   # selecteaza perioada
   period_select_ad <- selectInput(

@@ -15,7 +15,7 @@ filters_monthly_rs <- list(
   param_select <- selectInput(
     "parameter_monthly", "Parameter:", 
     choices_map_monthly, 
-    selected = choices_map_monthly[2]
+    selected = choices_map_monthly[1]
   ),
   # selecteaza perioada
   period_select <- selectInput(

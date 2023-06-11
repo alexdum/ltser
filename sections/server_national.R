@@ -1,15 +1,27 @@
 
 nation_sel <- reactive ({
   
- 
-  index <- which(format(dats.ssm, "%Y %b") %in% input$month_indicator)
-  indicator <- input$parameter_monthly
-  # indicator <- "mm" 
-  
   switch (
-    which(c("ssm") %in% input$parameter_monthly),
-    rs <- ssm
+    which(c("ssm", "ndvi") %in% input$parameter_monthly),
+    rs <- ssm,
+    rs <- ndvi
   )
+  
+  dats <- as.Date(
+    names(rs) %>% strsplit("=") %>% do.call(rbind, .) |> as_tibble() |> 
+      select(V2) |> unlist() |> as.integer(), origin = "1970-1-1 00:00:00"
+  )
+  
+  updateSelectInput(
+    session, "month_indicator",
+    label = "Month:",
+    choices = rev(dats) |> format("%Y %b"),
+    selected = max(dats) |> format("%Y %b")
+  )
+  
+  
+  index <- which(format(dats, "%Y %b") %in% input$month_indicator)
+  indicator <- input$parameter_monthly
   
   rs <- terra::setMinMax(rs[[index]])
   domain <- terra::minmax(rs)
@@ -104,7 +116,7 @@ observe({
   if (input$radio_mon == 1 & !is.null(click)) {
     show_pop(var = var,x = click$lng, y = click$lat, rdat = rs, proxy = proxy)
   } else {
-   
+    
     proxy %>% clearPopups()
     if (!is.null(click)) {
       cell <- terra::cellFromXY(rs, cbind(click$lng, click$lat))
@@ -136,8 +148,8 @@ output$na_plot <- renderHighchart({
   req(values_plot_na$input)
   indicator <- nation_sel()$indicator
   
-  ytitle <- ifelse(indicator %in% c("ssm"),"%")
-
+  ytitle <- ifelse(indicator %in% c("ssm", "ndvi"),"%")
+  
   hc_plot(
     input =  values_plot_na$input , xaxis_series = c("value"), filename_save = indicator,
     cols = c("green"), names = toupper(indicator), ytitle =   ytitle,

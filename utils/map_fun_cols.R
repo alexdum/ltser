@@ -1,4 +1,6 @@
 colintRdYlBu <- colorRampPalette(brewer.pal(10,"RdYlBu"),interpolate = "linear")
+colintYlGn <- colorRampPalette(brewer.pal(9,"YlGn"),interpolate = "linear")
+
 mapa_fun_cols <- function(indic = NA,  domain = NA) {
   # culori interpolate
   # culori culori leaflet ---------------------------------------------------------
@@ -14,7 +16,13 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
       leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 2))), "SSM [%]","</html>")
   }
   
-
+  if (indic %in% c("ndvi")) {
+    df.col <- data.frame(
+      cols = colintYlGn(10), 
+      vals = seq(-0.8,1,0.2)
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 2))), "NDVI","</html>")
+  }
   
   
   # print(head(df.col))

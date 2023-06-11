@@ -48,3 +48,7 @@ choices_map_monthly <- setNames(choices_map_monthly$choice, choices_map_monthly$
 ssm <- terra::rast("www/data/ncs/ssm_ltser_mon.nc")
 dats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
 
+# citeste produse
+ndvi <- terra::rast("www/data/ncs/ndvi_ltser_mon.nc")
+
+
