@@ -1,3 +1,18 @@
+observe({
+  tab <-  
+    read_parquet(paste0("www/data/parquet/", input$admin_unit,"/", input$parameter_monthly_ad, "_mon.parquet")) #|>
+  #filter(format(date, "%Y %b") <= input$month_indicator_ad)
+  
+  dats_add <- tab$date
+  
+  
+  updateSelectInput(
+    session, "month_indicator_ad",
+    choices = rev(dats_add) |> format("%Y %b")
+  )
+})
+
+
 admin_sel <- reactive({
   
   indicator <- input$parameter_monthly_ad
@@ -12,20 +27,14 @@ admin_sel <- reactive({
     read_parquet(paste0("www/data/parquet/", input$admin_unit,"/", indicator, "_mon.parquet")) #|>
   #filter(format(date, "%Y %b") <= input$month_indicator_ad)
   
-  dats <- tab$date
-  updateSelectInput(
-    session, "month_indicator_ad",
-    label = "Month:",
-    choices = rev(dats) |> format("%Y %b"),
-    selected = max(dats) |> format("%Y %b")
-  )
+  
   
   admin_spat_sub <-
     admin_spat |>
     left_join(tab, by = c("natcode" = "ID")) |>
     filter(format(date, "%Y %b") %in% input$month_indicator_ad) 
   
- 
+  
   
   
   map_leg <- mapa_fun_cols(indic = indicator,domain = range(admin_spat_sub$value))

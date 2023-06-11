@@ -1,6 +1,4 @@
-
-nation_sel <- reactive ({
-  
+observe({
   switch (
     which(c("ssm", "ndvi") %in% input$parameter_monthly),
     rs <- ssm,
@@ -15,10 +13,23 @@ nation_sel <- reactive ({
   updateSelectInput(
     session, "month_indicator",
     label = "Month:",
-    choices = rev(dats) |> format("%Y %b"),
-    selected = max(dats) |> format("%Y %b")
+    choices = rev(dats) |> format("%Y %b")
+  )
+})
+
+
+nation_sel <- reactive ({
+  
+  switch (
+    which(c("ssm", "ndvi") %in% input$parameter_monthly),
+    rs <- ssm,
+    rs <- ndvi
   )
   
+  dats <- as.Date(
+    names(rs) %>% strsplit("=") %>% do.call(rbind, .) |> as_tibble() |> 
+      select(V2) |> unlist() |> as.integer(), origin = "1970-1-1 00:00:00"
+  )
   
   index <- which(format(dats, "%Y %b") %in% input$month_indicator)
   indicator <- input$parameter_monthly
