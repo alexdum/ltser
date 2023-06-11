@@ -9,7 +9,6 @@ ui <- page_navbar(
   fluid = T,
   inverse = F,
   theme = my_theme,
-  fill_mobile = T,
   nav_panel(
     title = "Maps",
     navset_card_tab(
