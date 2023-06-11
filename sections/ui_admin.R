@@ -41,10 +41,7 @@ admin_level <- card(
   full_screen = F,
   #card_header("National level"),
   layout_sidebar(
-    sidebar(
-      title = "Settings",
-      !!!filters_admin_rs
-    ),
+    sidebar = filters_admin_rs,
     
     layout_column_wrap(
       width = 1/2,

@@ -15,10 +15,7 @@ filters_insitu <- list(
 insitu_level <- card(
   full_screen = F,
   layout_sidebar(
-    sidebar(
-      title = "Settings",
-      !!!filters_insitu 
-    ),
+    sidebar = filters_insitu ,
     
     layout_column_wrap(
       width = 1/2,

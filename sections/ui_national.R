@@ -43,10 +43,7 @@ national_level <- card(
   full_screen = F,
   #card_header("National level"),
   layout_sidebar(
-    sidebar(
-      title = "Settings",
-      !!!filters_monthly_rs 
-    ),
+    sidebar = filters_monthly_rs,
     
     layout_column_wrap(
       width = 1/2,
@@ -58,9 +55,7 @@ national_level <- card(
       card(
         full_screen = T,
         highchartOutput("na_plot", height = "450px")# %>% withSpinner(size = 0.5)
-        
       )
-      
     )
   )
 )
