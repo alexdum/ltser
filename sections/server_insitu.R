@@ -14,7 +14,6 @@ insitu_sel <- reactive({
 
 # harta leaflet -----------------------------------------------------------
 output$map_insitu <- renderLeaflet ({
-  print(insitu_sel()$admin_spat)
   leaflet_fun_in(
     data = insitu_sel()$admin_spat
   )

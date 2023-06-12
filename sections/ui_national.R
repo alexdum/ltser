@@ -40,6 +40,7 @@ filters_monthly_rs <- list(
 
 
 national_level <- card(
+  max_height = 550,
   full_screen = F,
   #card_header("National level"),
   layout_sidebar(

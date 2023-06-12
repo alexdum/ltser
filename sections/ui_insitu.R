@@ -13,6 +13,7 @@ filters_insitu <- list(
 
 
 insitu_level <- card(
+  max_height = 550,
   full_screen = F,
   layout_sidebar(
     sidebar = filters_insitu ,
