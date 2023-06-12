@@ -7,7 +7,6 @@ insitu_sel <- reactive({
     admin_spat <- ec
   )
   
-  print(admin_spat)
   list(
     admin_spat = admin_spat
   )
