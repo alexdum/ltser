@@ -22,7 +22,7 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
       cols = brewer.pal(11,"RdYlGn")[2:11], 
       vals = seq(-0.8,1,0.2)
     ) 
-    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 2))), "NDVI","</html>")
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "NDVI","</html>")
   }
   
   
