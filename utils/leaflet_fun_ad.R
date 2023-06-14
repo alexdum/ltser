@@ -21,7 +21,7 @@ leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg) {
     ) %>%
     addLayersControl(
       baseGroups = "CartoDB.PositronNoLabels",
-      overlayGroups = c("Labels", "NUT"))  %>% 
+      overlayGroups = c("Labels", "Unit"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
       options = pathOptions(pane = "maplabels"),
@@ -35,7 +35,7 @@ leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg) {
       label = ~paste("<font size='2'><b>",name,
                      "<br/>",round(value,1),"</b></font><br/><font size='1' color='#E95420'>Click to
                        get values and graph</font>") %>% lapply(htmltools::HTML),
-      group = "NUT",
+      group = "Unit",
       fillColor = ~pal(value), 
       #fillColor = ~pal(values),
       #color = ~pal(values),
