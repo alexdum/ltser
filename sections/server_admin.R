@@ -1,16 +1,16 @@
-observe({
-  tab <-  
-    read_parquet(paste0("www/data/parquet/", input$admin_unit,"/", input$parameter_monthly_ad, "_mon.parquet")) #|>
-  #filter(format(date, "%Y %b") <= input$month_indicator_ad)
-  
-  dats_add <- unique(tab$date)
-  
-  
-  updateSelectInput(
-    session, "month_indicator_ad",
-    choices = rev(dats_add) |> format("%Y %b")
-  )
-})
+# observe({
+#   tab <-  
+#     read_parquet(paste0("www/data/parquet/", input$admin_unit,"/", input$parameter_monthly_ad, "_mon.parquet")) #|>
+#   #filter(format(date, "%Y %b") <= input$month_indicator_ad)
+#   
+#   dats_add <- unique(tab$date)
+#   
+#   
+#   updateSelectInput(
+#     session, "month_indicator_ad",
+#     choices = rev(dats_add) |> format("%Y %b")
+#   )
+# })
 
 
 admin_sel <- reactive({

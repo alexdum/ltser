@@ -1,21 +1,21 @@
-observe({
-  switch (
-    which(c("ssm", "ndvi") %in% input$parameter_monthly),
-    rs <- ssm,
-    rs <- ndvi
-  )
-  
-  dats <- as.Date(
-    names(rs) %>% strsplit("=") %>% do.call(rbind, .) |> as_tibble() |> 
-      select(V2) |> unlist() |> as.integer(), origin = "1970-1-1 00:00:00"
-  )
-  
-  updateSelectInput(
-    session, "month_indicator",
-    label = "Month:",
-    choices = rev(dats) |> format("%Y %b")
-  )
-})
+# observe({
+#   switch (
+#     which(c("ssm", "ndvi") %in% input$parameter_monthly),
+#     rs <- ssm,
+#     rs <- ndvi
+#   )
+#   
+#   dats <- as.Date(
+#     names(rs) %>% strsplit("=") %>% do.call(rbind, .) |> as_tibble() |> 
+#       select(V2) |> unlist() |> as.integer(), origin = "1970-1-1 00:00:00"
+#   )
+#   
+#   updateSelectInput(
+#     session, "month_indicator",
+#     label = "Month:",
+#     choices = rev(dats) |> format("%Y %b")
+#   )
+# })
 
 
 nation_sel <- reactive ({
