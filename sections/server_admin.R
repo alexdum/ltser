@@ -151,7 +151,7 @@ output$ad_plot <- renderHighchart({
     tab_plot  |>
     filter(date <= as.Date(paste(input$month_indicator_ad, "25"),  "%Y %b %d"))
   
-  ytitle <- ifelse(indicator %in% c("ssm", "ndvi"),"%")
+  ytitle <- ifelse(indicator %in% c("ssm"),"%", "")
   
   hc_plot(
     input =  tab_plot, xaxis_series = c("value"), filename_save = indicator,
