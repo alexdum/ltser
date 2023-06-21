@@ -25,6 +25,13 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
     leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "NDVI","</html>")
   }
   
+  if (indic %in% c("fapar")) {
+    df.col <- data.frame(
+      cols = brewer.pal(11,"RdYlGn")[2:11], 
+      vals = c(seq(0,0.8,0.1), 0.94)
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "FAPAR","</html>")
+  }
   
   # print(head(df.col))
   # print(domain)
