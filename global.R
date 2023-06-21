@@ -25,7 +25,8 @@ library(showtext) # Needed for custom font support
 # Setup the bslib theme object
 my_theme <- 
   bs_theme(
-    bootswatch = "spacelab"
+    bootswatch = "spacelab",
+    version = 5
     # base_font = font_google("Righteous")
   )
 
