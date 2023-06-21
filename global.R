@@ -52,4 +52,8 @@ dats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), ori
 # citeste produse
 ndvi <- terra::rast("www/data/ncs/ndvi_ltser_mon.nc")
 
+# citeste produse
+
+fapar <- terra::rast("www/data/ncs/fapar_ltser_mon.nc")
+
 
