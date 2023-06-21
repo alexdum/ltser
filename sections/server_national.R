@@ -21,9 +21,10 @@
 nation_sel <- reactive ({
   
   switch (
-    which(c("ssm", "ndvi") %in% input$parameter_monthly),
+    which(c("ssm", "ndvi", "fapar") %in% input$parameter_monthly),
     rs <- ssm,
-    rs <- ndvi
+    rs <- ndvi,
+    rs <- fapar
   )
   
   dats <- as.Date(
@@ -159,7 +160,7 @@ output$na_plot <- renderHighchart({
   req(values_plot_na$input)
   indicator <- nation_sel()$indicator
   
-  ytitle <- ifelse(indicator %in% c("ssm", "ndvi"),"%")
+  ytitle <- ifelse(indicator %in% c("ssm"),"%", "")
   
   hc_plot(
     input =  values_plot_na$input , xaxis_series = c("value"), filename_save = indicator,
