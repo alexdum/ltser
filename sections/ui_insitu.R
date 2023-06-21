@@ -18,9 +18,9 @@ insitu_level <- card(
   layout_sidebar(
     sidebar = filters_insitu ,
     
-    layout_column_wrap(
-      width = 1/2,
-      heights_equal = "row",
+    layout_columns(
+      # width = 1/2,
+      # heights_equal = "row",
       card(
         full_screen = T,
         leafletOutput("map_insitu", height = 450)

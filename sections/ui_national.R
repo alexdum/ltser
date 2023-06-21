@@ -46,9 +46,9 @@ national_level <- card(
   layout_sidebar(
     sidebar = filters_monthly_rs,
     
-    layout_column_wrap(
-      width = 1/2,
-      heights_equal = "row",
+    layout_columns(
+      # width = 1/2,
+      # heights_equal = "row",
       card(
         full_screen = T,
         leafletOutput("map_ltser", height = 450)
