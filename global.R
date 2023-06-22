@@ -35,8 +35,8 @@ ltser_uat <-  st_read("www/data/shp/uat_ltser.topojson", quiet = T)
 ltser_uat$name <-paste0(ltser_uat$name,"\n", ltser_uat$ltser)
 ltser_uat_union <-  st_read("www/data/shp/uat_ltser_lines_union.geojson", quiet = T)
 
-ws <- st_read("www/data/shp/ws.shp", quiet = T)
-ec <- st_read("www/data/shp/ec.shp", quiet = T)
+ws <- st_read("www/data/shp/ws.geojson", quiet = T)
+ec <- st_read("www/data/shp/ec.geojson", quiet = T)
 
 # selectare perioada de interes
 select_period <- read.csv("www/data/tabs/select_period.csv") 
