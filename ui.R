@@ -21,7 +21,7 @@ ui <- page_navbar(
     title = "In situ data",
     navset_card_tab(
       id = "tab_insitu",
-      nav_panel("Networks", insitu_level)
+      nav_panel("Lifewatch network", insitu_level)
       
     )
   ),
