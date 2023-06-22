@@ -30,9 +30,8 @@ insitu_level <- card(
       ),
       card(
         full_screen = F,
-        p("TBA")
+        uiOutput("net_desc_markdown")
         #highchartOutput("ad_plot", height = "450px")# %>% withSpinner(size = 0.5)
-        
       )
     )
   )

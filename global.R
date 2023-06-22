@@ -39,6 +39,9 @@ ws <- st_read("www/data/shp/ws.geojson", quiet = T)
 ec <- st_read("www/data/shp/ec.geojson", quiet = T)
 bu <- st_read("www/data/shp/bu.geojson", quiet = T)
 
+# network description
+net_des <- read.csv("www/data/tabs/network_description.csv")
+
 # selectare perioada de interes
 select_period <- read.csv("www/data/tabs/select_period.csv") 
 select_period <- setNames(select_period$choice, select_period$parameter)
@@ -50,10 +53,8 @@ choices_map_monthly <- setNames(choices_map_monthly$choice, choices_map_monthly$
 ssm <- terra::rast("www/data/ncs/ssm_ltser_mon.nc")
 dats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
 
-# citeste produse
 ndvi <- terra::rast("www/data/ncs/ndvi_ltser_mon.nc")
 
-# citeste produse
 
 fapar <- terra::rast("www/data/ncs/fapar_ltser_mon.nc")
 

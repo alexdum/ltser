@@ -18,5 +18,12 @@ output$map_insitu <- renderLeaflet ({
   leaflet_fun_in(
     data = insitu_sel()$admin_spat
   )
-
 })
+
+
+# network description -----------------------------------------------------
+
+output$net_desc_markdown <- renderUI({
+  HTML(net_des$description[net_des$network == input$network])
+})
+
