@@ -8,7 +8,7 @@ leaflet_fun_in <- function(data) {
     ) 
   ) %>%
     leaflet.extras::addBootstrapDependency() %>%
-    setView(25, 46, zoom = 6) |>
+    #setView(25, 46, zoom = 6) |>
     setMaxBounds(20, 43.5, 30, 48.2) |>
     addMapPane(name = "pol", zIndex = 410) %>%
     addMapPane(name = "maplabels", zIndex = 420) %>%
