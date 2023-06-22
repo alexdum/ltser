@@ -37,7 +37,7 @@ ltser_uat_union <-  st_read("www/data/shp/uat_ltser_lines_union.geojson", quiet 
 
 ws <- st_read("www/data/shp/ws.geojson", quiet = T)
 ec <- st_read("www/data/shp/ec.geojson", quiet = T)
-ec <- st_read("www/data/shp/bu.geojson", quiet = T)
+bu <- st_read("www/data/shp/bu.geojson", quiet = T)
 
 # selectare perioada de interes
 select_period <- read.csv("www/data/tabs/select_period.csv") 
