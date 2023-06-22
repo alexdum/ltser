@@ -5,8 +5,11 @@ filters_insitu <- list(
   selectInput(
     inputId = "network",
     label = "Network",
-    choices = c("Weather stations" = "ws",
-                "Eddy covariance" = "ec"),
+    choices = 
+      c("Weather stations" = "ws",
+        "Eddy covariance" = "ec",
+        "Buoys" = "bu"
+      ),
     selected =  "ws"
   )
 )

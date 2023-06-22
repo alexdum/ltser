@@ -2,9 +2,10 @@ insitu_sel <- reactive({
   net <- input$network
   # selectie unitate
   switch( # alege nume indicator care să fie afișat
-    which(c("ws", "ec") %in%  net),
+    which(c("ws", "ec", "bu") %in%  net),
     admin_spat <- ws,
-    admin_spat <- ec
+    admin_spat <- ec,
+    admin_spat <- bu
   )
   
   list(
