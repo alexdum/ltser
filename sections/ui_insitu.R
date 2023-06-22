@@ -4,7 +4,7 @@ filters_insitu <- list(
   # select_admin
   selectInput(
     inputId = "network",
-    label = "Network",
+    label = "Lifewatch network",
     choices = 
       c("Weather stations" = "ws",
         "Eddy covariance" = "ec",
