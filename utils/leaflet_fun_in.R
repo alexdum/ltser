@@ -30,7 +30,8 @@ leaflet_fun_in <- function(data) {
     addMarkers(
       data = data,
       label = ~Name,
-      group = "Network"
+      group = "Network"#
+      #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
       )
   # clearControls() |>
   # addLegend(
