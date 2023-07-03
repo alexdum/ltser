@@ -4,26 +4,32 @@ source("sections/ui_admin.R")
 source("sections/ui_insitu.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
-  selected = "Maps",
+  selected = "Remote sensing",
   collapsible = TRUE,
   fluid = T,
   inverse = F,
   theme = my_theme,
   nav_panel(
-    title = "Maps",
+    title = "Remote sensing",
     navset_card_tab(
       id = "tab_maps",
       nav_panel("National level", national_level),
       nav_panel("Admin level", admin_level)
     )
   ),
-  nav_panel (
-    title = "In situ data",
+  nav_panel(
+    title = "In situ",
     navset_card_tab(
       id = "tab_insitu",
       nav_panel("Lifewatch network", insitu_level)
-      
     )
   ),
-  nav_panel(title = "About", p("TBA") )
+  nav_panel(
+    title = "Social indicators",
+    navset_card_tab(
+      id = "tab_social",
+      nav_panel("Admin level", p("TBA"))
+    )
+  ), 
+  nav_panel(title = "About", p("TBA"))
 )
