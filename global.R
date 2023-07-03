@@ -39,6 +39,11 @@ ws <- st_read("www/data/shp/ws.geojson", quiet = T)
 ec <- st_read("www/data/shp/ec.geojson", quiet = T)
 bu <- st_read("www/data/shp/bu.geojson", quiet = T)
 
+# read social
+pop309e <- read_parquet("www/data/parquet/socio/pop309e.parquet")
+pop106a <- read_parquet("www/data/parquet/socio/pop106a.parquet")
+pop108d <- read_parquet("www/data/parquet/socio/pop108d.parquet")
+
 # network description
 net_des <- read.csv("www/data/tabs/network_description.csv")
 
@@ -50,12 +55,18 @@ choices_map_monthly <- read.csv("www/data/tabs/slelect_input_parameters_monthly.
 choices_map_monthly <- setNames(choices_map_monthly$choice, choices_map_monthly$parameter)
 
 # citeste produse
-ssm <- terra::rast("www/data/ncs/ssm_ltser_mon.nc")
-dats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
+ssm <- terra::rast("www/data/ncs/ssm_ltser_mon_dineof.nc")
+#ats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
+dats.ssm <- time(ssm)
 
 ndvi <- terra::rast("www/data/ncs/ndvi_ltser_mon.nc")
+dats.ndvi <- as.Date(names(ndvi) %>% gsub("ndvi_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
+time(ndvi) <- dats.ndvi
 
 
 fapar <- terra::rast("www/data/ncs/fapar_ltser_mon.nc")
+dats.fapar <- as.Date(names(fapar) %>% gsub("fapar_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
+time(fapar) <- dats.fapar
+
 
 
