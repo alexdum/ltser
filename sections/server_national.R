@@ -27,10 +27,7 @@ nation_sel <- reactive ({
     rs <- fapar
   )
   
-  dats <- as.Date(
-    names(rs) %>% strsplit("=") %>% do.call(rbind, .) |> as_tibble() |> 
-      select(V2) |> unlist() |> as.integer(), origin = "1970-1-1 00:00:00"
-  )
+  dats <- time(rs)
   
   index <- which(format(dats, "%Y %b") %in% input$month_indicator)
   indicator <- input$parameter_monthly
