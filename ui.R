@@ -2,6 +2,7 @@
 source("sections/ui_national.R")
 source("sections/ui_admin.R")
 source("sections/ui_insitu.R")
+source("sections/ui_social.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
   selected = "Remote sensing",
@@ -9,6 +10,7 @@ ui <- page_navbar(
   fluid = T,
   inverse = F,
   theme = my_theme,
+  id = "tabs", #id pentru activare tab when selected
   nav_panel(
     title = "Remote sensing",
     navset_card_tab(
@@ -27,8 +29,7 @@ ui <- page_navbar(
   nav_panel(
     title = "Social indicators",
     navset_card_tab(
-      id = "tab_social",
-      nav_panel("Admin level", p("TBA"))
+      nav_panel("Admin level", social_level)
     )
   ), 
   nav_panel(title = "About", p("TBA"))
