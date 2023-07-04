@@ -11,6 +11,7 @@ library(terra)
 library(reticulate)
 library(highcharter)
 library(arrow)
+library(data.table)
 
 source_python("utils/extract_point.py") 
 source("utils/leaflet_fun_na.R")
@@ -40,9 +41,9 @@ ec <- st_read("www/data/shp/ec.geojson", quiet = T)
 bu <- st_read("www/data/shp/bu.geojson", quiet = T)
 
 # read social
-pop309e <- read_parquet("www/data/parquet/socio/pop309e.parquet")
-pop106a <- read_parquet("www/data/parquet/socio/pop106a.parquet")
-pop108d <- read_parquet("www/data/parquet/socio/pop108d.parquet")
+pop106a <- read_parquet("www/data/parquet/socio/pop106a.parquet") |> setDT()  
+pop108d <- read_parquet("www/data/parquet/socio/pop108d.parquet") |> setDT()  
+pop309e <- read_parquet("www/data/parquet/socio/pop309e.parquet") |> setDT()  
 
 # network description
 net_des <- read.csv("www/data/tabs/network_description.csv")
@@ -53,6 +54,9 @@ select_period <- setNames(select_period$choice, select_period$parameter)
 
 choices_map_monthly <- read.csv("www/data/tabs/slelect_input_parameters_monthly.csv") 
 choices_map_monthly <- setNames(choices_map_monthly$choice, choices_map_monthly$parameter)
+
+socio_ages <- read.csv("www/data/tabs/select_input_socio_ages.csv") 
+socio_ages <- setNames(socio_ages$id, socio_ages$eticheta)
 
 # citeste produse
 ssm <- terra::rast("www/data/ncs/ssm_ltser_mon_dineof.nc")
