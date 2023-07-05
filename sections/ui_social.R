@@ -6,21 +6,30 @@ filters_social <- list(
     inputId = "social_indicator",
     label = "Social statistics",
     choices = 
-      c("Resident pop July 1st" = "pop106a",
+      c(#"Resident pop July 1st" = "pop106a",
         "Pop residency July 1st." = "pop108d",
         "Definitive emigrants" = "pop309e"
       ),
-    selected =  "pop106a"
-  ),
-  selectInput(
-    inputId = "social_years",
-    label = "Years",
-    choices = 2022,
-    selected =  2021
+    selected =  "pop108d"
   ),
   
   conditionalPanel(
-    condition = "input.social_indicator == 'pop106a' || input.social_indicator == 'pop108d'",
+    condition = "input.social_indicator == 'pop309e'",
+    selectInput(
+      inputId = "social_years_pop309e",
+      label = "Year",
+      choices = socio_years$pop309e 
+    )
+  ),
+  
+  
+  conditionalPanel(
+    condition = "input.social_indicator == 'pop108d'",
+    selectInput(
+      inputId = "social_years_pop108d",
+      label = "Year",
+      choices = socio_years$pop108d 
+    ),
     selectInput(
       "social_gender", "Gender",
       choices = 
@@ -31,23 +40,24 @@ filters_social <- list(
         ),
       selected = 3
     ),
-    selectInput(
-      "social_ages", "Ages",
-      choices = 
-        c(
-          "Years" = "years",
-          "All" = "all"
-        ),
-      selected = "all"
-    ),
-    conditionalPanel(
-      condition = "input.social_ages == 'years'",
-      selectInput("social_years", NULL,
+    # selectInput(
+    #   "social_ages", "Ages",
+    #   choices = 
+    #     c(
+    #       "Years" = "years",
+    #       "All" = "all"
+    #     ),
+    #   selected = "all"
+    # ),
+    # conditionalPanel(
+    #   condition = "input.social_ages == 'years'",
+      selectInput("social_agesyear", 
+                  "Ages",
                   socio_ages, 
-                  selected = socio_ages[35]
+                  selected = socio_ages[1]
                   
                   
-      )
+      #)
     )
   )
 )
