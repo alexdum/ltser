@@ -1,36 +1,54 @@
-observe({
-  if (input$tabs == "Social indicators") { # activate when only selected
-    # subset indicator
-    switch( 
-      which(c("pop106a", "pop108d", "pop309e") %in%  input$social_indicator),
-      soc_ind <- pop106a,
-      soc_ind <- pop108d,
-      soc_ind <- pop309e
-    )
-    # actualizare ani in functie de indicator
-    
-    print(head(soc_ind))
-    
-    updateSelectInput(
-      session, "social_years",
-      choices = sort(soc_ind[, unique(an)], decreasing = T),
-      selected = soc_ind[, unique(an)]  
-    )
-    
+# observeEvent(input$social_indicator, ignoreInit = T, {
+#   
+#   # update ani
+#   updateSelectizeInput(
+#     session, "social_years",
+#     choices = socio_years[[input$social_indicator]],
+#     selected = max(socio_years[[input$social_indicator]])
+#   )
+#   
+# })
+
+soc_df <- reactive({
+  print(input$social_indicator)
+  #if (input$tabs == "Social indicators") { # activate when only selected
+  # subset indicator
+  switch(
+    which(c("pop108d", "pop309e") %in% input$social_indicator),
+    #soc_ind <- pop106a,
+    soc_ind <- pop108d,
+    soc_ind <- pop309e
+  )
+  
+  if (input$social_indicator == "pop108d") {
+    soc_ind_sub <- soc_ind[an %in% input$social_years_pop108d, ]
+  } else {
+    soc_ind_sub <- soc_ind[an %in% input$social_years_pop309e, ]
   }
-  # indic <- input$industrie_ind_det
-  # if (indic %in% c("tasmaxAdjust", "hurs")) {
-  #   # luni/sezona/an
-  #   updateSelectInput(
-  #     session, "industrie_perio_det",
-  #     choices = select_interv,
-  #     selected = select_interv[1]
-  #   )
-  # } else { # doara anuala cand nu le ai pe celelalte
-  #   updateSelectInput(
-  #     session, "industrie_perio_det",
-  #     choices = select_interv[17],
-  #     selected = select_interv[17]
-  #   )
-  # }
+  
+  list(tab = soc_ind_sub)
 })
+
+observe({
+  
+  req(input$tab_socio)
+  print(head(soc_df()$tab))
+})
+
+
+
+
+
+
+
+
+#observeEvent(list(input$social_years,input$social_indicator, input$tabs ),{
+
+# observeEvent(input$social_years, {
+#   # filtrare
+#   print(head(df$soc_ind))
+#   if (input$social_indicator == "pop108d") {
+#    
+#     print(summary(soc_ind_sub))
+#   }
+# })
