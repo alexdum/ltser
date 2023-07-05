@@ -42,8 +42,8 @@ bu <- st_read("www/data/shp/bu.geojson", quiet = T)
 
 # read social
 # pop106a <- read_parquet("www/data/parquet/socio/pop106a.parquet") |> setDT()  
-pop108d <- read_parquet("www/data/parquet/socio/pop108d.parquet") |> setDT()  
-pop309e <- read_parquet("www/data/parquet/socio/pop309e.parquet") |> setDT()  
+pop108d <- open_dataset("www/data/parquet/socio/pop108d.parquet") 
+pop309e <- open_dataset("www/data/parquet/socio/pop309e.parquet") 
 socio_years <- readRDS("www/data/tabs/socio_years.rds")
 
 # network description
