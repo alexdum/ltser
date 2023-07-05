@@ -13,17 +13,23 @@ soc_df <- reactive({
   print(input$social_indicator)
   #if (input$tabs == "Social indicators") { # activate when only selected
   # subset indicator
-  switch(
-    which(c("pop108d", "pop309e") %in% input$social_indicator),
-    #soc_ind <- pop106a,
-    soc_ind <- pop108d,
-    soc_ind <- pop309e
-  )
+  # switch(
+  #   which(c("pop108d", "pop309e") %in% input$social_indicator),
+  #   #soc_ind <- pop106a,
+  #   soc_ind <- pop108d,
+  #   soc_ind <- pop309e
+  # )
   
   if (input$social_indicator == "pop108d") {
-    soc_ind_sub <- soc_ind[an %in% input$social_years_pop108d, ]
+    soc_ind_sub <- 
+      pop108d |> 
+      filter(an %in% input$social_years_pop108d, varsta %in% input$social_agesyear, sex %in% input$social_gender) |>
+      collect()
   } else {
-    soc_ind_sub <- soc_ind[an %in% input$social_years_pop309e, ]
+    soc_ind_sub <- 
+      pop309e |>
+      filter(an %in% input$social_years_pop309e) |>
+      collect()
   }
   
   list(tab = soc_ind_sub)
@@ -31,7 +37,7 @@ soc_df <- reactive({
 
 observe({
   
-  req(input$tab_socio)
+  #req(input$tab_socio)
   print(head(soc_df()$tab))
 })
 
