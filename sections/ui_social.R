@@ -51,15 +51,16 @@ filters_social <- list(
     # ),
     # conditionalPanel(
     #   condition = "input.social_ages == 'years'",
-      selectInput("social_agesyear", 
-                  "Ages",
-                  socio_ages, 
-                  selected = socio_ages[1]
-                  
-                  
-      #)
+    selectInput("social_agesyear", 
+                "Ages",
+                socio_ages, 
+                selected = socio_ages[1]
+                
+                
+                #)
     )
-  )
+  ),
+  downloadButton('downsocio', 'Get GeoJSON')
 )
 
 social_level <- card(
