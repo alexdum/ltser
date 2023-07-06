@@ -29,6 +29,7 @@ ui <- page_navbar(
   nav_panel(
     title = "Social indicators",
     navset_card_tab(
+      id = "tab_socio",
       nav_panel("Admin level", social_level)
     )
   ), 
