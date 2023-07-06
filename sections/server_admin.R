@@ -64,7 +64,6 @@ observe({
   tit_leg = admin_sel()$tit_leg
   data <- admin_sel()$admin_spat_sub
   pal <- admin_sel()$pal
-  data <- admin_sel()$admin_spat_sub
   
   proxy <- leafletProxy("map_ltser_ad", data = data) |>
     clearShapes() |>
