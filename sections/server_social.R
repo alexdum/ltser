@@ -10,7 +10,7 @@
 # })
 
 soc_df <- reactive({
-
+  
   if (input$social_indicator == "pop108d") {
     soc_ind_sub <- 
       pop108d |> 
@@ -28,7 +28,7 @@ soc_df <- reactive({
       collect() 
     
     soc_ind_sub <- soc_ind_sub |> filter(an %in% input$social_years_pop309e) 
-     
+    
     
     year_filt <- input$social_years_pop309e
   }
@@ -69,6 +69,8 @@ observe({
   pal_rev = soc_df()$pal_rev
   tit_leg = soc_df()$tit_leg
   
+  lab_legend <- labelFormat(transform = function(x) sort(x, decreasing = TRUE), digits = 0)
+  
   proxy <- leafletProxy("map_ltser_social", data = data) |>
     clearShapes() |>
     addPolygons(
@@ -97,9 +99,9 @@ observe({
     addLegend(
       title = tit_leg,
       "bottomleft", pal = pal_rev, values = ~value, opacity = 1,
-      labFormat = labelFormat(transform = function(x) sort(x/1000, decreasing = TRUE), digits = 0)
+      labFormat = lab_legend
     ) 
-    
+  
 })
 
 # reactive values pentru plot lst time series 
@@ -110,18 +112,18 @@ values_plot_so <- reactiveValues(
 # valori initiale de start
 observeEvent(list(isolate(input$tab_socio),input$social_indicator, isolate(input$social_years_pop309e), 
                   isolate(input$social_years_pop108d), input$social_gender, input$social_agesyear),{
-  tab <- soc_df()$tab
-  admin_spat_sub <- soc_df()$socio_spat
-  first_sel <- sample(1:nrow(admin_spat_sub), 1)
-  values_plot_so$id <- admin_spat_sub$natcode[first_sel]
-  values_plot_so$name <- admin_spat_sub$name[admin_spat_sub$natcode == values_plot_so$id]
-  values_plot_so$input <-
-    tab |>
-    filter(uat %in% values_plot_so$id) |>
-    select(date, value) #|>
- 
-  
-})
+                    tab <- soc_df()$tab
+                    admin_spat_sub <- soc_df()$socio_spat
+                    first_sel <- sample(1:nrow(admin_spat_sub), 1)
+                    values_plot_so$id <- admin_spat_sub$natcode[first_sel]
+                    values_plot_so$name <- admin_spat_sub$name[admin_spat_sub$natcode == values_plot_so$id]
+                    values_plot_so$input <-
+                      tab |>
+                      filter(uat %in% values_plot_so$id) |>
+                      select(date, value) #|>
+                    
+                    
+                  })
 
 
 # update plot by click
@@ -156,13 +158,11 @@ output$so_plot <- renderHighchart({
   )
 })
 
-#observeEvent(list(input$social_years,input$social_indicator, input$tabs ),{
+# pentru descarcare fisier Geotiff
+output$downsocio <- downloadHandler(
+  filename = function() { paste0(input$social_indicator,".geojson") },
+  content = function(file) {
+    st_write(soc_df()$socio_spat, file, driver = "GeoJSON", quiet = T, delete_layer = T)
+  })
 
-# observeEvent(input$social_years, {
-#   # filtrare
-#   print(head(df$soc_ind))
-#   if (input$social_indicator == "pop108d") {
-#    
-#     print(summary(soc_ind_sub))
-#   }
-# })
+
