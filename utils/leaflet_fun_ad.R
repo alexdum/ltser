@@ -1,5 +1,11 @@
 # functie harta
-leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg) {
+leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg, indicator = NA) {
+  
+  if (indicator %in% c("pop108d", "pop309e")) {
+    label_legend <- labelFormat(transform = function(x) sort(x/1000, decreasing = TRUE), digits = 0)
+  } else {
+    label_legend <- labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+  }
   
   map <- leaflet(
     data = data,
@@ -55,7 +61,7 @@ leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg) {
     addLegend(
       title = tit_leg,
       "bottomleft", pal = pal_rev, values = ~value, opacity = 1,
-      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+      labFormat = label_legend
     ) 
   return(map)
 }
