@@ -33,6 +33,14 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
     leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "FAPAR","</html>")
   }
   
+  if (indic %in% c("pop309e", "pop108d")) {
+    df.col <- data.frame(
+      cols = rev(viridis::plasma(7)), 
+      vals = quantile(domain, probs = c(0,0.025, 0.05, 0.1, 0.33,0.66, 1))
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 3))), "No persons [K]","</html>")
+  }
+  
   # print(head(df.col))
   # print(domain)
   ints <- findInterval(domain, df.col$vals, rightmost.closed = T, left.open = F)
