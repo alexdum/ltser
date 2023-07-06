@@ -1,8 +1,8 @@
 # functie harta
 leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg, indicator = NA) {
   
-  if (indicator %in% c("pop108d", "pop309e")) {
-    label_legend <- labelFormat(transform = function(x) sort(x/1000, decreasing = TRUE), digits = 0)
+  if (indicator %in% c("pop108d","pop309e")) {
+    label_legend <- labelFormat(transform = function(x) sort(x, decreasing = TRUE), digits = 0)
   } else {
     label_legend <- labelFormat(transform = function(x) sort(x, decreasing = TRUE))
   }
