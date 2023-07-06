@@ -7,7 +7,7 @@ filters_social <- list(
     label = "Social statistics",
     choices = 
       c(#"Resident pop July 1st" = "pop106a",
-        "Pop residency July 1st." = "pop108d",
+        "Pop residency" = "pop108d",
         "Definitive emigrants" = "pop309e"
       ),
     selected =  "pop108d"
@@ -34,9 +34,9 @@ filters_social <- list(
       "social_gender", "Gender",
       choices = 
         c(
+          "All" = 3,
           "Famale" = 1,
-          "Male" = 2,
-          "All" = 3
+          "Male" = 2
         ),
       selected = 3
     ),
@@ -73,14 +73,12 @@ social_level <- card(
       # heights_equal = "row",
       card(
         full_screen = T,
-        #leafletOutput("map_insitu", height = 450)
-        p("TBA")
+        leafletOutput("map_ltser_social", height = 450)
       ),
       card(
         full_screen = F,
         #uiOutput("net_desc_markdown")
-        #highchartOutput("ad_plot", height = "450px")# %>% withSpinner(size = 0.5)
-        p("TBA")
+        highchartOutput("so_plot", height = "450px")# %>% withSpinner(size = 0.5)
       )
     )
   )
