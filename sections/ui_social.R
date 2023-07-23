@@ -35,8 +35,8 @@ filters_social <- list(
       choices = 
         c(
           "All" = 3,
-          "Famale" = 1,
-          "Male" = 2
+          "Famales" = 1,
+          "Males" = 2
         ),
       selected = 3
     ),
@@ -52,7 +52,7 @@ filters_social <- list(
     # conditionalPanel(
     #   condition = "input.social_ages == 'years'",
     selectInput("social_agesyear", 
-                "Ages",
+                "Age",
                 socio_ages, 
                 selected = socio_ages[1]
                 
@@ -81,6 +81,11 @@ social_level <- card(
         #uiOutput("net_desc_markdown")
         highchartOutput("so_plot", height = "450px")# %>% withSpinner(size = 0.5)
       )
+      
     )
+  ),
+  card_footer(
+    class = "fs-6",
+    "Social statistics are provided by RODA"
   )
 )
