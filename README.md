@@ -1,2 +1,2 @@
 # Romanian LTSER Explorer
-http://localhost:8787/
+http://193.226.53.30/ltser/
