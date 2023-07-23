@@ -64,7 +64,7 @@ filters_social <- list(
 )
 
 social_level <- card(
-  max_height = 550,
+  fill = F,
   full_screen = F,
   layout_sidebar(
     sidebar = filters_social ,
@@ -86,6 +86,6 @@ social_level <- card(
   ),
   card_footer(
     class = "fs-6",
-    "Social statistics are provided by RODA"
+    "Social statistics are provided by RODA (http://statistici.roda.ro/)"
   )
 )
