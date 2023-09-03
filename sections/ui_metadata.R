@@ -1,5 +1,5 @@
 
-filters_insitu <- list(
+filters_metadata <- list(
   
   # select_admin
   selectInput(
@@ -15,11 +15,11 @@ filters_insitu <- list(
 )
 
 
-insitu_level <- card(
+metadata_level <- card(
   fill = F,
   full_screen = F,
   layout_sidebar(
-    sidebar = filters_insitu ,
+    sidebar = filters_metadata,
     
     layout_columns(
       # width = 1/2,

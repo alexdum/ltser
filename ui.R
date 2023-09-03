@@ -1,7 +1,7 @@
 # reconfigurare menu https://rstudio.github.io/bslib/reference/navs.html#details
 source("sections/ui_national.R")
 source("sections/ui_admin.R")
-source("sections/ui_insitu.R")
+source("sections/ui_metadata.R")
 source("sections/ui_social.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
@@ -20,10 +20,10 @@ ui <- page_navbar(
     )
   ),
   nav_panel(
-    title = "In situ",
+    title = "Lifewatch networks",
     navset_card_tab(
-      id = "tab_insitu",
-      nav_panel("Lifewatch network", insitu_level)
+      id = "tab_metadata",
+      nav_panel("Metadata", metadata_level)
     )
   ),
   nav_panel(
