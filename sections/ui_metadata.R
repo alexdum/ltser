@@ -26,7 +26,7 @@ metadata_level <- card(
       # heights_equal = "row",
       card(
         full_screen = T,
-        leafletOutput("map_insitu", height = 450)
+        leafletOutput("map_metadata", height = 450)
       ),
       card(
         full_screen = F,

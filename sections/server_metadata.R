@@ -1,4 +1,4 @@
-insitu_sel <- reactive({
+metadata_sel <- reactive({
   net <- input$network
   # selectie unitate
   switch( # alege nume indicator care să fie afișat
@@ -14,12 +14,27 @@ insitu_sel <- reactive({
 })
 
 # harta leaflet -----------------------------------------------------------
-output$map_insitu <- renderLeaflet ({
+output$map_metadata <- renderLeaflet({
   leaflet_fun_in(
-    data = insitu_sel()$admin_spat
+    data = isolate(metadata_sel()$admin_spat)
   )
 })
 
+observe({
+  data <- metadata_sel()$admin_spat
+  # pentru zoom pe noul set de date
+  bbox <- st_bbox(data) |> as.vector()
+  
+  leafletProxy("map_metadata", data = data) |>
+    mapOptions(zoomToLimits="first") |>
+    clearMarkers() |>
+    addMarkers(
+      label = ~Name,
+      group = "Network"#
+      #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
+    ) |> 
+    fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) 
+})
 
 # network description -----------------------------------------------------
 
