@@ -11,18 +11,21 @@ metadata_sel <- reactive({
   list(
     admin_spat = admin_spat
   )
+  
+  
 })
+
 
 # harta leaflet -----------------------------------------------------------
 output$map_metadata <- renderLeaflet({
-  leaflet_fun_in(
+  leaflet_fun_meta(
     data = isolate(metadata_sel()$admin_spat)
   )
 })
 
 observe({
   data <- metadata_sel()$admin_spat
-  # pentru zoom pe noul set de date
+  # pentru zoom retea observatii vizualizata
   bbox <- st_bbox(data) |> as.vector()
   
   leafletProxy("map_metadata", data = data) |>
@@ -30,15 +33,44 @@ observe({
     clearMarkers() |>
     addMarkers(
       label = ~Name,
-      group = "Network"#
+      group = "Network",
+      layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
-    ) |> 
+    ) |> # pentru zoom limite retea incarcata
     fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) 
 })
 
 # network description -----------------------------------------------------
+meta_desc <- reactiveValues(description = NULL, id = NULL, network = NULL)
+
+
+observeEvent(list(input$map_metadata_marker_click$id),{
+  meta_desc$id <- input$map_metadata_marker_click$id
+  
+  df <- metadata_sel()$admin_spat
+  meta_desc$description <- df$Name[df$Name == meta_desc$id]
+})
+
+#observe iar pentru resetare valori metadata
+observeEvent(input$network,{
+  meta_desc$description <- NULL
+})
 
 output$net_desc_markdown <- renderUI({
-  HTML(net_des$description[net_des$network == input$network])
+  if(!is.null(meta_desc$description)) {
+    HTML(
+      net_des$description[net_des$network == input$network],
+      "<br/>", "<br/>",
+      meta_desc$description
+    ) 
+  } else {
+    HTML(
+      net_des$description[net_des$network == input$network]
+    ) 
+  }
+  
+  
 })
+
+
 
