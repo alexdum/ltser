@@ -32,7 +32,8 @@ observe({
     mapOptions(zoomToLimits="first") |>
     clearMarkers() |>
     addMarkers(
-      label = ~Name,
+      label =  ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1' color='#E95420'>Click to
+                       get additional info</font>") %>% lapply(htmltools::HTML),
       group = "Network",
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
@@ -41,17 +42,14 @@ observe({
 })
 
 # network description -----------------------------------------------------
-meta_desc <- reactiveValues(description = NULL, id = NULL, network = NULL)
+meta_desc <- reactiveValues(description = NULL)
 
-
-observeEvent(list(input$map_metadata_marker_click$id),{
-  meta_desc$id <- input$map_metadata_marker_click$id
-  
+observeEvent(input$map_metadata_marker_click$id,{
   df <- metadata_sel()$admin_spat
-  meta_desc$description <- df$Name[df$Name == meta_desc$id]
+  meta_desc$description <- df$Name[df$Name == input$map_metadata_marker_click$id]
 })
 
-#observe iar pentru resetare valori metadata
+#observe iar pentru resetare valori metadata in functie de retea
 observeEvent(input$network,{
   meta_desc$description <- NULL
 })
