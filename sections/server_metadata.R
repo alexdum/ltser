@@ -49,10 +49,10 @@ observeEvent(input$map_metadata_marker_click$id,{
   meta_desc$description <- 
     df[df$Name == input$map_metadata_marker_click$id,] |> 
     as.data.frame() |>
-    select(Name, Locality, County) |>
+    select(Name, Locality, County, geometry) |>
+    rename(Coordinates = geometry) |>
     knitr::kable("html") |>
     kableExtra::kable_styling()
-  print( meta_desc$description)
 })
 
 #observe iar pentru resetare valori metadata in functie de retea
