@@ -29,7 +29,8 @@ leaflet_fun_meta <- function(data) {
     ) |>
     addMarkers(
       data = data,
-      label = ~Name,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1' color='#E95420'>Click to
+                       get additional info</font>") %>% lapply(htmltools::HTML),
       group = "Network",
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
