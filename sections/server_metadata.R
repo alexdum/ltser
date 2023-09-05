@@ -46,7 +46,13 @@ meta_desc <- reactiveValues(description = NULL)
 
 observeEvent(input$map_metadata_marker_click$id,{
   df <- metadata_sel()$admin_spat
-  meta_desc$description <- df$Name[df$Name == input$map_metadata_marker_click$id]
+  meta_desc$description <- 
+    df[df$Name == input$map_metadata_marker_click$id,] |> 
+    as.data.frame() |>
+    select(Name, locality, county) |>
+    knitr::kable("html") |>
+    kableExtra::kable_styling()
+  print( meta_desc$description)
 })
 
 #observe iar pentru resetare valori metadata in functie de retea
