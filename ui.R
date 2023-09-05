@@ -2,6 +2,7 @@
 source("sections/ui_national.R")
 source("sections/ui_admin.R")
 source("sections/ui_metadata.R")
+source("sections/ui_data.R")
 source("sections/ui_social.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
@@ -24,7 +25,7 @@ ui <- page_navbar(
     navset_card_tab(
       id = "tab_metadata",
       nav_panel("Metadata", metadata_level),
-      nav_panel("Data", "TBA")
+      nav_panel("Data", data_level)
     )
   ),
   nav_panel(
