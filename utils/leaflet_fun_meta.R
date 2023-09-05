@@ -1,5 +1,5 @@
 # functie harta
-leaflet_fun_in <- function(data) {
+leaflet_fun_meta <- function(data) {
   
   map <- leaflet(
     #data = data,
@@ -30,7 +30,8 @@ leaflet_fun_in <- function(data) {
     addMarkers(
       data = data,
       label = ~Name,
-      group = "Network"#
+      group = "Network",
+      layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
       )
   # clearControls() |>
