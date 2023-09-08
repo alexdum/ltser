@@ -49,8 +49,8 @@ observeEvent(input$map_metadata_marker_click$id,{
   meta_desc$description <- 
     df[df$Name == input$map_metadata_marker_click$id,] |> 
     as.data.frame() |>
-    select(Name, Locality, County, geometry) |>
-    rename(Coordinates = geometry) |>
+    select(Name, Locality, County, Parameters, geometry) |>
+    rename(Coordinates = geometry, `Parameters measured` = Parameters) |>
     knitr::kable("html") |>
     kableExtra::kable_styling()
 })
