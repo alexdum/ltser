@@ -18,9 +18,9 @@
 # })
 
 
-nation_sel <- reactive ({
+nation_sel <- reactive({
   
-  switch (
+  switch(
     which(c("ssm", "ndvi", "fapar") %in% input$parameter_monthly),
     rs <- ssm,
     rs <- ndvi,
@@ -38,7 +38,7 @@ nation_sel <- reactive ({
   
   
   list(rs = rs, index = index, domain = domain, pal =  map_leg$pal, pal_rev =  map_leg$pal_rev,  
-       tit_leg  =   map_leg$tit_leg,  indicator= indicator)
+       tit_leg  =   map_leg$tit_leg,  indicator = indicator)
 })
 
 # harta leaflet -----------------------------------------------------------
