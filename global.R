@@ -76,5 +76,10 @@ fapar <- terra::rast("www/data/ncs/fapar_ltser_mon.nc")
 dats.fapar <- as.Date(names(fapar) %>% gsub("fapar_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
 time(fapar) <- dats.fapar
 
+# read meteo
+tenmins <- open_dataset("www/data/parquet/meteo/tenmins/")
+hourly <- open_dataset("www/data/parquet/meteo/hourly/")
+daily <- open_dataset("www/data/parquet/meteo/daily/")
+
 
 
