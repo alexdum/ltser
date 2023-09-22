@@ -1,0 +1,12 @@
+choice,parameter
+tmin_01h,Minimum air temperature
+tmean_01h,Mean air temperature
+tmax_01h,Maximum iar temperature
+psmin_01h,Minimum airpressure
+psmean_01h,Mean air pressure
+psmax_01h,Maximum air pressure
+hurmin_01h,Minimum relative  humidity
+hurmean_01h,Relative humidity
+hurmax_01h,Maximum relative humidity
+wsmax_01h,Maximum wind speed
+wsavg_01h,Mean wind speed
