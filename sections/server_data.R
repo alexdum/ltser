@@ -36,7 +36,7 @@ data_sel <- reactive({
       hourly = input$datetime_meteo,
       daily = input$date_meteo
     )
-  print(input$input$parameter_meteo)
+  print(input$parameter_meteo)
   print(timesel_sub)
   
   data_sub <- data_sub |> 
