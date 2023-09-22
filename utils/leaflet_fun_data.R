@@ -1,8 +1,8 @@
 # functie harta
-leaflet_fun_data <- function(data) {
+leaflet_fun_data <- function(data, qpal) {
   
   map <- leaflet(
-    #data = data,
+    data = data,
     options = leafletOptions(
       minZoom = 6, maxZoom = 12
     ) 
@@ -14,7 +14,7 @@ leaflet_fun_data <- function(data) {
     addMapPane(name = "maplabels", zIndex = 420) %>%
     addProviderTiles( "CartoDB.PositronNoLabels")   %>% 
     addEasyButton(
-      easyButton (
+      easyButton(
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
         onClick = JS("function(btn, map){ map.setView([46, 25], 3); }")
       )
@@ -27,14 +27,25 @@ leaflet_fun_data <- function(data) {
       options = pathOptions(pane = "maplabels"),
       group = "Labels"
     ) |>
-    addMarkers(
-      data = data,
-      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1' color='#E95420'>Click to
-                       get data</font>") %>% lapply(htmltools::HTML),
+    addCircles(
+      stroke = FALSE,
+      radius = 13000, weight = 5,
+      color = ~qpal(values), fillOpacity = 1,
+      
+      label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
+      #                  get data</font>") %>% lapply(htmltools::HTML),
       group = "Network",
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
+      ) |>
+    addLabelOnlyMarkers(
+      label = ~as.character(values),
+      labelOptions = labelOptions(
+        noHide = TRUE, textOnly = TRUE,
+        direction = "center", offset = c(0,0), sticky = T,
+        fontsize = 14
       )
+    )
   # clearControls() |>
   # addLegend(
   #   title = tit_leg,

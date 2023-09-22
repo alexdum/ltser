@@ -38,7 +38,7 @@ filters_data <- list(
       maxDate = max(hourly_dats$time),
       timepicker = TRUE,
       autoClose = T,
-      timepickerOpts = timepickerOptions(
+      timepickerOpts =  shinyWidgets::timepickerOptions(
         hoursStep = 1,
         timeFormat = "HH",
         minutesStep = 60
