@@ -24,8 +24,8 @@ ui <- page_navbar(
     title = "Lifewatch networks",
     navset_card_tab(
       id = "tab_metadata",
-      nav_panel("Metadata", metadata_level),
-      nav_panel("Data", data_level)
+      nav_panel("Data", data_level),
+      nav_panel("Metadata", metadata_level)
     )
   ),
   nav_panel(
