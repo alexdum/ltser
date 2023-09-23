@@ -35,7 +35,7 @@ data_sel <- reactive({
   
   # join cu datele spatiale
   admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
-  print(range(admin_spat$values))
+  #print(range(admin_spat$values))
   map_leg <- mapa_fun_cols(indic = param_sub, domain = range(admin_spat$values))
 
   list(
