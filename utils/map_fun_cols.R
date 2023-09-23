@@ -64,7 +64,7 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
   
   if (substr(indic,1,2) %in% c("hu")) { # pentru toate temperaturile
     df.col <- data.frame(
-      cols = colinnt_hurs(12), 
+      cols = colint_hurs(12), 
       vals = c(seq(0,90,10),95,100)							
     ) 
     leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 4))), "%","</html>")
