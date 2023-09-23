@@ -33,9 +33,9 @@ filters_data <- list(
       inputId = "datetime_meteo",
       label = "Date/Time:",
       multiple = F,
-      value = max(hourly_dats$time) - 3600*3,
-      minDate = min(hourly_dats$time) - 3600*3,
-      maxDate = max(hourly_dats$time) - 3600*3,
+      value = as.character(max(hourly_dats$time)), # transforma in caracater sa nu le decaleze
+      minDate = as.character(min(hourly_dats$time)),
+      maxDate = as.character(max(hourly_dats$time)),
       timepicker = TRUE,
       autoClose = T,
       timepickerOpts =  shinyWidgets::timepickerOptions(
@@ -51,9 +51,9 @@ filters_data <- list(
       inputId = "date_meteo",
       label = "Date:",
       multiple = F,
-      value = max(daily_dats$time),
-      minDate = min(daily_dats$time),
-      maxDate = max(daily_dats$time),
+      value = as.character(max(daily_dats$time)),
+      minDate = as.character(min(daily_dats$time)),
+      maxDate = as.character(max(daily_dats$time)),
       timepicker = F,
       autoClose = T
     )
