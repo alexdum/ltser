@@ -87,7 +87,6 @@ daily_dats <- daily |> select(time) |> distinct() |> arrange(desc(time)) |> coll
 hourly_dats <- 
   hourly |> select(time) |> distinct() |> arrange(desc(time)) |> collect() |>
   filter(as.Date(time) <= max(daily_dats$time))
-  print(max(hourly_dats$time))
 
 # selectare meteo parametri
 select_meteo_daily <- read.csv("www/data/tabs/select_input_meteo_daily.csv") 
