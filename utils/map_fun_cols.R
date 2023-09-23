@@ -1,6 +1,11 @@
 colintRdYlBu <- colorRampPalette(brewer.pal(10,"RdYlBu"),interpolate = "linear")
 colintYlGn <- colorRampPalette(brewer.pal(9,"YlGn"),interpolate = "linear")
 colintRdYlGn <- colorRampPalette(brewer.pal(11,"RdYlGn"),interpolate = "linear")
+cols_temp <- c("#F7FCFD","#EBF4F8","#E0ECF4","#CFDFED","#BFD3E6","#AEC7E0","#9EBCDA","#95A9D0","#8C96C6","#8C80BB", "#8C6BB1", "#8A56A7","#88419D","#0000ff","#0049ff","#0072ff","#00a3ff","#00ccff","#00e5ff","#00ffff","#007700","#009900","#00bb00","#00dd00","#00ff00","#7fff00","#cfff00","#ffff00","#ffe500","#ffcc00","#ffad00","#ff9900","#ff7f00","#FF4E00","#F23A00","#E42700","#D81300","#CB0000","#A62137","#9D3673","#813986","#532B6E")
+colint_pres <- colorRampPalette(c("#49234E","#893782","#A25492","#644F92","#326BAA","#5EBCDB","#FFFFFF","#78BF4D","#C4D72C","#EFA633","#E3642F", "#DC3632"))
+colint_hurs <- colorRampPalette(brewer.pal(11,"Spectral"),interpolate = "linear")
+colint_wind <- colorRampPalette(brewer.pal(9,"PuRd"),interpolate = "linear")
+
 
 mapa_fun_cols <- function(indic = NA,  domain = NA) {
   # culori interpolate
@@ -41,6 +46,39 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
     leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 3))), "No persons","</html>")
   }
   
+  if (substr(indic,1,2) %in% c("tm")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = cols_temp, 
+      vals = c(-40,-38,-36,-34,-32,-30,-28,-26,-24,-22,-20,-18,-16,-14,-12,-10,-8,-6,-4,-2,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42)							
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "°C","</html>")
+  }
+  
+  if (substr(indic,1,2) %in% c("ps")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_hurs(19), 
+      vals = seq(960,1050,5)							
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 6))), "hPa","</html>")
+  }
+  
+  if (substr(indic,1,2) %in% c("hu")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colinnt_hurs(12), 
+      vals = c(seq(0,90,10),95,100)							
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 4))), "%","</html>")
+  }
+  
+  if (substr(indic,1,2) %in% c("ws")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_wind(13), 
+      vals = c(0,0.5,1,2,3,4,6,8,10,15,20,30,40)						
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 3))), "m/s","</html>")
+  }
+  
+  
   # print(head(df.col))
   # print(domain)
   ints <- findInterval(domain, df.col$vals, rightmost.closed = T, left.open = F)
@@ -58,23 +96,5 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
   
 }
 
-# indicators_def <- function(indicators) {
-#   switch (
-#     which(c("heatuspring","heatufall","scorchno","scorchu", "coldu","frostu10", "frostu15","frostu20","prveget", "prfall", "prwinter" ) %in%  indicators),
-#     
-#     text.desc <- "Cumulative heat units (ΣTmed. > 0°C) in the period 01 February - 10 April",
-#     text.desc <- "Cumulative heat units (ΣTmed. > 0°C) in the period 01 September - 31 October",
-#     text.desc <- "Scorching heat units (ΣTmax. ≥ 32°C) from 1 June to 31 August",
-#     text.desc <- "Scorching heat number of days (Tmax. ≥ 32°C) from 1 June to 31 August",
-#     text.desc <- "Cold units (ΣTmed. < 0°C) cumulated during the period 01 November - 31 March",
-#     text.desc <- "Frost units (ΣTmin. ≤ -10°C) cumulated in the period 01 December - 28/29 February",
-#     text.desc <- "Frost units (ΣTmin. ≤ -15°C) cumulated in the period 01 December - 28/29 February",
-#     text.desc <- "Frost units (ΣTmin. ≤ -20°C) cumulated in the period 01 December - 28/29 February",
-#     text.desc <- "Precipitatin amounts (l/m²) during the autumn wheat growing season, 01 September to 30 June",
-#     text.desc <- "Precipitation amounts (l/m²) during the autumn sowing period, 01 September - 31 October",
-#     text.desc <- "Precipitation amounts (l/m²) during the soil water accumulation period, 01 November - 31 March",
-#   )
-#   return(text.desc)
-#   
-# }
+
 

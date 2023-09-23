@@ -24,21 +24,23 @@ data_sel <- reactive({
       hourly = input$datetime_meteo,
       daily = input$date_meteo
     )
- 
+  
   data_sel <- data_sub |> 
     mutate(time = time) |>
     filter(
       variable == param_sub,
-      time %in% timesel_sub
+      time %in% timesel_sub,
+      !is.na(values)
     ) |> collect()
   
- 
+  # join cu datele spatiale
   admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
-  # print(admin_spat )
-  
-  
+  print(range(admin_spat$values))
+  map_leg <- mapa_fun_cols(indic = param_sub, domain = range(admin_spat$values))
+
   list(
-    admin_spat = admin_spat
+    admin_spat = admin_spat, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
+    tit_leg = map_leg$tit_leg,  param_sub =  param_sub 
   )
   
 })
@@ -46,30 +48,37 @@ data_sel <- reactive({
 
 # harta leaflet -----------------------------------------------------------
 output$map_data <- renderLeaflet({
-  qpal <- colorQuantile("YlOrRd", isolate(data_sel()$admin_spat$values), n = 3)
-  leaflet_fun_data(
-    data = isolate(data_sel()$admin_spat), qpal = isolate(qpal)
+  
+   leaflet_fun_data(
+    data = isolate(data_sel()$admin_spat),
+    pal =  isolate(data_sel()$pal),
+    pal_rev =  isolate(data_sel()$pal_rev),
+    tit_leg = isolate(data_sel()$tit_leg)
   )
 })
 
 observe({
+  
+  pal_rev =  data_sel()$pal_rev
+  tit_leg = data_sel()$tit_leg
+  data <- data_sel()$admin_spat_sub
+  pal <- data_sel()$pal
   data <- data_sel()$admin_spat
   # pentru zoom retea observatii vizualizata
   bbox <- st_bbox(data) |> as.vector()
-  qpal <- colorQuantile("YlOrRd", data$values, n = 3)
   leafletProxy("map_data", data = data) |>
     mapOptions(zoomToLimits = "first") |>
-    #clearMarkers() |>
+    clearShapes() |>
     addCircles(
       stroke = FALSE,
       radius = 13000, weight = 5,
-      color = ~qpal(values), fillOpacity = 1,
+      color = ~pal(values), fillOpacity = 1,
       label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
       #                  get data</font>") %>% lapply(htmltools::HTML),
       group = "Network",
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
-    )  |>
+    ) |>
     clearMarkers() |>
     addLabelOnlyMarkers(
       label = ~values,
@@ -79,9 +88,19 @@ observe({
         fontsize = 14
       )
     ) |> # pentru zoom limite retea incarcata
-    fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) 
+    fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) |>
+    clearControls() |>
+    addLegend(
+      title = tit_leg,
+      "bottomleft", pal = pal_rev, values = ~values, opacity = 1,
+      labFormat = labelFormat(transform = function(x) sort(x, decreasing = TRUE))
+    ) 
 })
 
+# update plot by click
+observeEvent(input$map_data_shape_click$id,{ 
+  print(input$map_data_shape_click$id)
+})
 
 
 
