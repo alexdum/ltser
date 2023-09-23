@@ -79,11 +79,11 @@ time(fapar) <- dats.fapar
 # read meteo
 tenmins <- open_dataset("www/data/parquet/meteo/tenmins/")
 tenmins_dats <- tenmins |> select(time) |> distinct() |> arrange(desc(time)) |> collect() 
-hourly <- open_dataset("www/data/parquet/meteo/hourly/")
 
 daily <- open_dataset("www/data/parquet/meteo/daily/")
 daily_dats <- daily |> select(time) |> distinct() |> arrange(desc(time)) |> collect() 
 
+hourly <- open_dataset("www/data/parquet/meteo/hourly/")
 hourly_dats <- hourly |> select(time) |> distinct() |> arrange(desc(time)) |> collect()
 
 
@@ -93,3 +93,4 @@ select_meteo_daily <- setNames(select_meteo_daily$choice, select_meteo_daily$par
 select_meteo_hourly <- read.csv("www/data/tabs/select_input_meteo_hourly.csv") 
 select_meteo_hourly <- setNames(select_meteo_hourly$choice, select_meteo_hourly$parameter)
 
+#  rsync -av ~/projects/ltser/www/  vizualizare@10.45.4.42:projects/ltser/www
