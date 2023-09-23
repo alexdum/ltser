@@ -12,7 +12,7 @@ library(reticulate)
 library(highcharter)
 library(arrow)
 library(data.table)
-
+Sys.setenv(TZ = "GMT") 
 source_python("utils/extract_point.py") 
 source("utils/leaflet_fun_na.R")
 source("utils/leaflet_fun_ad.R")
@@ -80,9 +80,14 @@ time(fapar) <- dats.fapar
 tenmins <- open_dataset("www/data/parquet/meteo/tenmins/")
 tenmins_dats <- tenmins |> select(time) |> distinct() |> arrange(desc(time)) |> collect() 
 hourly <- open_dataset("www/data/parquet/meteo/hourly/")
-hourly_dats <- hourly |> select(time) |> distinct() |> arrange(desc(time)) |> collect() 
+
 daily <- open_dataset("www/data/parquet/meteo/daily/")
 daily_dats <- daily |> select(time) |> distinct() |> arrange(desc(time)) |> collect() 
+
+hourly_dats <- 
+  hourly |> select(time) |> distinct() |> arrange(desc(time)) |> collect() |>
+  filter(as.Date(time) <= max(daily_dats$time))
+  print(max(hourly_dats$time))
 
 # selectare meteo parametri
 select_meteo_daily <- read.csv("www/data/tabs/select_input_meteo_daily.csv") 
