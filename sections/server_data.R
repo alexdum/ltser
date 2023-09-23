@@ -25,7 +25,6 @@ data_sel <- reactive({
       daily = input$date_meteo
     )
  
-  print(data_sub)
   data_sel <- data_sub |> 
     mutate(time = time) |>
     filter(
