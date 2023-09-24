@@ -18,26 +18,44 @@ data_sel <- reactive({
       daily =  gsub("01h", "24h", input$parameter_meteo)
     )
   
-  timesel_sub <-  # select aparm of interest
+  timesel_sub <-  # select timpe de interes timepicker
     switch(
       input$temporal_resolution,
       hourly = input$datetime_meteo,
       daily = input$date_meteo
     )
   
-  data_sel <- data_sub |> 
-    mutate(time = time) |>
+  time_threshold <-
+    switch(
+      input$temporal_resolution,
+      hourly = 3600 * 24 * 7,
+      daily = 31
+    )
+    
+  
+  data_sel <- 
+    data_sub |> 
     filter(
       variable == param_sub,
       time %in% timesel_sub,
       !is.na(values)
     ) |> collect()
   
-  # join cu datele spatiale
-  admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
+  timesel_sub2 <-  timesel_sub -  time_threshold
+  
+  # table pentru ploturi/descarcare date
+  data_sel_temp <-
+    data_sub |>
+    filter(
+      time >= timesel_sub2  & time <= timesel_sub
+    )  |> collect()
+  print(summary(data_sel_temp))
+  
+    # join cu datele spatiale
+    admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
   #print(range(admin_spat$values))
   map_leg <- mapa_fun_cols(indic = param_sub, domain = range(admin_spat$values))
-
+  
   list(
     admin_spat = admin_spat, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
     tit_leg = map_leg$tit_leg,  param_sub =  param_sub 
@@ -49,7 +67,7 @@ data_sel <- reactive({
 # harta leaflet -----------------------------------------------------------
 output$map_data <- renderLeaflet({
   
-   leaflet_fun_data(
+  leaflet_fun_data(
     data = isolate(data_sel()$admin_spat),
     pal =  isolate(data_sel()$pal),
     pal_rev =  isolate(data_sel()$pal_rev),
@@ -102,6 +120,8 @@ observeEvent(input$map_data_shape_click$id,{
   print(input$map_data_shape_click$id)
 })
 
-
-
+# update table
+observe({
+  
+})
 
