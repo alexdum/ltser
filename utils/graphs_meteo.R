@@ -1,3 +1,15 @@
+
+# filename_save <- "plot.png"
+# graph_temp <- # Your graph_temp data
+#   graph_ws <- # Your graph_ws data
+#   y1lab <- "Air temperature [°C]"
+# y2lab <- "Wind speed [m/s]"
+# cols <- c("#e34a33", "#fdbb84", "#fee8c8", "#980043", "#e7298a")
+# data1 <- graph_temp
+# data2 <- graph_ws
+# 
+# graph_meteo(data1, data2, filename_save, graph_temp, graph_ws, y1lab, y2lab, cols)
+
 graph_meteo <- function(data1, data2, filename_save, graph_temp, graph_ws, y1lab, y2lab, cols) {
   highchart(type = "stock") |>
     hc_yAxis_multiples(
@@ -19,13 +31,3 @@ graph_meteo <- function(data1, data2, filename_save, graph_temp, graph_ws, y1lab
     )
 }
 
-filename_save <- "plot.png"
-graph_temp <- # Your graph_temp data
-  graph_ws <- # Your graph_ws data
-  y1lab <- "Air temperature [°C]"
-y2lab <- "Wind speed [m/s]"
-cols <- c("#e34a33", "#fdbb84", "#fee8c8", "#980043", "#e7298a")
-data1 <- graph_temp
-data2 <- graph_ws
-
-graph_meteo(data1, data2, filename_save, graph_temp, graph_ws, y1lab, y2lab, cols)
