@@ -10,7 +10,7 @@
 # #
 # graph_meteo(data1, data2, "test", y1lab, y2lab, cols)
 
-graph_meteo <- function(data1, data2, filename_save, y1lab, y2lab, cols) {
+graph_meteo <- function(data1, data2, title, filename_save, y1lab, y2lab, cols) {
   highchart(type = "stock") |>
     hc_yAxis_multiples(
       list(title = list(text = y1lab), opposite = FALSE),
@@ -28,6 +28,7 @@ graph_meteo <- function(data1, data2, filename_save, y1lab, y2lab, cols) {
     hc_exporting(
       enabled = TRUE,
       filename = filename_save
-    )
+    ) |>
+    hc_title(text = title)
 }
 

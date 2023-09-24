@@ -139,7 +139,6 @@ observeEvent(input$map_data_shape_click$id,{
 })
 
 output$meteo_plot <- renderHighchart({
-  print(values_plot_meteo$data)
   data1 <- 
     values_plot_meteo$data |>
     filter(substr(variable,1,2) %in% data_sel()$subset_param_meteo[1]) |> 
@@ -149,13 +148,13 @@ output$meteo_plot <- renderHighchart({
     values_plot_meteo$data  |>
     filter(substr(variable,1,2) %in% data_sel()$subset_param_meteo[2]) |>
     collect() 
-  
+  # transforma orele in milisecunde
   if (input$temporal_resolution == "hourly") {
     data1$time <- as.numeric(data1$time) * 1000
     data2$time <- as.numeric(data2$time) * 1000
   }
 
-  graph_meteo(data1, data2, filename_save = "plot.png", y1lab = data_sel()$subset_param_meteo[1],  y2lab = data_sel()$subset_param_meteo[2])
+  graph_meteo(data1, data2, title = values_plot_meteo$id, filename_save = "plot.png", y1lab = data_sel()$subset_param_meteo[1],  y2lab = data_sel()$subset_param_meteo[2])
 })
 
 
