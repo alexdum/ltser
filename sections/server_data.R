@@ -116,8 +116,6 @@ observe({
     ) 
 })
 
-
-
 # reactive values pentru plot meteo
 values_plot_meteo <- reactiveValues(
   id = NA, data = NA
@@ -125,17 +123,17 @@ values_plot_meteo <- reactiveValues(
 # valoare de pronire 
 observe({
   req(isolate(input$tab_metadata))
-  values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1]
+  values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1] |> isolate()
   values_plot_meteo$data <- 
     data_sel()$data_sel_tempo |>
-    filter(id == values_plot_meteo$id)
-  
+    filter(id == values_plot_meteo$id) |> isolate()
 })
 
 # update plot by click
 observeEvent(input$map_data_shape_click$id,{ 
+  values_plot_meteo$id <- input$map_data_shape_click$id
   values_plot_meteo$data  <- data_sel()$data_sel_tempo |>
-    filter(id == input$map_data_shape_click$id) 
+    filter(id == values_plot_meteo$id) 
 })
 
 output$meteo_plot <- renderHighchart({
@@ -153,6 +151,7 @@ output$meteo_plot <- renderHighchart({
     data1$time <- as.numeric(data1$time) * 1000
     data2$time <- as.numeric(data2$time) * 1000
   }
+  print(values_plot_meteo$id)
 
   graph_meteo(data1, data2, title = values_plot_meteo$id, filename_save = "plot.png", y1lab = data_sel()$subset_param_meteo[1],  y2lab = data_sel()$subset_param_meteo[2])
 })
