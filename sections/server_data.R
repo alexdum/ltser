@@ -1,10 +1,11 @@
 data_sel <- reactive({
   net <- input$network_data
   # selectie unitate
-  switch( # alege nume indicator care să fie afișat
-    which(c("ws", "ec", "bu") %in%  net),
-    admin_spat <- ws
-  )
+  admin_spat <- 
+    switch( # alege nume indicator care să fie afișat
+      which(c("ws", "ec", "bu") %in%  net),
+      ws
+    )
   data_sub <- # select dataset
     switch(
       input$temporal_resolution,
@@ -25,14 +26,6 @@ data_sel <- reactive({
       daily = input$date_meteo
     )
   
-  time_threshold <-
-    switch(
-      input$temporal_resolution,
-      hourly = 3600 * 24 * 7,
-      daily = 31
-    )
-    
-  
   data_sel <- 
     data_sub |> 
     filter(
@@ -41,24 +34,32 @@ data_sel <- reactive({
       !is.na(values)
     ) |> collect()
   
+  time_threshold <- # pentru subset date ploturi/ descarcare
+    switch(
+      input$temporal_resolution,
+      hourly = 3600 * 24 * 7,
+      daily = 31
+    )
   timesel_sub2 <-  timesel_sub -  time_threshold
+  # selectie perechi parametri
+  subset_param_meteo <- subset_param(input$parameter_meteo)
   
   # table pentru ploturi/descarcare date
-  data_sel_temp <-
+  data_sel_tempo <-
     data_sub |>
     filter(
-      time >= timesel_sub2  & time <= timesel_sub
-    )  |> collect()
-  print(summary(data_sel_temp))
+      time >= timesel_sub2  & time <= timesel_sub,
+      substr(variable,1,2) %in%  subset_param_meteo
+    ) 
+  # join cu datele spatiale
+  admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
   
-    # join cu datele spatiale
-    admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
-  #print(range(admin_spat$values))
   map_leg <- mapa_fun_cols(indic = param_sub, domain = range(admin_spat$values))
   
   list(
     admin_spat = admin_spat, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
-    tit_leg = map_leg$tit_leg,  param_sub =  param_sub 
+    tit_leg = map_leg$tit_leg,  param_sub =  param_sub, data_sel_tempo = data_sel_tempo,
+    subset_param_meteo = subset_param_meteo
   )
   
 })
@@ -115,13 +116,46 @@ observe({
     ) 
 })
 
-# update plot by click
-observeEvent(input$map_data_shape_click$id,{ 
-  print(input$map_data_shape_click$id)
-})
 
-# update table
+
+# reactive values pentru plot meteo
+values_plot_meteo <- reactiveValues(
+  id = NA, data = NA
+)
+# valoare de pronire 
 observe({
+  req(isolate(input$tab_metadata))
+  values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1]
+  values_plot_meteo$data <- 
+    data_sel()$data_sel_tempo |>
+    filter(id == values_plot_meteo$id)
   
 })
+
+# update plot by click
+observeEvent(input$map_data_shape_click$id,{ 
+  values_plot_meteo$data  <- data_sel()$data_sel_tempo |>
+    filter(id == input$map_data_shape_click$id) 
+})
+
+output$meteo_plot <- renderHighchart({
+  print(values_plot_meteo$data)
+  data1 <- 
+    values_plot_meteo$data |>
+    filter(substr(variable,1,2) %in% data_sel()$subset_param_meteo[1]) |> 
+    collect() 
+  
+  data2 <- 
+    values_plot_meteo$data  |>
+    filter(substr(variable,1,2) %in% data_sel()$subset_param_meteo[2]) |>
+    collect() 
+  
+  if (input$temporal_resolution == "hourly") {
+    data1$time <- as.numeric(data1$time) * 1000
+    data2$time <- as.numeric(data2$time) * 1000
+  }
+
+  graph_meteo(data1, data2, filename_save = "plot.png", y1lab = data_sel()$subset_param_meteo[1],  y2lab = data_sel()$subset_param_meteo[2])
+})
+
 
