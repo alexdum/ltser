@@ -153,7 +153,7 @@ output$meteo_plot <- renderHighchart({
     data2$time <- as.numeric(data2$time) * 1000
   }
   
-  graph_meteo(data1, data2, title = values_plot_meteo$id, filename_save = "plot.png", y1lab = data_sel()$subset_param_meteo[1],  y2lab = data_sel()$subset_param_meteo[2])
+  graph_meteo(data1, data2, title = values_plot_meteo$id, filename_save = "plot.png", y1lab = subset_param_meteo[1],  y2lab = subset_param_meteo[2])
 })
 
 
