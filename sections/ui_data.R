@@ -74,9 +74,8 @@ data_level <- card(
         leafletOutput("map_data", height = 450)
       ),
       card(
-        full_screen = F,
-        "TBA"
-        #highchartOutput("ad_plot", height = "450px")# %>% withSpinner(size = 0.5)
+        full_screen = T,
+        highchartOutput("meteo_plot", height = "450px")# %>% withSpinner(size = 0.5)
       )
     )
   )
