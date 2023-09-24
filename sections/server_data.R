@@ -34,23 +34,6 @@ data_sel <- reactive({
       !is.na(values)
     ) |> collect()
   
-  time_threshold <- # pentru subset date ploturi/ descarcare
-    switch(
-      input$temporal_resolution,
-      hourly = 3600 * 24 * 7,
-      daily = 31
-    )
-  timesel_sub2 <-  timesel_sub -  time_threshold
-  # selectie perechi parametri
-  subset_param_meteo <- subset_param(input$parameter_meteo)
-  
-  # table pentru ploturi/descarcare date
-  data_sel_tempo <-
-    data_sub |>
-    filter(
-      time >= timesel_sub2  & time <= timesel_sub,
-      substr(variable,1,2) %in%  subset_param_meteo
-    ) 
   # join cu datele spatiale
   admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
   
@@ -58,8 +41,7 @@ data_sel <- reactive({
   
   list(
     admin_spat = admin_spat, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
-    tit_leg = map_leg$tit_leg,  param_sub =  param_sub, data_sel_tempo = data_sel_tempo,
-    subset_param_meteo = subset_param_meteo
+    tit_leg = map_leg$tit_leg,  param_sub =  param_sub, data_sub = data_sub, timesel_sub =   timesel_sub
   )
   
 })
@@ -121,38 +103,56 @@ values_plot_meteo <- reactiveValues(
   id = NA, data = NA
 )
 # valoare de pronire 
-observe({
-  req(isolate(input$tab_metadata))
-  values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1] |> isolate()
-  values_plot_meteo$data <- 
-    data_sel()$data_sel_tempo |>
-    filter(id == values_plot_meteo$id) |> isolate()
+observeEvent(list(isolate(input$tab_metadata),input$network_data),{
+  
+  values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1] 
+  print(values_plot_meteo$id)
 })
 
 # update plot by click
 observeEvent(input$map_data_shape_click$id,{ 
-  values_plot_meteo$id <- input$map_data_shape_click$id
-  values_plot_meteo$data  <- data_sel()$data_sel_tempo |>
-    filter(id == values_plot_meteo$id) 
+  values_plot_meteo$id <- input$map_data_shape_click$id 
+
 })
 
 output$meteo_plot <- renderHighchart({
+  
+  
+  time_threshold <- # pentru subset date ploturi/ descarcare
+    switch(
+      input$temporal_resolution,
+      hourly = 3600 * 24 * 7,
+      daily = 31
+    )
+
+  timesel_sub2 <-  data_sel()$timesel_sub -  time_threshold
+  # selectie perechi parametri
+  subset_param_meteo <- subset_param(input$parameter_meteo)
+
+  # table pentru ploturi/descarcare date
+  data_sel_tempo <-
+    data_sel()$data_sub |>
+    filter(
+      time >= timesel_sub2  & time <= data_sel()$timesel_sub,
+      substr(variable,1,2) %in%  subset_param_meteo,
+      id %in% values_plot_meteo$id
+    ) 
+
   data1 <- 
-    values_plot_meteo$data |>
-    filter(substr(variable,1,2) %in% data_sel()$subset_param_meteo[1]) |> 
+    data_sel_tempo |>
+    filter(substr(variable,1,2) %in% subset_param_meteo[1]) |> 
     collect() 
   
   data2 <- 
-    values_plot_meteo$data  |>
-    filter(substr(variable,1,2) %in% data_sel()$subset_param_meteo[2]) |>
+    data_sel_tempo  |>
+    filter(substr(variable,1,2) %in% subset_param_meteo[2]) |>
     collect() 
   # transforma orele in milisecunde
   if (input$temporal_resolution == "hourly") {
     data1$time <- as.numeric(data1$time) * 1000
     data2$time <- as.numeric(data2$time) * 1000
   }
-  print(values_plot_meteo$id)
-
+  
   graph_meteo(data1, data2, title = values_plot_meteo$id, filename_save = "plot.png", y1lab = data_sel()$subset_param_meteo[1],  y2lab = data_sel()$subset_param_meteo[2])
 })
 
