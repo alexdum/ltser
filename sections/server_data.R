@@ -153,7 +153,8 @@ output$meteo_plot <- renderHighchart({
     data2$time <- as.numeric(data2$time) * 1000
   }
   
-  graph_meteo(data1, data2, title = values_plot_meteo$id, filename_save = "plot.png", param = input$parameter_meteo)
+  tit_plot <- paste0(values_plot_meteo$id, " (", ws_df$Locality[ws_df$Name == values_plot_meteo$id]," ", ws_df$County[ws_df$Name == values_plot_meteo$id],")")
+  graph_meteo(data1, data2, title = tit_plot, filename_save = "plot.png", param = input$parameter_meteo)
 })
 
 
