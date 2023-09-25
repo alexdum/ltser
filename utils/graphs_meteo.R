@@ -10,7 +10,21 @@
 # #
 # graph_meteo(data1, data2, "test", y1lab, y2lab, cols)
 
-graph_meteo <- function(data1, data2, title, filename_save, y1lab, y2lab, cols) {
+graph_meteo <- function(data1, data2, title, filename_save, param, cols) {
+  
+  # axes labels
+  
+  axes_labels <- switch(
+    which(c("tm", "ws", "ps", "hu") %in% substr(param, 1, 2)),
+    c("Air temperature [°C]",  "Wind speed [m/s]"),
+    c("Air temperature [°C]",  "Wind speed [m/s]"),
+    c("Air_Pressure [hPa]", "Air_Humidity [%]"),
+    c("Air_Pressure [hPa]", "Air_Humidity [%]")
+  )
+  
+  y1lab  <- axes_labels[1]
+  y2lab  <- axes_labels[2]
+  
   highchart(type = "stock") |>
     hc_yAxis_multiples(
       list(title = list(text = y1lab), opposite = FALSE),
