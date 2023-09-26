@@ -77,6 +77,13 @@ data_level <- card(
         full_screen = T,
         highchartOutput("meteo_plot", height = "450px")# %>% withSpinner(size = 0.5)
       )
+    ),
+    accordion(
+      open = F,
+      accordion_panel(
+        "Show data", icon = bsicons::bs_icon("table"),
+        DT::dataTableOutput('metoe_table'),
+      )
     )
   )
 )

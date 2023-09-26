@@ -104,15 +104,13 @@ values_plot_meteo <- reactiveValues(
 )
 # valoare de pronire 
 observeEvent(list(isolate(input$tab_metadata),input$network_data),{
-  
   values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1] 
-  print(values_plot_meteo$id)
 })
 
 # update plot by click
 observeEvent(input$map_data_shape_click$id,{ 
   values_plot_meteo$id <- input$map_data_shape_click$id 
-
+  
 })
 
 output$meteo_plot <- renderHighchart({
@@ -124,11 +122,11 @@ output$meteo_plot <- renderHighchart({
       hourly = 3600 * 24 * 7,
       daily = 31
     )
-
+  
   timesel_sub2 <-  data_sel()$timesel_sub -  time_threshold
   # selectie perechi parametri
   subset_param_meteo <- subset_param(input$parameter_meteo)
-
+  
   # table pentru ploturi/descarcare date
   data_sel_tempo <-
     data_sel()$data_sub |>
@@ -137,7 +135,10 @@ output$meteo_plot <- renderHighchart({
       substr(variable,1,2) %in%  subset_param_meteo,
       id %in% values_plot_meteo$id
     ) 
-
+  
+  # pentru vizualiare data table - urmatoare sectiune
+  values_plot_meteo$data <- data_sel_tempo
+  
   data1 <- 
     data_sel_tempo |>
     filter(substr(variable,1,2) %in% subset_param_meteo[1]) |> 
@@ -155,6 +156,25 @@ output$meteo_plot <- renderHighchart({
   
   tit_plot <- paste0(values_plot_meteo$id, " (", ws_df$Locality[ws_df$Name == values_plot_meteo$id]," ", ws_df$County[ws_df$Name == values_plot_meteo$id],")")
   graph_meteo(data1, data2, title = tit_plot, filename_save = "plot.png", param = input$parameter_meteo)
+})
+
+output$metoe_table <-  DT::renderDT({
+  
+  values_plot_meteo$data |>
+    collect() |>
+    tidyr::pivot_wider(names_from = variable, values_from = values) |>
+    DT::datatable(
+      extensions = 'Buttons', rownames = F,
+      options = list(
+        dom = 'Bfrtip',digits = 1,
+        pageLength = 5, autoWidth = TRUE,
+        buttons = c('pageLength','copy', 'csv', 'excel'),
+        pagelength = 10, lengthMenu = list(c(10, 25, 100, -1), c('10', '25', '100','All')
+        )
+        
+      )
+    )
+  
 })
 
 
