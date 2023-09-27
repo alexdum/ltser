@@ -81,8 +81,9 @@ data_level <- card(
     accordion(
       open = F,
       accordion_panel(
-        "Show data", icon = bsicons::bs_icon("table"),
-        DT::dataTableOutput('metoe_table'),
+        "Data", icon = bsicons::bs_icon("table",  class = "d-flex justify-content-between align-items-center"),
+        DT::dataTableOutput('metoe_table')
+       
       )
     )
   )
