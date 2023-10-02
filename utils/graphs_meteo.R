@@ -7,8 +7,10 @@
 # data1$time <- as.numeric(data1$time) * 1000
 # data2 <- hourly |> filter(substr(variable,1,2) %in% "ws", id == "AG-Mih") |> collect()
 # data2$time <- as.numeric(data2$time) * 1000
-# #
-# graph_meteo(data1, data2, "test", y1lab, y2lab, cols)
+# title <- "test"
+# param <- "tmin_01h"
+# # #
+# graph_meteo(data1, data2, title = "test", "plot.png", param, cols)
 
 graph_meteo <- function(data1, data2, title, filename_save, param, cols) {
   
@@ -18,8 +20,8 @@ graph_meteo <- function(data1, data2, title, filename_save, param, cols) {
     which(c("tm", "ws", "ps", "hu") %in% substr(param, 1, 2)),
     c("Air temperature [°C]",  "Wind speed [m/s]"),
     c("Air temperature [°C]",  "Wind speed [m/s]"),
-    c("Air_Pressure [hPa]", "Air_Humidity [%]"),
-    c("Air_Pressure [hPa]", "Air_Humidity [%]")
+    c("Air Pressure [hPa]", "Air Humidity [%]"),
+    c("Air Pressure [hPa]", "Air Humidity [%]")
   )
   
   y1lab  <- axes_labels[1]
