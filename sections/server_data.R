@@ -142,12 +142,15 @@ output$meteo_plot <- renderHighchart({
   data1 <- 
     data_sel_tempo |>
     filter(substr(variable,1,2) %in% subset_param_meteo[1]) |> 
+    arrange(time) |>
     collect() 
   
   data2 <- 
     data_sel_tempo  |>
     filter(substr(variable,1,2) %in% subset_param_meteo[2]) |>
+    arrange(time) |>
     collect() 
+  
   # transforma orele in milisecunde
   if (input$temporal_resolution == "hourly") {
     data1$time <- as.numeric(data1$time) * 1000
