@@ -26,6 +26,7 @@ data_sel <- reactive({
       daily = input$date_meteo
     )
   
+  
   data_sel <- 
     data_sub |> 
     filter(
@@ -33,6 +34,10 @@ data_sel <- reactive({
       time %in% timesel_sub,
       !is.na(values)
     ) |> collect()
+  #mutare statii
+  data_sel$id[data_sel$id == "IF-Ste"] <- "IL-Lil"
+  data_sel$id[data_sel$id == "IF-Cor"] <- "GR-Mih"
+  
   
   # join cu datele spatiale
   admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
@@ -124,12 +129,17 @@ output$meteo_plot <- renderHighchart({
     )
   
   timesel_sub2 <-  data_sel()$timesel_sub -  time_threshold
+ 
   # selectie perechi parametri
   subset_param_meteo <- subset_param(input$parameter_meteo)
   
   # table pentru ploturi/descarcare date
   data_sel_tempo <-
     data_sel()$data_sub |>
+    mutate( # mutare statii
+      id = ifelse(id %in% "IF-Ste", "IL-Lil", id),
+      id = ifelse(id %in% "IF-Cor", "GR-Mih", id)
+    ) |>
     filter(
       time >= timesel_sub2  & time <= data_sel()$timesel_sub,
       substr(variable,1,2) %in%  subset_param_meteo,
