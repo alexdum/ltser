@@ -40,6 +40,18 @@ ltser_uat$name <- paste0(ltser_uat$name,"\n", ltser_uat$ltser)
 ltser_uat_union <-  st_read("www/data/shp/uat_ltser_lines_union.geojson", quiet = T)
 
 ws <- st_read("www/data/shp/ws.geojson", quiet = T)
+
+ws$Locality[ws$Name == "IF-Cor"] <- "Mihilești"
+ws$County[ws$Name == "IF-Cor"] <- "Giurgiu"
+ws$Name[ws$Name == "IF-Cor"]  <- "GR-Mih"
+
+ws$Locality[ws$Name == "IF-Ste"] <- "Lilieci"
+ws$County[ws$Name == "IF-Ste"] <-  "Ialomița"
+ws$Name[ws$Name == "IF-Ste"]  <- "IL-Lil"
+
+
+
+
 ws_df <- as.data.frame(ws)
 ec <- st_read("www/data/shp/ec.geojson", quiet = T)
 bu <- st_read("www/data/shp/bu.geojson", quiet = T)
