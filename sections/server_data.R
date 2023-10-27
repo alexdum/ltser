@@ -77,7 +77,7 @@ observe({
     clearShapes() |>
     addCircles(
       stroke = FALSE,
-      radius = 13000, weight = 5,
+      radius = 10000, weight = 1,
       color = ~pal(values), fillOpacity = 1,
       label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
       #                  get data</font>") %>% lapply(htmltools::HTML),

@@ -4,7 +4,7 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
   map <- leaflet(
     data = data,
     options = leafletOptions(
-      minZoom = 6, maxZoom = 12
+      minZoom = 6, maxZoom = 18
     ) 
   ) %>%
     leaflet.extras::addBootstrapDependency() %>%
@@ -12,7 +12,9 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
     setMaxBounds(20, 43.5, 30, 48.2) |>
     addMapPane(name = "pol", zIndex = 410) %>%
     addMapPane(name = "maplabels", zIndex = 420) %>%
-    addProviderTiles( "CartoDB.PositronNoLabels")   %>% 
+    # Base groups
+    addProviderTiles( "CartoDB.PositronNoLabels", group = "CartoDB") |> 
+    addProviderTiles("Esri.WorldImagery", group = "Esri Imagery") |> 
     addEasyButton(
       easyButton(
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
@@ -20,7 +22,7 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
       )
     ) %>%
     addLayersControl(
-      baseGroups = "CartoDB.PositronNoLabels",
+      baseGroups = c("CartoDB", "Esri Imagery"),
       overlayGroups = c("Labels", "Network"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
@@ -30,7 +32,7 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
     clearShapes() |>
     addCircles(
       stroke = FALSE,
-      radius = 13000, weight = 5,
+      radius = 10000, weight = 1,
       color = ~pal(values), fillOpacity = 1,
       
       label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to

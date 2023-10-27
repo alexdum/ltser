@@ -4,7 +4,7 @@ leaflet_fun_meta <- function(data) {
   map <- leaflet(
     #data = data,
     options = leafletOptions(
-      minZoom = 6, maxZoom = 12
+      minZoom = 6, maxZoom = 18
     ) 
   ) %>%
     leaflet.extras::addBootstrapDependency() %>%
@@ -12,15 +12,17 @@ leaflet_fun_meta <- function(data) {
     setMaxBounds(20, 43.5, 30, 48.2) |>
     addMapPane(name = "pol", zIndex = 410) %>%
     addMapPane(name = "maplabels", zIndex = 420) %>%
-    addProviderTiles( "CartoDB.PositronNoLabels")   %>% 
+    # Base groups
+    addProviderTiles( "CartoDB.PositronNoLabels", group = "CartoDB") |> 
+    addProviderTiles("Esri.WorldImagery", group = "Esri Imagery") |> 
     addEasyButton(
-      easyButton (
+      easyButton(
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
         onClick = JS("function(btn, map){ map.setView([46, 25], 3); }")
       )
     ) %>%
     addLayersControl(
-      baseGroups = "CartoDB.PositronNoLabels",
+      baseGroups = c("CartoDB", "Esri Imagery"),
       overlayGroups = c("Labels", "Network"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
