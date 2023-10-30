@@ -74,10 +74,10 @@ observe({
   bbox <- st_bbox(data) |> as.vector()
   leafletProxy("map_data", data = data) |>
     mapOptions(zoomToLimits = "first") |>
-    clearShapes() |>
-    addCircles(
+    clearMarkers() |>
+    addCircleMarkers(
       stroke = FALSE,
-      radius = 10000, weight = 1,
+      radius = 12, weight = 10,
       color = ~pal(values), fillOpacity = 1,
       label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
       #                  get data</font>") %>% lapply(htmltools::HTML),
@@ -85,7 +85,7 @@ observe({
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
     ) |>
-    clearMarkers() |>
+    #clearMarkers() |>
     addLabelOnlyMarkers(
       label = ~values,
       labelOptions = labelOptions(
@@ -94,7 +94,7 @@ observe({
         fontsize = 14
       )
     ) |> # pentru zoom limite retea incarcata
-    fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) |>
+    #fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) |>
     clearControls() |>
     addLegend(
       title = tit_leg,
@@ -113,8 +113,8 @@ observeEvent(list(isolate(input$tab_metadata),input$network_data),{
 })
 
 # update plot by click
-observeEvent(input$map_data_shape_click$id,{ 
-  values_plot_meteo$id <- input$map_data_shape_click$id 
+observeEvent(input$map_data_marker_click$id,{ 
+  values_plot_meteo$id <- input$map_data_marker_click$id 
   
 })
 
