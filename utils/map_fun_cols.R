@@ -46,7 +46,7 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
     leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 3))), "No persons","</html>")
   }
   
-  if (substr(indic,1,2) %in% c("tm")) { # pentru toate temperaturile
+  if (substr(indic,1,2) %in% c("tm","ts")) { # pentru toate temperaturile
     df.col <- data.frame(
       cols = cols_temp, 
       vals = c(-40,-38,-36,-34,-32,-30,-28,-26,-24,-22,-20,-18,-16,-14,-12,-10,-8,-6,-4,-2,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42)							
@@ -76,6 +76,14 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
       vals = c(0,0.5,1,2,3,4,6,8,10,15,20,30,40)						
     ) 
     leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 3))), "m/s","</html>")
+  }
+  
+  if (substr(indic,1,2) %in% c("sh")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_hurs(15), 
+      vals = seq(0,0.7, 0.05)						
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "m³/m³","</html>")
   }
   
   
