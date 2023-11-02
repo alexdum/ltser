@@ -97,8 +97,11 @@ tenmins_dats <- tenmins |> select(time) |> distinct() |> arrange(desc(time)) |> 
 daily <- open_dataset("www/data/parquet/meteo/daily/")
 daily_dats <- daily |> select(time) |> distinct() |> filter(time > as.Date("2023-08-22")) |> arrange(desc(time)) |> collect() 
 
+max_hourly <-  as.POSIXct(paste(max(daily_dats$time), "23:59:00"))
 hourly <- open_dataset("www/data/parquet/meteo/hourly/")
-hourly_dats <- hourly |> select(time) |> distinct() |> filter(time > as.POSIXct("2023-08-22")) |> arrange(desc(time)) |> collect()
+hourly_dats <-
+  hourly |> select(time) |> distinct() |> 
+  filter(time > as.POSIXct("2023-08-22")) |> filter(time <= max_hourly) |> arrange(desc(time)) |> collect()
 
 
 # selectare meteo parametri
