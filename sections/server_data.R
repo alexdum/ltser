@@ -42,7 +42,16 @@ data_sel <- reactive({
   # join cu datele spatiale
   admin_spat <- admin_spat |> inner_join(data_sel, by = c("Name" = "id"))
   
+  
   map_leg <- mapa_fun_cols(indic = param_sub, domain = range(admin_spat$values))
+  
+  # limitare minmax cu valorile din map_fun_cols.R
+  admin_spat <-
+    admin_spat |> 
+    mutate(
+      values = ifelse(values <  map_leg$minmax[1], map_leg$minmax[1], values),
+      values = ifelse(values >  map_leg$minmax[2], map_leg$minmax[2], values),
+    )
   
   list(
     admin_spat = admin_spat, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
@@ -129,7 +138,7 @@ output$meteo_plot <- renderHighchart({
     )
   
   timesel_sub2 <-  data_sel()$timesel_sub -  time_threshold
- 
+  
   # selectie perechi parametri
   subset_param_meteo <- subset_param(input$parameter_meteo)
   
