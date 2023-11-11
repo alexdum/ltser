@@ -119,6 +119,7 @@ values_plot_meteo <- reactiveValues(
 # valoare de pronire 
 observeEvent(list(isolate(input$tab_metadata),input$network_data),{
   values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1] 
+  values_plot_meteo$param <- "ss" 
 })
 
 # update plot by click
@@ -127,8 +128,15 @@ observeEvent(input$map_data_marker_click$id,{
   
 })
 
+
+
+
+
 output$meteo_plot <- renderHighchart({
-  
+   
+  # update only both parameters are changed
+  req(subset_param(input$parameter_meteo)[1] != values_plot_meteo$param[1],  cancelOutput = T, ignoreInit = T) 
+  values_plot_meteo$param <-  subset_param(input$parameter_meteo)
   
   time_threshold <- # pentru subset date ploturi/ descarcare
     switch(
@@ -178,7 +186,10 @@ output$meteo_plot <- renderHighchart({
   
   tit_plot <- paste0(values_plot_meteo$id, " (", ws_df$Locality[ws_df$Name == values_plot_meteo$id]," ", ws_df$County[ws_df$Name == values_plot_meteo$id],")")
   graph_meteo(data1, data2, title = tit_plot, filename_save = "plot.png", param = input$parameter_meteo)
+  
+
 })
+
 
 output$metoe_table <-  DT::renderDT({
   
