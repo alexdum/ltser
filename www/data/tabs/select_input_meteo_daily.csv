@@ -11,6 +11,4 @@ hurmax_24h,Maximum relative humidity
 wsmax_24h,Maximum wind speed
 wsavg_24h,Mean wind speed
 shmean_24h,Mean soil humidity
-tsmin_24h,Minimum soil temperature
-tsmax_24h,Maximum soil temperature
 tsmean_24h,Mean soil temperature

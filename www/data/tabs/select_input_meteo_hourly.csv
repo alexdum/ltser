@@ -12,5 +12,3 @@ wsmax_01h,Maximum wind speed
 wsavg_01h,Mean wind speed
 shmean_01h,Mean soil humidity
 tsmean_01h,Mean soil temperature
-tsmax_01h,Maximum soil temperature
-tsmin_01h,Minimum soil temperature
