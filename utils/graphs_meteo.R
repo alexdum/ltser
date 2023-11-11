@@ -14,8 +14,10 @@
 
 graph_meteo <- function(data1, data2, title, filename_save, param, cols) {
   
-  # axes labels
+  #type series 1
+  type_series1 <- ifelse(substr(param, 1, 2) %in% "tr", "column", "line")
   
+  # axes labels
   axes_labels <- switch(
     which(c("tm", "ws", "ps", "hu", "ts","ir","tr", "sh") %in% substr(param, 1, 2)),
     c("Air temperature [°C]",  "Wind speed [m/s]"),
@@ -36,7 +38,7 @@ graph_meteo <- function(data1, data2, title, filename_save, param, cols) {
       list(title = list(text = y1lab), opposite = FALSE),
       list(showLastLabel = FALSE, opposite = TRUE, title = list(text = y2lab))
     ) |>
-    hc_add_series(data1, type = "line", hcaes(x = "time", y = "values", group = "variable"), yAxis = 0) |>
+    hc_add_series(data1, type =  type_series1, hcaes(x = "time", y = "values", group = "variable"), yAxis = 0) |>
     hc_add_series(data2, type = "line", dashStyle = "longdash", hcaes(x = "time", y = "values", group = "variable"), yAxis = 1) |>
     hc_legend(enabled = TRUE) |>
     #hc_colors(cols) |>
