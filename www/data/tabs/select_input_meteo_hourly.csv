@@ -10,7 +10,7 @@ hurmean_01h,Relative humidity
 hurmax_01h,Maximum relative humidity
 wsmax_01h,Maximum wind speed
 wsavg_01h,Mean wind speed
-shmean_01h,Mean soil humidity
-tsmean_01h,Mean soil temperature
 irrmean_01h,Global irradiance
+tsmean_01h,Mean soil temperature
+shmean_01h,Mean soil humidity
 trsum_01h,Total precipitation
