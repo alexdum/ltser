@@ -17,14 +17,15 @@ graph_meteo <- function(data1, data2, title, filename_save, param, cols) {
   # axes labels
   
   axes_labels <- switch(
-    which(c("tm", "ws", "ps", "hu", "ts","sh") %in% substr(param, 1, 2)),
+    which(c("tm", "ws", "ps", "hu", "ts","ir","tr", "sh") %in% substr(param, 1, 2)),
     c("Air temperature [°C]",  "Wind speed [m/s]"),
     c("Air temperature [°C]",  "Wind speed [m/s]"),
     c("Air Pressure [hPa]", "Air humidity [%]"),
     c("Air Pressure [hPa]", "Air humidity [%]"),
-    c("Soil temperature [°C]", "Soil humidity [m³/m³]"),
-    c("Soil temperature [°C]", "Soil humidity [m³/m³]")
-    
+    c("Soil temperature [°C]", "Global irradiance [W/m²]"),
+    c("Soil temperature [°C]", "Global irradiance [W/m²]"),
+    c("Total precipitation [l/m²]", "Soil humidity [m³/m³]"),
+    c("Total precipitation [l/m²]", "Soil humidity [m³/m³]"),
   )
   
   y1lab  <- axes_labels[1]
