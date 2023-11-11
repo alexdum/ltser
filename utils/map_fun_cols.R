@@ -5,7 +5,8 @@ cols_temp <- c("#F7FCFD","#EBF4F8","#E0ECF4","#CFDFED","#BFD3E6","#AEC7E0","#9EB
 colint_pres <- colorRampPalette(c("#49234E","#893782","#A25492","#644F92","#326BAA","#5EBCDB","#FFFFFF","#78BF4D","#C4D72C","#EFA633","#E3642F", "#DC3632"))
 colint_hurs <- colorRampPalette(brewer.pal(11,"Spectral"),interpolate = "linear")
 colint_wind <- colorRampPalette(brewer.pal(9,"PuRd"),interpolate = "linear")
-
+colint_irrad <- colorRampPalette(brewer.pal(9,"YlOrRd"),interpolate = "linear")
+colint_trsum <- colorRampPalette(brewer.pal(9,"BuPu"),interpolate = "linear") 
 
 mapa_fun_cols <- function(indic = NA,  domain = NA) {
   # culori interpolate
@@ -87,6 +88,38 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
   }
   
   
+  if (indic %in% c("irrmean_01h")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_irrad(21), 
+      vals = seq(0,1000, 50)						
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "W/m²","</html>")
+  }
+  
+  if (indic %in% c("irrmean_24h")) { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_irrad(15), 
+      vals = seq(0,350, 25)						
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "W/m²","</html>")
+  }
+  
+  if (indic  %in% "trsum_01h") { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_trsum(12), 
+      vals = c(0,0.1,0.2,0.4,0.5,1,5,10,20,30,40,50)						
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "l/m²","</html>")
+  }
+  
+  if (indic  %in% "trsum_24h") { # pentru toate temperaturile
+    df.col <- data.frame(
+      cols = colint_trsum(13), 
+      vals = c(0,0.5,1,5,10,20,30,40,50, 75, 100, 125, 150)						
+    ) 
+    leaflet_titleg <- paste0("<html>", gsub(",","",toString(rep("&nbsp;", 5))), "l/m²","</html>")
+  }
+  
   # print(head(df.col))
   # print(domain)
   ints <- findInterval(domain, df.col$vals, rightmost.closed = T, left.open = F)
@@ -100,9 +133,10 @@ mapa_fun_cols <- function(indic = NA,  domain = NA) {
   pal <- colorBin(cols, domain = domain, bins = bins, na.color = "transparent")
   pal2 <- colorBin(cols, domain = domain, bins = bins, reverse = T, na.color = "transparent")
   
-  return(list(pal = pal, pal_rev = pal2, tit_leg = leaflet_titleg))
+  return(list(pal = pal, pal_rev = pal2, tit_leg = leaflet_titleg, minmax = range(df.col$vals)))
   
 }
+
 
 
 

@@ -12,3 +12,5 @@ wsmax_24h,Maximum wind speed
 wsavg_24h,Mean wind speed
 shmean_24h,Mean soil humidity
 tsmean_24h,Mean soil temperature
+irrmean_24h,Global irradiance
+trsum_24h,Total precipitation
