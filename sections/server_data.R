@@ -134,9 +134,11 @@ observeEvent(input$map_data_marker_click$id,{
 
 output$meteo_plot <- renderHighchart({
    
-  # update only both parameters are changed
-  req(subset_param(input$parameter_meteo)[1] != values_plot_meteo$param[1],  cancelOutput = T, ignoreInit = T) 
-  values_plot_meteo$param <-  subset_param(input$parameter_meteo)
+  # # update only both parameters are changed
+  # req(subset_param(input$parameter_meteo)[1] != values_plot_meteo$param[1],   cancelOutput = T) 
+  # req(input$map_data_marker_click$id)
+  # values_plot_meteo$param <-  subset_param(input$parameter_meteo)
+  # #values_plot_meteo$id <- input$map_data_marker_click$id
   
   time_threshold <- # pentru subset date ploturi/ descarcare
     switch(
