@@ -128,7 +128,6 @@ observeEvent(list(isolate(input$tab_socio),input$social_indicator, isolate(input
 
 # update plot by click
 observeEvent(input$map_ltser_social_shape_click$id,{ 
-  print(input$map_ltser_social_shape_click$id)
   tab <- soc_df()$tab
   admin_spat_sub <- soc_df()$socio_spat
   values_plot_so$id  <- input$map_ltser_social_shape_click$id
@@ -137,7 +136,6 @@ observeEvent(input$map_ltser_social_shape_click$id,{
     tab |>
     filter(uat %in% values_plot_so$id) |>
     select(date, value) 
-  print( values_plot_so$input)
 })
 
 # plot actualizat
