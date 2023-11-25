@@ -9,6 +9,7 @@ ui <- page_navbar(
   selected = "Remote sensing",
   collapsible = TRUE,
   fluid = T,
+  fillable_mobile = T,
   inverse = F,
   theme = my_theme,
   id = "tabs", #id pentru activare tab when selected
