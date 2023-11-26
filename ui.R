@@ -2,7 +2,8 @@
 source("sections/ui_national.R")
 source("sections/ui_admin.R")
 source("sections/ui_metadata.R")
-source("sections/ui_data.R")
+source("sections/ui_data_ws.R")
+source("sections/ui_data_ec.R")
 source("sections/ui_social.R")
 ui <- page_navbar(
   title = "LTSER Explorer",
@@ -11,6 +12,7 @@ ui <- page_navbar(
   fluid = T,
   fillable_mobile = T,
   inverse = F,
+  underline = T,
   theme = my_theme,
   id = "tabs", #id pentru activare tab when selected
   nav_panel(
@@ -29,7 +31,7 @@ ui <- page_navbar(
         title = "Data", 
         navset_card_underline( 
           nav_panel("Weather stations", data_level_ws),
-          nav_panel("Eddy covariance", "TBA")
+          nav_panel("Eddy covariance", data_level_ec)
         )
       ),
       nav_panel("Metadata", metadata_level)
