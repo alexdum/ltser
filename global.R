@@ -91,8 +91,6 @@ dats.fapar <- as.Date(names(fapar) %>% gsub("fapar_days=", "",.) %>% as.integer(
 time(fapar) <- dats.fapar
 
 # read meteo
-tenmins <- open_dataset("www/data/parquet/meteo/tenmins/")
-tenmins_dats <- tenmins |> select(time) |> distinct() |> arrange(desc(time)) |> collect() 
 
 daily <- open_dataset("www/data/parquet/meteo/daily/")
 daily_dats <- daily |> select(time) |> distinct() |> filter(time > as.Date("2023-08-22")) |> arrange(desc(time)) |> collect() 
@@ -113,3 +111,7 @@ select_meteo_hourly <- setNames(select_meteo_hourly$choice, select_meteo_hourly$
 # selectare ec controloere
 ec_halfhourly <- read.csv("www/data/tabs/select_input_ec_halfhourly.csv")
 select_ec_halfhourly <- setNames(ec_halfhourly$choice, ec_halfhourly$parameter)
+
+# read ec
+hhourly_ec <- open_dataset("www/data/parquet/ec/")
+hhourly_dats <- hhourly_ec  |> select(time_eet) |> distinct() |> arrange(desc(time_eet)) |> collect() 
