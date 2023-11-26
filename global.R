@@ -25,6 +25,7 @@ source("utils/show_pop.R", local = T)
 source("utils/graphs_funs.R", local = T)
 source("utils/subset_param.R", local = T)
 source("utils/graphs_meteo.R", local = T)
+source("utils/graphs_ec.R", local = T)
 
 library(showtext) # Needed for custom font support
 # Setup the bslib theme object
