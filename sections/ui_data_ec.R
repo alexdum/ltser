@@ -54,7 +54,8 @@ data_level_ec <- card(
     accordion(
       open = F,
       accordion_panel(
-        "tba"
+        "Data", icon = bsicons::bs_icon("table",  class = "d-flex justify-content-between align-items-center"),
+        DT::dataTableOutput('ec_table')
         
       )
     )

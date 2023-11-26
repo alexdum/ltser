@@ -123,5 +123,24 @@ output$ec_plot <- renderHighchart({
       id %in% values_plot_ec$id) |>
     collect() 
   
+  values_plot_meteo$data <-  ec_subset
+  
   graph_ec(ec_subset,  title = paste0(name, " (", locality, county,")"), filename_save = paste0(name,"_",input$parameter_ec, ".png"), y1lab  = data_ec()$unit)
+})
+
+output$ec_table <-  DT::renderDT({
+  
+  values_plot_meteo$data |>
+    DT::datatable(
+      extensions = 'Buttons', rownames = F,
+      options = list(
+        dom = 'Bfrtip',digits = 1,
+        pageLength = 5, autoWidth = TRUE,
+        buttons = c('pageLength','copy', 'csv', 'excel'),
+        pagelength = 10, lengthMenu = list(c(10, 25, 100, -1), c('10', '25', '100','All')
+        )
+        
+      )
+    )
+  
 })
