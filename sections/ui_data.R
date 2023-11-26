@@ -1,15 +1,4 @@
-filters_data <- list(
-  
-  # select_admin
-  selectInput(
-    inputId = "network_data",
-    label = "Network",
-    choices = 
-      c(
-        "Weather stations" = "ws"
-      ),
-    selected =  "ws"
-  ),
+filters_data_ws <- list(
   
   selectInput(
     inputId = "temporal_resolution",
@@ -60,11 +49,11 @@ filters_data <- list(
   )
 )
 
-data_level <- card(
+data_level_ws <- card(
   fill = F,
   full_screen = F,
   layout_sidebar(
-    sidebar = filters_data,
+    sidebar = filters_data_ws,
     
     layout_columns(
       # width = 1/2,

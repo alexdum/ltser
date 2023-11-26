@@ -1,11 +1,7 @@
 data_sel <- reactive({
-  net <- input$network_data
+
   # selectie unitate
-  admin_spat <- 
-    switch( # alege nume indicator care să fie afișat
-      which(c("ws", "ec", "bu") %in%  net),
-      ws
-    )
+  admin_spat <- ws
   data_sub <- # select dataset
     switch(
       input$temporal_resolution,

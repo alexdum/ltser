@@ -25,7 +25,13 @@ ui <- page_navbar(
     title = "Lifewatch networks",
     navset_card_tab(
       id = "tab_metadata",
-      nav_panel("Data", data_level),
+      nav_panel(
+        title = "Data", 
+        navset_card_underline( 
+          nav_panel("Weather stations", data_level_ws),
+          nav_panel("Eddy covariance", "TBA")
+        )
+      ),
       nav_panel("Metadata", metadata_level)
     )
   ),

@@ -104,7 +104,7 @@ hourly_dats <-
   filter(time > as.POSIXct("2023-08-22")) |> filter(time <= max_hourly) |> arrange(desc(time)) |> collect()
 
 
-# selectare meteo parametri
+# selectare meteo controlere
 select_meteo_daily <- read.csv("www/data/tabs/select_input_meteo_daily.csv") 
 select_meteo_daily <- setNames(select_meteo_daily$choice, select_meteo_daily$parameter)
 select_meteo_hourly <- read.csv("www/data/tabs/select_input_meteo_hourly.csv") 
