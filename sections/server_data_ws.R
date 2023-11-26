@@ -115,7 +115,6 @@ values_plot_meteo <- reactiveValues(
 # valoare de pronire 
 observeEvent(list(isolate(input$tab_metadata),input$network_data),{
   values_plot_meteo$id <- unique(data_sel()$admin_spat$Name)[1] 
-  values_plot_meteo$param <- "ss" 
 })
 
 # update plot by click
