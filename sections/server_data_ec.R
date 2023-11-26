@@ -20,17 +20,20 @@ data_ec <- reactive({
   # join cu datele spatiale
   admin_spat <- admin_spat |> mutate(Name = tolower(Name)) |> inner_join(data_sel, by = c("Name" = "id"))
   
-  map_leg <- mapa_fun_cols_ec(
-    indic = input$parameter_ec, domain = range(admin_spat$values), 
-    title = ec_halfhourly$unit[ec_halfhourly$choice ==  input$parameter_ec],
-    nbins = nrow(admin_spat)
-  )
+  unit <- ec_halfhourly$unit[ec_halfhourly$choice ==  input$parameter_ec]
   
-  list(
-    admin_spat = admin_spat, data_sel = data_sel, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
-    tit_leg = map_leg$tit_leg
-  )
-  
+  if (nrow(admin_spat) > 1 ) {
+    map_leg <- mapa_fun_cols_ec(
+      indic = input$parameter_ec, domain = range(admin_spat$values), 
+      title = unit,
+      nbins = nrow(admin_spat)
+    )
+    
+    list(
+      admin_spat = admin_spat, data_sel = data_sel, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
+      tit_leg = map_leg$tit_leg, unit = unit
+    )
+  }
 })
 
 # harta leaflet -----------------------------------------------------------
@@ -85,8 +88,40 @@ observe({
 })
 
 
-observe({
-  print(nrow(data_ec()$admin_spat))
-  print(data_ec()$data_sel)
+# reactive values pentru plot meteo
+values_plot_ec <- reactiveValues(
+  id = NA, data = NA
+)
+# valoare de pronire 
+observeEvent(list(isolate(input$tab_metadata),input$network_data),{
+  values_plot_ec$id <- unique(data_ec()$admin_spat$Name)[1] 
+  values_plot_ec$param <- "ss" 
+})
+
+# update plot by click
+observeEvent(input$map_ec_marker_click$id,{ 
+  values_plot_ec$id  <- input$map_ec_marker_click$id 
+})
+
+
+output$ec_plot <- renderHighchart({
   
+  name <- ec$Name[tolower(ec$Name) %in% values_plot_ec$id]
+  locality <- ec$Locality[tolower(ec$Name) %in% values_plot_ec$id]
+  county <- ec$County[tolower(ec$Name) %in% values_plot_ec$id]
+  
+  
+  time_threshold <-  (3600 * 24 * 7)
+  time_sub1 <- input$datetime_ec - time_threshold
+  
+  
+  ec_subset <- 
+    hhourly_ec |>
+    filter(
+      time_eet > time_sub1  &  time_eet <= input$datetime_ec,
+      variable %in% input$parameter_ec,
+      id %in% values_plot_ec$id) |>
+    collect() 
+  
+  graph_ec(ec_subset,  title = paste0(name, " (", locality, county,")"), filename_save = paste0(name,"_",input$parameter_ec, ".png"), y1lab  = data_ec()$unit)
 })
