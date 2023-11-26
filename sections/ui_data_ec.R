@@ -45,7 +45,7 @@ data_level_ec <- card(
     layout_columns(
       card(
         full_screen = T,
-        "tba"
+        leafletOutput("map_ec", height = 450)
       ),
       card(
         full_screen = T,
