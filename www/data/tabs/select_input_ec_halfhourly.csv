@@ -1,0 +1,10 @@
+choice,parameter,unit,definition
+co2_flux,CO2 flux,µmol/m²s,CO2 flux
+ch4_flux,CH4 flux,µmol/m²s,CH4 flux
+LE,Latent heat flux,W/m²,Corrected latent heat flux
+H,Sensible heat flux,W/m²,Corrected sensible heat flux
+ET,Evapotranspiration,mm/hour,Evapotranspiration flux
+RN_1_1_1, Net Radiation,W/m²,Net Radiation
+RH_1_1_1,Relative humidity,%,Ambient relative humidity
+PPFD_1_1_1,Photosynthetic Density,µmol/m²s,Photosynthetic Photon Flux Density
+

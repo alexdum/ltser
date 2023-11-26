@@ -110,4 +110,6 @@ select_meteo_daily <- setNames(select_meteo_daily$choice, select_meteo_daily$par
 select_meteo_hourly <- read.csv("www/data/tabs/select_input_meteo_hourly.csv") 
 select_meteo_hourly <- setNames(select_meteo_hourly$choice, select_meteo_hourly$parameter)
 
-#  rsync -av ~/projects/ltser/www/  vizualizare@10.45.4.42:projects/ltser/www
+# selectare ec controloere
+ec_halfhourly <- read.csv("www/data/tabs/select_input_ec_halfhourly.csv")
+select_ec_halfhourly <- setNames(ec_halfhourly$choice, ec_halfhourly$parameter)

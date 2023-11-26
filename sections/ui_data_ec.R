@@ -9,6 +9,12 @@ filters_data_ec <- list(
         "Daily" = "daily"
       ),
     selected =  "Halfhourly"
+  ),
+  
+  selectInput(
+    "parameter_ec", "Parameter:", 
+    select_ec_halfhourly, 
+    selected = select_ec_halfhourly[1]
   )
 )
 
