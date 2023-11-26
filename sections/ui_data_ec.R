@@ -5,8 +5,7 @@ filters_data_ec <- list(
     label = "Temporal resolution",
     choices = 
       c(
-        "Halfhourly" = "halfhourly",
-        "Daily" = "daily"
+        "Halfhourly" = "halfhourly"
       ),
     selected =  "Halfhourly"
   ),
@@ -49,7 +48,7 @@ data_level_ec <- card(
       ),
       card(
         full_screen = T,
-        "tba"
+        highchartOutput("ec_plot", height = "450px")
       )
     ),
     accordion(
