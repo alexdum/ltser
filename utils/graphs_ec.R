@@ -13,10 +13,8 @@
 graph_ec <- function(data1, title, filename_save, y1lab ) {
   
   
-  
-  
   highchart(type = "stock") |>
-    hc_add_series(data = data1, "line", hcaes(x = datetime_to_timestamp(time_eet), y = values)) |>
+    hc_add_series(data = data1 |> arrange(time_eet), "line", hcaes(x = datetime_to_timestamp(time_eet), y = values)) |>
     hc_yAxis(
       title = list(text = y1lab)) |>
     hc_legend(enabled = F) |>
