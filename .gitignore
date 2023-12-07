@@ -6,4 +6,5 @@ app_cache
 www/data/ncs/
 www/data/parquet/
 www/data/tabs/meteo/
+www/data/tabs/img/
 misc/
