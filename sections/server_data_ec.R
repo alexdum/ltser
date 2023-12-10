@@ -29,6 +29,9 @@ data_ec <- reactive({
       nbins = nrow(admin_spat)
     )
     
+    
+    
+    
     list(
       admin_spat = admin_spat, data_sel = data_sel, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
       tit_leg = map_leg$tit_leg, unit = unit
@@ -106,6 +109,7 @@ observeEvent(input$map_ec_marker_click$id,{
 
 output$ec_plot <- renderHighchart({
   
+  
   name <- ec$Name[tolower(ec$Name) %in% values_plot_ec$id]
   locality <- ec$Locality[tolower(ec$Name) %in% values_plot_ec$id]
   county <- ec$County[tolower(ec$Name) %in% values_plot_ec$id]
@@ -130,6 +134,7 @@ output$ec_plot <- renderHighchart({
 
 output$ec_table <-  DT::renderDT({
   
+
   values_plot_meteo$data |>
     DT::datatable(
       extensions = 'Buttons', rownames = F,
@@ -144,3 +149,27 @@ output$ec_table <-  DT::renderDT({
     )
   
 })
+
+# outout imagine ec
+output$photo_ec <- renderImage({
+  
+  width  <- session$clientData$output_photo_ec_width # take width from the client
+  #height <- session$clientData$output_photo_ec_height
+  
+  img_path <- # creeaza calea catre imagine
+    paste0(
+      "www/data/img/ec/", values_plot_ec$id, "/", format(input$datetime_ec, "%Y/%m/%d"),
+      "/", values_plot_ec$id,"_", format(input$datetime_ec, "%Y-%m-%d-%H%M.jpg")
+    )
+  # daca nu este imagine disponibila
+  if (!file.exists(img_path)) img_path <- "www/data/img/ec/no_image_available.png"
+  
+  #Return a list containing the filename and alt text
+  list(
+    src = img_path,
+    alt = paste(toupper(values_plot_ec$id), format(input$datetime_ec, "%Y-%m-%d-%H%M")),
+    width = width
+  )
+  
+}, deleteFile = FALSE)
+
