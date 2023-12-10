@@ -44,7 +44,7 @@ data_level_ec <- card(
     sidebar = filters_data_ec,
     
     layout_columns(
-      row_heights = list("auto", 1),
+      height = "500px",
       card(
         full_screen = T,
         leafletOutput("map_ec")
