@@ -32,6 +32,8 @@ filters_data_ec <- list(
     )
     
   )
+  
+  
 )
 
 
@@ -42,13 +44,26 @@ data_level_ec <- card(
     sidebar = filters_data_ec,
     
     layout_columns(
+      row_heights = list("auto", 1),
       card(
         full_screen = T,
-        leafletOutput("map_ec", height = 450)
+        leafletOutput("map_ec")
       ),
-      card(
+      navset_card_underline(
         full_screen = T,
-        highchartOutput("ec_plot", height = "450px")
+        id = "graph_img_nav",
+        nav_panel(
+          "Graph",
+          highchartOutput("ec_plot")
+        ),
+        nav_panel(
+          "Camera",
+          card( 
+            full_screen = F,
+            fill = T,
+            imageOutput("photo_ec")
+          )
+        )
       )
     ),
     accordion(
