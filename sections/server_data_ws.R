@@ -1,5 +1,9 @@
 data_sel <- reactive({
 
+  # pentru situatiile cand nu schimbi data, bug in airdatapicker
+  req(input$datetime_meteo, cancelOutput = T)
+  req(input$date_meteo, cancelOutput = T)
+  
   # selectie unitate
   admin_spat <- ws
   data_sub <- # select dataset

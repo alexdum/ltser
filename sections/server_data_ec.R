@@ -1,5 +1,9 @@
 data_ec <- reactive({
   
+  # pentru situatiile cand nu schimbi data, bug in airdatapicker
+  req(input$datetime_ec, cancelOutput = T)
+
+  
   # selectie unitate
   admin_spat <- ec
   data_sub <- # select dataset
@@ -34,7 +38,7 @@ data_ec <- reactive({
     
     list(
       admin_spat = admin_spat, data_sel = data_sel, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 
-      tit_leg = map_leg$tit_leg, unit = unit
+      tit_leg = map_leg$tit_leg, unit = unit, time = input$datetime_ec
     )
   }
 })
@@ -116,13 +120,13 @@ output$ec_plot <- renderHighchart({
   
   
   time_threshold <-  (3600 * 24 * 7)
-  time_sub1 <- input$datetime_ec - time_threshold
+  time_sub1 <- data_ec()$time - time_threshold
   
   
   ec_subset <- 
     hhourly_ec |>
     filter(
-      time_eet > time_sub1  &  time_eet <= input$datetime_ec,
+      time_eet > time_sub1  &  time_eet <= data_ec()$time ,
       variable %in% input$parameter_ec,
       id %in% values_plot_ec$id) |>
     collect() 
@@ -158,7 +162,7 @@ output$photo_ec <- renderImage({
   
   img_path <- # creeaza calea catre imagine
     paste0(
-      "www/data/img/ec/", values_plot_ec$id, "/", format(input$datetime_ec, "%Y/%m/%d"),
+      "www/data/img/ec/", values_plot_ec$id, "/", format(data_ec()$time, "%Y/%m/%d"),
       "/", values_plot_ec$id,"_", format(input$datetime_ec, "%Y-%m-%d-%H%M.jpg")
     )
   # daca nu este imagine disponibila
@@ -167,7 +171,7 @@ output$photo_ec <- renderImage({
   #Return a list containing the filename and alt text
   list(
     src = img_path,
-    alt = paste(toupper(values_plot_ec$id), format(input$datetime_ec, "%Y-%m-%d-%H%M")),
+    alt = paste(toupper(values_plot_ec$id), format(data_ec()$time, "%Y-%m-%d-%H%M")),
     width = width
   )
   
