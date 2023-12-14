@@ -20,8 +20,8 @@ filters_data_ec <- list(
     inputId = "datetime_ec",
     label = "Date/Time:",
     multiple = F,
-    value = as.character(max(hhourly_dats$time_eet)), # transforma in caracater sa nu le decaleze
-    minDate = as.character(min(hhourly_dats$time_eet)),
+    value =  paste( as.Date(max(hhourly_dats$time_eet)), "12:00:00"), # paste sa fie implicit ora 12
+    minDate = as.character(min(hhourly_dats$time_eet)),# transforma in caracater sa nu le decaleze
     maxDate = as.character(max(hhourly_dats$time_eet)),
     timepicker = TRUE,
     autoClose = T,
