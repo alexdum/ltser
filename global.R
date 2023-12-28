@@ -79,7 +79,7 @@ socio_ages <- setNames(socio_ages$id, socio_ages$eticheta)
 ssm <- terra::rast("www/data/ncs/ssm_ltser_mon_dineof.nc")
 #ats.ssm <- as.Date(names(ssm) %>% gsub("ssm_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
 dats.ssm <- time(ssm)
-dats.ssm <- dats.ssm[dats.ssm < as.Date("2023-09-01")]
+dats.ssm <- dats.ssm[dats.ssm < as.Date("2023-12-01")]
 
 ndvi <- terra::rast("www/data/ncs/ndvi_ltser_mon.nc")
 dats.ndvi <- as.Date(names(ndvi) %>% gsub("ndvi_days=", "",.) %>% as.integer(), origin = "1970-1-1 00:00:00")
