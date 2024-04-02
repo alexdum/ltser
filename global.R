@@ -114,4 +114,4 @@ select_ec_halfhourly <- setNames(ec_halfhourly$choice, ec_halfhourly$parameter)
 
 # read ec
 hhourly_ec <- open_dataset("www/data/parquet/ec/")
-hhourly_dats <- hhourly_ec  |> select(time_eet) |> distinct() |> arrange(desc(time_eet)) |> collect() 
+hhourly_dats <- hhourly_ec  |> select(time_eet) |> distinct() |> arrange(desc(time_eet)) |> filter(!is.na(time_eet)) |> collect() 
