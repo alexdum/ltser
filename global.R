@@ -93,8 +93,7 @@ time(fapar) <- dats.fapar
 # read meteo
 
 daily <- open_dataset("www/data/parquet/meteo/daily/")
-daily_dats <- daily |> select(time) |> distinct() |> filter(time > as.Date("2023-08-22")) |> arrange(desc(time)) |> collect() |>
-  filter(time < as.Date("2024-03-29"))
+daily_dats <- daily |> select(time) |> distinct() |> filter(time > as.Date("2023-08-22")) |> arrange(desc(time)) |> collect() 
 
 max_hourly <-  as.POSIXct(paste(max(daily_dats$time), "23:59:00"))
 hourly <- open_dataset("www/data/parquet/meteo/hourly/")
