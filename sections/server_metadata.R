@@ -82,7 +82,7 @@ output$net_detail <- renderUI({
 output$photo_meta <- renderImage({
   
   width  <- session$clientData$output_photo_meta_width # take width from the client
-  #height <- session$clientData$output_photo_ec_height
+  height <- session$clientData$output_photo_meta_height
   
   img_path <- paste0("www/data/img/meta/", input$network,"/", meta_desc$img_path ,".png")
 
@@ -91,8 +91,8 @@ output$photo_meta <- renderImage({
   
   #Return a list containing the filename and alt text
   list(
-    src = img_path#,
-    #width = width
+    src = img_path,
+    height = height 
   )
   
 }, deleteFile = FALSE)
