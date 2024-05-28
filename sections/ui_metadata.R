@@ -32,6 +32,7 @@ metadata_level <- card(
         uiOutput("net_desc_markdown")
         #highchartOutput("ad_plot", height = "450px")# %>% withSpinner(size = 0.5)
       )
-    )
+    ),
+    uiOutput("meta_detail")
   )
 )
