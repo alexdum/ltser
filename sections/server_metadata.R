@@ -5,9 +5,9 @@ metadata_sel <- reactive({
     which(c("ws", "ec", "co","cu","ra","bu") %in%  net),
     admin_spat <- ws,
     admin_spat <- ec,
+    admin_spat <- co,
     admin_spat <- cu,
     admin_spat <- ra,
-    admin_spat <- co,
     admin_spat <- bu
   )
   
