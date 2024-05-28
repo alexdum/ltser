@@ -1,10 +1,14 @@
 metadata_sel <- reactive({
   net <- input$network
+  print(input$network)
   # selectie unitate
   switch( # alege nume indicator care să fie afișat
-    which(c("ws", "ec", "bu") %in%  net),
+    which(c("ws", "ec", "co","cu","ra","bu") %in%  net),
     admin_spat <- ws,
     admin_spat <- ec,
+    admin_spat <- cu,
+    admin_spat <- ra,
+    admin_spat <- co,
     admin_spat <- bu
   )
   

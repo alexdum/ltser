@@ -7,6 +7,9 @@ filters_metadata <- list(
     choices = 
       c("Weather stations" = "ws",
         "Eddy covariance" = "ec",
+        "CUV5 Total UV Radiometer" = "cu",
+        "RaZON+" = "ra",
+        "Cosmic Ray Neutron" = "co", 
         "Buoys" = "bu"
       ),
     selected =  "ws"

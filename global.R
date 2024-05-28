@@ -55,6 +55,9 @@ ws$Name[ws$Name == "IF-Ste"]  <- "IL-Lil"
 ws_df <- as.data.frame(ws)
 ec <- st_read("www/data/shp/ec.geojson", quiet = T)
 bu <- st_read("www/data/shp/bu.geojson", quiet = T)
+cu <- st_read("www/data/shp/cu.geojson", quiet = T)
+co <- st_read("www/data/shp/co.geojson", quiet = T)
+ra <- st_read("www/data/shp/ra.geojson", quiet = T)
 
 # read social
 # pop106a <- read_parquet("www/data/parquet/socio/pop106a.parquet") |> setDT()  

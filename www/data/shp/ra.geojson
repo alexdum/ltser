@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "ra",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "TL-Sar", "Locality": "Sarichioi", "County": "Tulcea", "Data PIF": "03.08.2023", "Parameters": "direct normal irradiance (DNI) and diffuse horizontal irradiance (DHI)" }, "geometry": { "type": "Point", "coordinates": [ 28.830232, 44.891246 ] } },
+{ "type": "Feature", "properties": { "Name": "BR-Bra", "Locality": "Braila", "County": "Braila", "Data PIF": "04.08.2023", "Parameters": "direct normal irradiance (DNI) and diffuse horizontal irradiance (DHI)" }, "geometry": { "type": "Point", "coordinates": [ 27.957608, 45.252871 ] } },
+{ "type": "Feature", "properties": { "Name": "MH-Ors", "Locality": "Orsova", "County": "Mehedinti", "Data PIF": "24.08.2023", "Parameters": "direct normal irradiance (DNI) and diffuse horizontal irradiance (DHI)" }, "geometry": { "type": "Point", "coordinates": [ 22.4050133204817, 44.708624163254001 ] } },
+{ "type": "Feature", "properties": { "Name": "TL-Sfg", "Locality": "Tulcea", "County": "Sfântu Gheorghe", "Data PIF": "45217", "Parameters": "direct normal irradiance (DNI) and diffuse horizontal irradiance (DHI)" }, "geometry": { "type": "Point", "coordinates": [ 29.607773, 44.891007 ] } },
+{ "type": "Feature", "properties": { "Name": "BV-Brv", "Locality": "Brașov", "County": "Brașov", "Data PIF": "45356", "Parameters": "direct normal irradiance (DNI) and diffuse horizontal irradiance (DHI)" }, "geometry": { "type": "Point", "coordinates": [ 25.544677, 45.669305 ] } }
+]
+}
