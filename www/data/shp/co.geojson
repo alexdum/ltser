@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "co",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "BR-Mar", "Locality": "Mărașu", "County": "Braila", "Data PIF": "02.08.2023", "Parameters": "soil moisture at intermediate scale" }, "geometry": { "type": "Point", "coordinates": [ 27.982978, 45.231796 ] } },
+{ "type": "Feature", "properties": { "Name": "TL-Mal", "Locality": "Malcoci", "County": "Tulcea", "Data PIF": "09.08.2023", "Parameters": "soil moisture at intermediate scale" }, "geometry": { "type": "Point", "coordinates": [ 28.856291, 45.102689 ] } },
+{ "type": "Feature", "properties": { "Name": "TR-Drv", "Locality": "Draganesti-Vlasca", "County": "Teleorman", "Data PIF": "20.07.2023", "Parameters": "soil moisture at intermediate scale" }, "geometry": { "type": "Point", "coordinates": [ 25.550337274034302, 44.079874901568999 ] } },
+{ "type": "Feature", "properties": { "Name": "BV-Brv", "Locality": "Brașov", "County": "Brașov", "Data PIF": "45356", "Parameters": "soil moisture at intermediate scale" }, "geometry": { "type": "Point", "coordinates": [ 25.544677, 45.669305 ] } },
+{ "type": "Feature", "properties": { "Name": "POLI", "Locality": "Polizești", "County": "Brăila", "Data PIF": null, "Parameters": "soil moisture at intermediate scale" }, "geometry": { "type": "Point", "coordinates": [ 27.809, 44.848 ] } }
+]
+}
