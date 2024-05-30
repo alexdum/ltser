@@ -10,7 +10,8 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
     leaflet.extras::addBootstrapDependency() %>%
     #setView(25, 46, zoom = 6) |>
     setMaxBounds(20, 43.5, 30, 48.2) |>
-    addMapPane(name = "pol", zIndex = 410) %>%
+    addMapPane(name = "ltser", zIndex = 410) %>%
+    addMapPane(name = "network", zIndex = 415) %>%
     addMapPane(name = "maplabels", zIndex = 420) %>%
     # Base groups
     addProviderTiles( "CartoDB.PositronNoLabels", group = "CartoDB") |> 
@@ -23,7 +24,7 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
     ) %>%
     addLayersControl(
       baseGroups = c("CartoDB", "Esri Imagery"),
-      overlayGroups = c("Labels", "Network"))  %>% 
+      overlayGroups = c("Labels", "Network", "LTSER"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
       options = pathOptions(pane = "maplabels"),
@@ -37,7 +38,8 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
       label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
       #                  get data</font>") %>% lapply(htmltools::HTML),
       group = "Network",
-      layerId = ~Name
+      layerId = ~Name,
+      options = pathOptions(pane = "network")
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
     ) |>
     addLabelOnlyMarkers(
@@ -48,7 +50,23 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
         fontsize = 14
       )
     ) |>
+    addPolygons(
+      data = ltser,
+      label = ~htmlEscape(name),
+      group = "LTSER",
+      fillColor = "#99d8c9",
+      color = "#003c30",
+      #fillColor = ~pal(values),
+      #color = ~pal(values),
+      fillOpacity = 0.8,
+      layerId = ~natcode,
+      weight = 1,
+      options = pathOptions(pane = "ltser")
+    ) |>
+    # nu vizualiza bufere
+    hideGroup(c("LTSER")) |>
     clearControls() |>
+    
     addLegend(
       title = tit_leg,
       "bottomleft", pal = pal_rev, values = ~values, opacity = 1,

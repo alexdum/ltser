@@ -13,7 +13,8 @@ leaflet_fun_na <- function(data, raster, domain, cols, cols_rev, title) {
     setMaxBounds(20, 43.5, 30, 48.2) |>
     addMapPane(name = "pol", zIndex = 410) %>%
     addMapPane(name = "maplabels", zIndex = 420) %>%
-    addProviderTiles( "CartoDB.PositronNoLabels")   %>% 
+    addProviderTiles( "CartoDB.PositronNoLabels", group = "CartoDB")   %>% 
+    addProviderTiles("Esri.WorldImagery", group = "Esri Imagery") |> 
     addEasyButton(
       easyButton (
         icon    = "glyphicon glyphicon-home", title = "Reset zoom",
@@ -21,8 +22,8 @@ leaflet_fun_na <- function(data, raster, domain, cols, cols_rev, title) {
       )
     ) %>%
     addLayersControl(
-      baseGroups = "CartoDB.PositronNoLabels",
-      overlayGroups = c("Labels", "LTSER"))  %>% 
+      baseGroups = c("CartoDB", "Esri Imagery"),
+      overlayGroups = c("Labels", "LTSER", "Weather stations", "Eddy covariance",  "CUV5 Total UV Radiometer", "RaZON+", "Cosmic Ray Neutron","Buoy"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
       options = pathOptions(pane = "maplabels"),
@@ -47,6 +48,47 @@ leaflet_fun_na <- function(data, raster, domain, cols, cols_rev, title) {
       raster, colors = cols, opacity = .8
       # options = leafletOptions(pane = "raster")
     )  |>
+    # pentru poztionare raster mereu in top
+    htmlwidgets::onRender(" 
+    function(el, x) {
+      this.on('baselayerchange', function(e) {
+        e.layer.bringToBack();
+      })
+    }
+  ") |>
+    addMarkers(
+      data = ws,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Weather stations" 
+    ) |>
+    addMarkers(
+      data = ec,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Eddy covariance" 
+    ) |> addMarkers(
+      data = cu,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "CUV5 Total UV Radiometer" 
+    ) |> addMarkers(
+      data = ra,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "RaZON+" 
+    ) |> addMarkers(
+      data = co,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Cosmic Ray Neutron" 
+    ) |> addMarkers(
+      data = bu,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Buoy" 
+    ) |>
+    hideGroup(c("Weather stations","Weather stations", "Eddy covariance",  "CUV5 Total UV Radiometer", "RaZON+", "Cosmic Ray Neutron","Buoy")) |> # nu vizualiza bufere
     clearControls() %>%
     addLegend(
       title = title,

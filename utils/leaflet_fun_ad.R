@@ -27,7 +27,7 @@ leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg, indicator = NA) {
     ) %>%
     addLayersControl(
       baseGroups = "CartoDB.PositronNoLabels",
-      overlayGroups = c("Labels", "Unit"))  %>% 
+      overlayGroups = c("Labels", "Unit", "Weather stations", "Eddy covariance",  "CUV5 Total UV Radiometer", "RaZON+", "Cosmic Ray Neutron","Buoy"))  %>% 
     addProviderTiles(
       "CartoDB.PositronOnlyLabels",
       options = pathOptions(pane = "maplabels"),
@@ -57,6 +57,40 @@ leaflet_fun_ad <- function(data, pal, pal_rev, tit_leg, indicator = NA) {
         bringToFront = TRUE,
         sendToBack = TRUE)
     )  |>
+    addMarkers(
+      data = ws,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Weather stations" 
+    ) |>
+    addMarkers(
+      data = ec,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Eddy covariance" 
+    ) |> addMarkers(
+      data = cu,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "CUV5 Total UV Radiometer" 
+    ) |> addMarkers(
+      data = ra,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "RaZON+" 
+    ) |> addMarkers(
+      data = co,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Cosmic Ray Neutron" 
+    ) |> addMarkers(
+      data = bu,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
+      layerId = ~Name,
+      group = "Buoy" 
+    ) |>
+    hideGroup(c("Weather stations","Weather stations", "Eddy covariance",  "CUV5 Total UV Radiometer", "RaZON+", "Cosmic Ray Neutron","Buoy")) |> # nu vizualiza bufere
+    
     clearControls() |>
     addLegend(
       title = tit_leg,
