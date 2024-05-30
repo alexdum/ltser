@@ -56,33 +56,69 @@ leaflet_fun_na <- function(data, raster, domain, cols, cols_rev, title) {
       })
     }
   ") |>
-    addMarkers(
+    addAwesomeMarkers(
+      icon =  awesomeIcons(
+        icon = 'bi-geo-alt-fill',
+        iconColor = 'black',
+        library = 'glyphicon',
+        markerColor = 'blue'
+      ),
       data = ws,
       label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
       layerId = ~Name,
       group = "Weather stations" 
     ) |>
-    addMarkers(
+    addAwesomeMarkers(
+      icon =  awesomeIcons(
+        icon = 'bi-geo-alt-fill',
+        iconColor = 'black',
+        library = 'glyphicon',
+        markerColor = 'green'
+      ),
       data = ec,
       label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
       layerId = ~Name,
       group = "Eddy covariance" 
-    ) |> addMarkers(
+    ) |>  addAwesomeMarkers(
+      icon =  awesomeIcons(
+        icon = 'bi-geo-alt-fill',
+        iconColor = 'black',
+        library = 'glyphicon',
+        markerColor = 'darkred'
+      ),
       data = cu,
       label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
       layerId = ~Name,
       group = "CUV5 Total UV Radiometer" 
-    ) |> addMarkers(
+    ) |>  addAwesomeMarkers(
+      icon =  awesomeIcons(
+        icon = 'bi-geo-alt-fill',
+        iconColor = 'black',
+        library = 'glyphicon',
+        markerColor = 'beige'
+      ),
       data = ra,
       label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
       layerId = ~Name,
       group = "RaZON+" 
-    ) |> addMarkers(
+    ) |>  addAwesomeMarkers(
+      icon =  awesomeIcons(
+        icon = 'bi-geo-alt-fill',
+        iconColor = 'black',
+        library = 'glyphicon',
+        markerColor = 'yellow'
+      ), 
       data = co,
       label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
       layerId = ~Name,
       group = "Cosmic Ray Neutron" 
-    ) |> addMarkers(
+    ) |>  addAwesomeMarkers(
+      icon =  awesomeIcons(
+        icon = 'bi-geo-alt',
+        iconColor = 'black',
+        library = 'glyphicon',
+        markerColor = 'darkblue'
+      ), 
       data = bu,
       label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1'>") %>% lapply(htmltools::HTML),
       layerId = ~Name,

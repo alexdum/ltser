@@ -38,7 +38,15 @@ leaflet_fun_meta <- function(data) {
       options = pathOptions(pane = "network"),
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
-      ) |> addPolygons(
+      ) |>
+    addLabelOnlyMarkers(
+      data = data,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1' color='#E95420'>") %>% lapply(htmltools::HTML),
+      labelOptions = labelOptions(
+        noHide = TRUE, textOnly = TRUE,
+        #direction = "center", offset = c(0,0), sticky = T,
+        fontsize = 14
+      )) |> addPolygons(
         data = ltser,
         label = ~htmlEscape(name),
         group = "LTSER",

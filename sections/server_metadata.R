@@ -40,7 +40,14 @@ observe({
       group = "Network",
       layerId = ~Name
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
-    ) |> # pentru zoom limite retea incarcata
+    ) |>  addLabelOnlyMarkers(
+      data = data,
+      label = ~paste("<font size='2'><b>",Name,"</b></font><br/><font size='1' color='#E95420'>") %>% lapply(htmltools::HTML),
+      labelOptions = labelOptions(
+        noHide = TRUE, textOnly = TRUE,
+        #direction = "center", offset = c(0,0), sticky = T,
+        fontsize = 14
+      )) |> # pentru zoom limite retea incarcata
     fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) 
 })
 
