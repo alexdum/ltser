@@ -10,7 +10,7 @@ filters_metadata <- list(
         "CUV5 Total UV Radiometer" = "cu",
         "RaZON+" = "ra",
         "Cosmic Ray Neutron" = "co", 
-        "Buoys" = "bu"
+        "Buoy" = "bu"
       ),
     selected =  "ws"
   )
