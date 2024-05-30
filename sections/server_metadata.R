@@ -88,6 +88,21 @@ output$net_detail <- renderUI({
 })
 
 
+
+output$net_all <- renderUI({
+  #if (!is.null(meta_desc$description)) {
+  HTML(
+    
+      metadata_sel()$admin_spat |> 
+      as.data.frame() |>
+      select(Name, Locality, County, Parameters, geometry) |>
+      rename(Coordinates = geometry, `Parameters measured` = Parameters) |>
+      knitr::kable("html") |>
+      kableExtra::kable_styling()
+  ) 
+})
+
+
 # outout imagine meta
 output$photo_meta <- renderImage({
   
@@ -110,7 +125,8 @@ output$photo_meta <- renderImage({
 
 # afisare detalii cand ai click pe simbol
 output$meta_detail <- renderUI({
-  req(meta_desc$description)
+
+  if (!is.null(meta_desc$description)) {
   
   layout_columns(
     card(
@@ -124,6 +140,13 @@ output$meta_detail <- renderUI({
       imageOutput("photo_meta")
     )
   )
+  } else {
+    card(
+      full_screen = T,
+      fill = T,
+      uiOutput("net_all")
+    )
+  }
 })
 
 
