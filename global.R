@@ -50,6 +50,15 @@ ws$County[ws$Name == "IF-Ste"] <-  "Ialomița"
 ws$Name[ws$Name == "IF-Ste"]  <- "IL-Lil"
 
 
+cu$Locality[cu$Name == "IF-Cor"] <- "Mihilești"
+cu$County[cu$Name == "IF-Cor"] <- "Giurgiu"
+cu$Name[cu$Name == "IF-Cor"]  <- "GR-Mih"
+
+cu$Locality[cu$Name == "IF-Ste"] <- "Lilieci"
+cu$County[cu$Name == "IF-Ste"] <-  "Ialomița"
+cu$Name[cu$Name == "IF-Ste"]  <- "IL-Lil"
+
+
 
 
 ws_df <- as.data.frame(ws)
