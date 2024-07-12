@@ -20,9 +20,9 @@ filters_data_ec <- list(
     inputId = "datetime_ec",
     label = "Date/Time:",
     multiple = F,
-    value =  paste( as.Date(max(hhourly_dats$time_eet)), "12:00:00"), # paste sa fie implicit ora 12
+    value =  format(date_start_ec$time_eet, "%Y-%m-%d 12:00"), # paste sa fie implicit ora 12
     minDate = as.character(min(hhourly_dats$time_eet)),# transforma in caracater sa nu le decaleze
-    maxDate = as.character(max(hhourly_dats$time_eet)),
+    maxDate = format(date_start_ec$time_eet, "%Y-%m-%d 12:00") ,
     timepicker = TRUE,
     autoClose = T,
     timepickerOpts =  shinyWidgets::timepickerOptions(

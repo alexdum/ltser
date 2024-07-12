@@ -127,3 +127,12 @@ select_ec_halfhourly <- setNames(ec_halfhourly$choice, ec_halfhourly$parameter)
 # read ec
 hhourly_ec <- open_dataset("www/data/parquet/ec/")
 hhourly_dats <- hhourly_ec  |> select(time_eet) |> distinct() |> arrange(desc(time_eet)) |> filter(!is.na(time_eet)) |> collect() 
+
+# pentru data start ec statii, sa fie cel putin 2, in ui_data_ec.R
+date_start_ec <- hhourly_ec  %>% collect() |>
+  group_by(time_eet) %>%
+  filter(n_distinct(id) >= 2) %>%
+  ungroup() %>%
+  slice_max(time_eet) %>%
+  select(time_eet) %>%
+  distinct() 
