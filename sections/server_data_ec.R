@@ -120,13 +120,14 @@ output$ec_plot <- renderHighchart({
   
   
   time_threshold <-  (3600 * 24 * 7)
-  time_sub1 <- data_ec()$time - time_threshold
   
+  time_limit <- data_ec()$time
+  time_sub1 <- time_limit - time_threshold
   
   ec_subset <- 
     hhourly_ec |>
     filter(
-      time_eet > time_sub1  &  time_eet <= data_ec()$time ,
+      time_eet > time_sub1 & time_eet <= time_limit,
       variable %in% input$parameter_ec,
       id %in% values_plot_ec$id) |>
     collect() 

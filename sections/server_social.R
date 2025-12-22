@@ -12,25 +12,33 @@
 soc_df <- reactive({
   
   if (input$social_indicator == "pop108d") {
+    social_years_pop108d <- as.numeric(input$social_years_pop108d)
+    social_agesyear <- as.numeric(input$social_agesyear)
+    social_gender <- as.numeric(input$social_gender)
+
     soc_ind_sub <- 
       pop108d |> 
-      filter(an %in% input$social_years_pop108d, varsta %in% input$social_agesyear, sex %in% input$social_gender) |>
+      filter(
+        an %in% social_years_pop108d,
+        varsta %in% social_agesyear,
+        sex %in% social_gender
+      ) |>
       collect()
-    year_filt <- input$social_years_pop108d
+    year_filt <- social_years_pop108d
     # pentru initializare grafic
     tab <- 
       pop108d |> 
-      filter(varsta %in% input$social_agesyear, sex %in% input$social_gender) |>
+      filter(varsta %in% social_agesyear, sex %in% social_gender) |>
       collect()
   } else {
     tab <- soc_ind_sub <- 
       pop309e |>
       collect() 
     
-    soc_ind_sub <- soc_ind_sub |> filter(an %in% input$social_years_pop309e) 
-    
-    
-    year_filt <- input$social_years_pop309e
+    social_years_pop309e <- as.numeric(input$social_years_pop309e)
+    soc_ind_sub <- soc_ind_sub |> filter(an %in% social_years_pop309e) 
+
+    year_filt <- social_years_pop309e
   }
   
   socio_spat <-

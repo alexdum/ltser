@@ -146,7 +146,8 @@ output$meteo_plot <- renderHighchart({
       daily = 31
     )
   
-  timesel_sub2 <-  data_sel()$timesel_sub -  time_threshold
+  time_limit <- data_sel()$timesel_sub
+  timesel_sub2 <- time_limit - time_threshold
   
   # selectie perechi parametri
   subset_param_meteo <- subset_param(input$parameter_meteo)
@@ -159,7 +160,7 @@ output$meteo_plot <- renderHighchart({
       id = ifelse(id %in% "IF-Cor", "GR-Mih", id)
     ) |>
     filter(
-      time >= timesel_sub2  & time <= data_sel()$timesel_sub,
+      time >= timesel_sub2 & time <= time_limit,
       substr(variable,1,2) %in%  subset_param_meteo,
       id %in% values_plot_meteo$id
     ) 

@@ -6,9 +6,11 @@ library(sf)
 library(leaflet)
 library(htmltools)
 library(dplyr)
+library(viridis)
 library(RColorBrewer)
 library(terra)
 library(reticulate)
+py_require("xarray[io]")
 library(highcharter)
 library(arrow)
 library(DT)
@@ -113,7 +115,6 @@ hourly_dats <-
   hourly |> select(time) |> distinct() |> 
   filter(time > as.POSIXct("2023-08-22")) |> filter(time <= max_hourly) |> arrange(desc(time)) |> collect()
 
-
 # selectare meteo controlere
 select_meteo_daily <- read.csv("www/data/tabs/select_input_meteo_daily.csv") 
 select_meteo_daily <- setNames(select_meteo_daily$choice, select_meteo_daily$parameter)
@@ -135,4 +136,4 @@ date_start_ec <- hhourly_ec  %>% collect() |>
   ungroup() %>%
   slice_max(time_eet) %>%
   select(time_eet) %>%
-  distinct() 
+  distinct()
