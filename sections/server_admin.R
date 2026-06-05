@@ -37,7 +37,8 @@ admin_sel <- reactive({
   
   
   
-  map_leg <- mapa_fun_cols(indic = indicator,domain = range(admin_spat_sub$value))
+  val_range <- if (nrow(admin_spat_sub) > 0) range(admin_spat_sub$value, na.rm = TRUE) else c(0, 100)
+  map_leg <- mapa_fun_cols(indic = indicator, domain = val_range)
   
   list(
     admin_spat_sub = admin_spat_sub, pal = map_leg$pal, pal_rev = map_leg$pal_rev, 

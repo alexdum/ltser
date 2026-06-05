@@ -12,12 +12,15 @@ data_ec <- reactive({
       halfhourly = hhourly_ec,
       daily = daily_ec
     )
+  timesel_ec <- input$datetime_ec
+  req(timesel_ec)
+  timesel_ec <- as.POSIXct(timesel_ec, tz = "UTC")
   
   data_sel <- 
     data_sub |> 
     filter(
       variable == input$parameter_ec,
-      time_eet %in% input$datetime_ec,
+      time_eet %in% timesel_ec,
       !is.na(values)
     ) |> collect()
   
@@ -28,7 +31,7 @@ data_ec <- reactive({
   
   if (nrow(admin_spat) > 1 ) {
     map_leg <- mapa_fun_cols_ec(
-      indic = input$parameter_ec, domain = range(admin_spat$values), 
+      indic = input$parameter_ec, domain = range(admin_spat$values, na.rm = TRUE), 
       title = unit,
       nbins = nrow(admin_spat)
     )
@@ -55,12 +58,12 @@ output$map_ec <- renderLeaflet({
 })
 
 observe({
-  
+  req(data_ec())
   pal_rev =  data_ec()$pal_rev
   tit_leg = data_ec()$tit_leg
-  data <- data_ec()$admin_spat_sub
   pal <- data_ec()$pal
   data <- data_ec()$admin_spat
+  req(data, nrow(data) > 0)
   # pentru zoom retea observatii vizualizata
   bbox <- st_bbox(data) |> as.vector()
   leafletProxy("map_ec", data = data) |>
@@ -70,15 +73,15 @@ observe({
       stroke = FALSE,
       radius = 12, weight = 10,
       color = ~pal(values), fillOpacity = 1,
-      label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
-      #                  get data</font>") %>% lapply(htmltools::HTML),
+      label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to get data</font>") %>% lapply(htmltools::HTML),
       group = "Network",
-      layerId = ~Name
-      #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
+      layerId = ~Name,
+      options = pathOptions(pane = "network")
     ) |>
     #clearMarkers() |>
     addLabelOnlyMarkers(
       label = ~values,
+      layerId = ~paste0("label_", Name),
       labelOptions = labelOptions(
         noHide = TRUE, textOnly = TRUE,
         direction = "center", offset = c(0,0), sticky = T,
@@ -100,8 +103,13 @@ values_plot_ec <- reactiveValues(
   id = NA, data = NA
 )
 # valoare de pronire 
-observeEvent(list(isolate(input$tab_metadata),input$network_data),{
-  values_plot_ec$id <- unique(data_ec()$admin_spat$Name)[1] 
+observe({
+  req(data_ec())
+  names_spat <- unique(data_ec()$admin_spat$Name)
+  req(length(names_spat) > 0)
+  if (is.na(values_plot_ec$id) || !(values_plot_ec$id %in% names_spat)) {
+    values_plot_ec$id <- names_spat[1]
+  }
   values_plot_ec$param <- "ss" 
 })
 

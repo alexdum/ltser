@@ -1,6 +1,18 @@
 # functie harta
 leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
   
+  labels <- if (!is.null(data) && nrow(data) > 0) {
+    paste("<font size='2'><b>", data$Name, data$values, "</b></font><br/><font size='1' color='#E95420'>Click to get data</font>") %>% lapply(htmltools::HTML)
+  } else {
+    NULL
+  }
+  
+  label_only <- if (!is.null(data) && nrow(data) > 0) {
+    as.character(data$values)
+  } else {
+    NULL
+  }
+
   map <- leaflet(
     data = data,
     options = leafletOptions(
@@ -35,15 +47,15 @@ leaflet_fun_data <- function(data,  pal, pal_rev, tit_leg) {
       stroke = FALSE,
       radius = 12, weight = 10,
       color = ~pal(values), fillOpacity = 1,
-      label = ~paste("<font size='2'><b>",Name, values,"</b></font><br/><font size='1' color='#E95420'>Click to
-      #                  get data</font>") %>% lapply(htmltools::HTML),
+      label = labels,
       group = "Network",
       layerId = ~Name,
       options = pathOptions(pane = "network")
       #clusterOptions = markerClusterOptions(freezeAtZoom = T) 
     ) |>
     addLabelOnlyMarkers(
-      label = ~as.character(values),
+      label = label_only,
+      layerId = if (!is.null(data) && nrow(data) > 0) paste0("label_", data$Name) else NULL,
       labelOptions = labelOptions(
         noHide = TRUE, textOnly = TRUE,
         direction = "center", offset = c(0,0), sticky = T,

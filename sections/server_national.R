@@ -30,6 +30,7 @@ nation_sel <- reactive({
   dats <- time(rs)
   
   index <- which(format(dats, "%Y %b") %in% input$month_indicator)
+  req(length(index) > 0)
   indicator <- input$parameter_monthly
   
   rs <- terra::setMinMax(rs[[index]])
@@ -105,10 +106,12 @@ observe({
 values_plot_na <- reactiveValues(input = NULL, title = NULL, cors = NULL)
 
 observe({
+  req(nation_sel())
   var <- nation_sel()$indicator
+  req(var)
   lon = 25
   lat = 46
-  dd <- extract_point(fname =  paste0("www/data/ncs/",  var, "_ltser_mon.nc"), lon  = lon, lat = lat, variable = var) 
+  dd <- extract_point(fname =  paste0("www/data/ncs/",  var, "_ltser_mon.nc"), lon  = lon, lat = lat, variable = var) |> unlist()
   ddf <- data.frame(date = as.Date(names(dd)), value = round(dd, 1)) %>% slice(1:nation_sel()$index)
   values_plot_na$input <- ddf
   values_plot_na$title <- paste0("Extracted value ",toupper(var)," values for point lon = ",round(lon, 5)," lat = "  , round(lat, 5))
@@ -116,10 +119,12 @@ observe({
 
 # interactivitate raster
 observe({
+  req(nation_sel())
   proxy <- leafletProxy("map_ltser")
   click <- input$map_ltser_click
   rs <- nation_sel()$rs
   var <- nation_sel()$indicator
+  req(rs, var)
   fil.nc <- paste0("www/data/ncs/", var, "_ltser_mon.nc")
   
   if (input$radio_mon == 1 & !is.null(click)) {
@@ -130,7 +135,7 @@ observe({
     if (!is.null(click)) {
       cell <- terra::cellFromXY(rs, cbind(click$lng, click$lat))
       xy <- terra::xyFromCell(rs, cell)
-      dd <- extract_point(fname = fil.nc , lon = xy[1], lat = xy[2], variable = var) 
+      dd <- extract_point(fname = fil.nc , lon = xy[1], lat = xy[2], variable = var) |> unlist()
       # pentru afisare conditional panel si titlu grafic coordonates
       condpan_monthly.txt <- ifelse(
         is.na(mean(dd, na.rm = T)) | is.na(cell), 
